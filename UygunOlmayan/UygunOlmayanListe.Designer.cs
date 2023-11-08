@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UygunOlmayanListe));
             button1 = new Button();
             advancedDataGridView1 = new Zuby.ADGV.AdvancedDataGridView();
             ((System.ComponentModel.ISupportInitialize)advancedDataGridView1).BeginInit();
@@ -67,6 +68,7 @@
             ClientSize = new Size(1902, 1033);
             Controls.Add(advancedDataGridView1);
             Controls.Add(button1);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "UygunOlmayanListe";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "UygunOlmayanListe";

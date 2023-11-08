@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UygunOlmayanDurum));
             pictureBox1 = new PictureBox();
             groupBox1 = new GroupBox();
             button3 = new Button();
@@ -428,6 +429,7 @@
             ClientSize = new Size(1902, 1033);
             Controls.Add(pictureBox1);
             Controls.Add(groupBox1);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "UygunOlmayanDurum";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "UygunOlmayanDurum";
