@@ -41,5 +41,13 @@ namespace UygunOlmayan
             Resim res = new Resim();
             this.Close();
         }
+
+        private void Resim_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape)
+            {
+                this.Close();
+            }
+        }
     }
 }

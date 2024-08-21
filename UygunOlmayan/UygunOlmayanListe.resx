@@ -18,7 +18,7 @@
     <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
     <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
     <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
-    <data name="Color1" type="System.Drawing.Color, System.Drawing"">Blue</data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
     <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
         <value>[base64 mime encoded serialized .NET Framework object]</value>
     </data>
@@ -117,7 +117,45 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <metadata name="toolStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="toolStripButton1.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        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
+        SUVORK5CYII=
+</value>
+  </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         AAABAAEAAAAAAAEAIADOLgAAFgAAAIlQTkcNChoKAAAADUlIRFIAAAEAAAABAAgGAAAAXHKoZgAAAAFv

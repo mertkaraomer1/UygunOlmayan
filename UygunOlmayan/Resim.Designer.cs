@@ -34,11 +34,14 @@
             // 
             // pictureBox1
             // 
+            pictureBox1.BackgroundImageLayout = ImageLayout.None;
             pictureBox1.Location = new Point(4, 6);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(1196, 864);
+            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox1.TabIndex = 0;
             pictureBox1.TabStop = false;
+            pictureBox1.Visible = false;
             pictureBox1.Click += pictureBox1_Click;
             // 
             // Resim
@@ -49,10 +52,12 @@
             ClientSize = new Size(1202, 873);
             Controls.Add(pictureBox1);
             FormBorderStyle = FormBorderStyle.None;
+            KeyPreview = true;
             Name = "Resim";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Resim";
             Load += Resim_Load;
+            KeyDown += Resim_KeyDown;
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
         }

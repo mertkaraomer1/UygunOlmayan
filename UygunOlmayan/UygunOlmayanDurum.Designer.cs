@@ -31,6 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UygunOlmayanDurum));
             pictureBox1 = new PictureBox();
             groupBox1 = new GroupBox();
+            button4 = new Button();
             button3 = new Button();
             groupBox13 = new GroupBox();
             button2 = new Button();
@@ -53,6 +54,8 @@
             groupBox7 = new GroupBox();
             textBox5 = new TextBox();
             groupBox5 = new GroupBox();
+            groupBox17 = new GroupBox();
+            textBox13 = new TextBox();
             comboBox2 = new ComboBox();
             groupBox8 = new GroupBox();
             comboBox4 = new ComboBox();
@@ -77,6 +80,7 @@
             groupBox4.SuspendLayout();
             groupBox7.SuspendLayout();
             groupBox5.SuspendLayout();
+            groupBox17.SuspendLayout();
             groupBox8.SuspendLayout();
             groupBox6.SuspendLayout();
             groupBox14.SuspendLayout();
@@ -95,6 +99,7 @@
             // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(button4);
             groupBox1.Controls.Add(button3);
             groupBox1.Controls.Add(groupBox13);
             groupBox1.Controls.Add(button1);
@@ -120,11 +125,22 @@
             groupBox1.TabStop = false;
             groupBox1.Text = "Hata Verileri";
             // 
+            // button4
+            // 
+            button4.Location = new Point(399, 800);
+            button4.Name = "button4";
+            button4.Size = new Size(160, 61);
+            button4.TabIndex = 50;
+            button4.Text = "Güncelle";
+            button4.UseVisualStyleBackColor = true;
+            button4.Visible = false;
+            button4.Click += button4_Click;
+            // 
             // button3
             // 
-            button3.Location = new Point(437, 885);
+            button3.Location = new Point(399, 885);
             button3.Name = "button3";
-            button3.Size = new Size(94, 62);
+            button3.Size = new Size(158, 62);
             button3.TabIndex = 49;
             button3.Text = "Liste =>";
             button3.UseVisualStyleBackColor = true;
@@ -160,7 +176,7 @@
             // 
             // button1
             // 
-            button1.Location = new Point(123, 885);
+            button1.Location = new Point(128, 885);
             button1.Name = "button1";
             button1.Size = new Size(235, 61);
             button1.TabIndex = 48;
@@ -184,6 +200,7 @@
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(250, 27);
             textBox1.TabIndex = 11;
+            textBox1.TextChanged += textBox1_TextChanged;
             // 
             // groupBox16
             // 
@@ -276,7 +293,7 @@
             // groupBox4
             // 
             groupBox4.Controls.Add(textBox9);
-            groupBox4.Location = new Point(6, 683);
+            groupBox4.Location = new Point(6, 720);
             groupBox4.Name = "groupBox4";
             groupBox4.Size = new Size(274, 67);
             groupBox4.TabIndex = 37;
@@ -309,13 +326,32 @@
             // 
             // groupBox5
             // 
+            groupBox5.Controls.Add(groupBox17);
             groupBox5.Controls.Add(comboBox2);
             groupBox5.Location = new Point(6, 570);
             groupBox5.Name = "groupBox5";
-            groupBox5.Size = new Size(274, 73);
+            groupBox5.Size = new Size(274, 144);
             groupBox5.TabIndex = 40;
             groupBox5.TabStop = false;
             groupBox5.Text = "Hata Tipi";
+            // 
+            // groupBox17
+            // 
+            groupBox17.Controls.Add(textBox13);
+            groupBox17.Location = new Point(6, 71);
+            groupBox17.Name = "groupBox17";
+            groupBox17.Size = new Size(256, 67);
+            groupBox17.TabIndex = 42;
+            groupBox17.TabStop = false;
+            groupBox17.Text = "Tedarikçi";
+            groupBox17.Visible = false;
+            // 
+            // textBox13
+            // 
+            textBox13.Location = new Point(6, 26);
+            textBox13.Name = "textBox13";
+            textBox13.Size = new Size(228, 27);
+            textBox13.TabIndex = 19;
             // 
             // comboBox2
             // 
@@ -391,7 +427,7 @@
             groupBox10.Size = new Size(274, 69);
             groupBox10.TabIndex = 44;
             groupBox10.TabStop = false;
-            groupBox10.Text = "Sipariş No";
+            groupBox10.Text = "Sipariş No/Proje No";
             // 
             // textBox3
             // 
@@ -434,6 +470,7 @@
             StartPosition = FormStartPosition.CenterScreen;
             Text = "UygunOlmayanDurum";
             WindowState = FormWindowState.Maximized;
+            FormClosing += UygunOlmayanDurum_FormClosing;
             Load += UygunOlmayanDurum_Load;
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             groupBox1.ResumeLayout(false);
@@ -455,6 +492,8 @@
             groupBox7.ResumeLayout(false);
             groupBox7.PerformLayout();
             groupBox5.ResumeLayout(false);
+            groupBox17.ResumeLayout(false);
+            groupBox17.PerformLayout();
             groupBox8.ResumeLayout(false);
             groupBox6.ResumeLayout(false);
             groupBox6.PerformLayout();
@@ -505,5 +544,8 @@
         private GroupBox groupBox11;
         private TextBox textBox2;
         private OpenFileDialog openFileDialog1;
+        private Button button4;
+        private GroupBox groupBox17;
+        private TextBox textBox13;
     }
 }
