@@ -13,6 +13,7 @@ namespace UygunOlmayan.MyDb
 
         public DbSet<HataliUrun> hataliUruns { get; set; }
         public DbSet<HataGrupları> hataGruplars { get; set; }
+        public DbSet<UrunTıpı> urunTıpıs {  get; set; }
 
 
 
@@ -29,7 +30,7 @@ namespace UygunOlmayan.MyDb
 
             modelBuilder.Entity<HataliUrun>().ToTable("HataliUrun").HasKey(x => x.UrunId);
             modelBuilder.Entity<HataGrupları>().ToTable("HataGrupları").HasKey(x=>x.HataId);
-
+            modelBuilder.Entity<UrunTıpı>().ToTable("UrunTıpı").HasKey(x => x.Id);
 
         }
     }

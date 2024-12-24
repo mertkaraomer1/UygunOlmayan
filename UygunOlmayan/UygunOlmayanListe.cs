@@ -58,7 +58,8 @@ namespace UygunOlmayan
 
             foreach (var urun in hataliUrun)
             {
-                table.Rows.Add(urun.UrunId, urun.UrunKodu, urun.UrunAdi, urun.SiparisNo, urun.HatalıMiktar, urun.Adet, urun.Tarih.ToString("yyyy.MM.dd"), urun.KayıpZaman, urun.ZamanCinsi, urun.HataTipi, urun.Aciklama, urun.Ozet, urun.HataBolumu, urun.RaporuHazirlayan, urun.Resim, urun.HatayıBulanBirim, urun.KokNeden, urun.Aksiyon, urun.Sonuc);
+                table.Rows.Add(urun.UrunId, urun.UrunKodu, urun.UrunAdi, urun.SiparisNo, urun.HatalıMiktar, urun.Adet, urun.Tarih.ToString("yyyy.MM.dd"), urun.KayıpZaman, urun.ZamanCinsi, urun.HataTipi, urun.Aciklama,urun.Tedarikci ,urun.Ozet, urun.HataBolumu, urun.RaporuHazirlayan, urun.Resim, urun.HatayıBulanBirim, urun.KokNeden, urun.Aksiyon, urun.Sonuc);
+
             }
 
             // DataTable'ı DataGridView'e bağlayın
@@ -69,6 +70,7 @@ namespace UygunOlmayan
             buttonColumn.Image = Image.FromFile("delete.png"); // Silme resmini belirtin
             buttonColumn.ImageLayout = DataGridViewImageCellLayout.Zoom; // Resmi düzgün görüntülemek için ayar
             advancedDataGridView1.Columns.Add(buttonColumn);
+            // DataGridView'deki her bir satırı kontrol et
 
 
         }

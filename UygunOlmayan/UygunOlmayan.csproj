@@ -9,6 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="FR.87.01 Uygun Olmayan Ürün Raporu Formu %28R1%29.xls" />
+  </ItemGroup>
+
+  <ItemGroup>
     <COMReference Include="Microsoft.Office.Interop.Excel">
       <WrapperTool>tlbimp</WrapperTool>
       <VersionMinor>9</VersionMinor>
@@ -24,6 +28,10 @@
     <PackageReference Include="DG.AdvancedDataGridView" Version="1.2.28405.11" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.13" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.13" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="FR.87.01 Uygun Olmayan Ürün Raporu Formu (R1).xls" />
   </ItemGroup>
 
 </Project>
