@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="FR.87.01 Uygun Olmayan Ürün Raporu Formu %28R1%29.xls" />
+    <None Remove="Dosyalar\FR.87.01 Uygun Olmayan Ürün Raporu Formu %28R1%29.xlsx" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,13 +25,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="DG.AdvancedDataGridView" Version="1.2.28405.11" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.13" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.13" />
+    <EmbeddedResource Include="Dosyalar\FR.87.01 Uygun Olmayan Ürün Raporu Formu (R1).xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="FR.87.01 Uygun Olmayan Ürün Raporu Formu (R1).xls" />
+    <PackageReference Include="DG.AdvancedDataGridView" Version="1.2.28405.11" />
+    <PackageReference Include="EPPlus" Version="7.5.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.13" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.13" />
   </ItemGroup>
 
 </Project>

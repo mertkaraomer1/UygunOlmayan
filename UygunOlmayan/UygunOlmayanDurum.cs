@@ -1,4 +1,8 @@
-﻿using System.Data;
+﻿using OfficeOpenXml;
+using System.Data;
+using System.Diagnostics;
+using System.Reflection;
+using System.Security.Cryptography;
 using UygunOlmayan.MyDb;
 
 namespace UygunOlmayan.Tables
@@ -10,7 +14,7 @@ namespace UygunOlmayan.Tables
         public UygunOlmayanDurum()
         {
             dbContext = new MyDbContext();
-            SdbContext=new MySDbContext();
+            SdbContext = new MySDbContext();
             InitializeComponent();
         }
         public string UrunKodu1
@@ -48,11 +52,7 @@ namespace UygunOlmayan.Tables
             get { return textBox9.Text; } // textBox1 burada TextBox'ın adı olmalı
             set { textBox9.Text = value; }
         }
-        public string Resim1
-        {
-            get { return textBox6.Text; } // textBox1 burada TextBox'ın adı olmalı
-            set { textBox6.Text = value; }
-        }
+
         public string ozet1
         {
             get { return textBox8.Text; } // textBox1 burada TextBox'ın adı olmalı
@@ -122,12 +122,11 @@ namespace UygunOlmayan.Tables
                     HataBolumu = comboBox3.Text,
                     RaporuHazirlayan = textBox11.Text,
                     HatayıBulanBirim = comboBox4.Text,
-                    Resim = textBox6.Text,
                     KokNeden = textBox5.Text,
                     Aksiyon = textBox10.Text,
                     Sonuc = textBox12.Text,
                     Durum = "True",
-                    Tedarikci=textBox13.Text,
+                    Tedarikci = textBox13.Text,
                 };
 
                 // 3. Veritabanına ekleme işlemi
@@ -139,7 +138,6 @@ namespace UygunOlmayan.Tables
                 textBox3.Clear();
                 textBox4.Clear();
                 textBox5.Clear();
-                textBox6.Clear();
                 textBox7.Clear();
                 textBox8.Clear();
                 textBox9.Clear();
@@ -156,12 +154,6 @@ namespace UygunOlmayan.Tables
             comboBox2.DataSource = hatatipi;
         }
 
-        private void button2_Click(object sender, EventArgs e)
-        {
-            openFileDialog1.ShowDialog();
-            pictureBox1.ImageLocation = openFileDialog1.FileName;
-            textBox6.Text = openFileDialog1.FileName;
-        }
 
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -198,6 +190,7 @@ namespace UygunOlmayan.Tables
 
         private void button4_Click(object sender, EventArgs e)
         {
+            byte[] byteDizisi = Convert.FromBase64String(textBox15.Text);
             // UrunKodu ve UrunAdi'ye göre eşleşen HataliUrun nesnesini bulun
             var eskiHataliUrun = dbContext.hataliUruns
                 .FirstOrDefault(u => u.UrunKodu == textBox1.Text && u.SiparisNo == textBox3.Text);
@@ -218,11 +211,14 @@ namespace UygunOlmayan.Tables
                 eskiHataliUrun.HataBolumu = comboBox3.Text;
                 eskiHataliUrun.RaporuHazirlayan = textBox11.Text;
                 eskiHataliUrun.HatayıBulanBirim = comboBox4.Text;
-                eskiHataliUrun.Resim = textBox6.Text;
                 eskiHataliUrun.KokNeden = textBox5.Text;
                 eskiHataliUrun.Aksiyon = textBox10.Text;
                 eskiHataliUrun.Sonuc = textBox12.Text;
                 eskiHataliUrun.Durum = "True";
+                eskiHataliUrun.Tedarikci = textBox13.Text;
+                eskiHataliUrun.Degerlendiren = textBox6.Text;
+                eskiHataliUrun.KokNedenAksiyon= textBox14.Text;
+                eskiHataliUrun.Resim= byteDizisi;
 
                 // Değişiklikleri veritabanına kaydedin
                 dbContext.SaveChanges();
@@ -260,5 +256,78 @@ namespace UygunOlmayan.Tables
                 textBox2.Text = "Kod bulunamadı";
             }
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+
+            try
+            {
+                // Projenize eklenen Excel dosyasının yolunu alın
+                string excelFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Dosyalar", "FR.87.01 Uygun Olmayan Ürün Raporu Formu (R1).xlsx");
+
+                // Dosyanın varlığını kontrol edin
+                if (File.Exists(excelFilePath))
+                {
+                    // Excel dosyasını varsayılan uygulamada aç
+                    Process.Start(new ProcessStartInfo(excelFilePath) { UseShellExecute = true });
+                }
+                else
+                {
+                    MessageBox.Show("Excel dosyası bulunamadı!", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Bir hata oluştu: {ex.Message}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+
+
+        }
+
+        private void eXCELÇEKToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            {
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    // Dosya yolunu al
+                    string dosyaYolu = openFileDialog.FileName;
+
+                    // Dosyayı yükle
+                    DosyaYukleAsync(dosyaYolu);
+                }
+            }
+        }
+        private async Task DosyaYukleAsync(string dosyaYolu)
+        {
+            byte[] dosyaVerisi = await File.ReadAllBytesAsync(dosyaYolu);
+
+            // dosyaVerisi null kontrolü
+            if (dosyaVerisi == null || dosyaVerisi.Length == 0)
+            {
+                MessageBox.Show("Dosya yüklenirken bir hata oluştu. Lütfen geçerli bir dosya seçin.");
+                return; // İşlemi sonlandır
+            }
+
+            var dosyaEntity = new HataliUrun
+            {
+                Resim = dosyaVerisi
+            };
+
+            using (var context = new MyDbContext()) // DbContext'inizi burada kullanın
+            {
+                context.hataliUruns.Add(dosyaEntity);
+                await context.SaveChangesAsync();
+            }
+
+            MessageBox.Show("Dosya başarıyla yüklendi!");
+        }
+
     }
 }

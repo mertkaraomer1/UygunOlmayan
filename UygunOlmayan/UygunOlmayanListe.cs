@@ -41,7 +41,6 @@ namespace UygunOlmayan
             table.Columns.Add("Ozet");
             table.Columns.Add("Hata Bolumu");
             table.Columns.Add("Raporu Hazirlayan");
-            table.Columns.Add("Resim");
             table.Columns.Add("Hatayı Bulan Birim");
             table.Columns.Add("Kök Neden");
             table.Columns.Add("Aksiyon");
@@ -98,13 +97,12 @@ namespace UygunOlmayan
                     string Ozet = advancedDataGridView1.Rows[e.RowIndex].Cells[12].Value.ToString();
                     string HataBolumu = advancedDataGridView1.Rows[e.RowIndex].Cells[13].Value.ToString();
                     string RHazırlayan = advancedDataGridView1.Rows[e.RowIndex].Cells[14].Value.ToString();
-                    string resim = advancedDataGridView1.Rows[e.RowIndex].Cells[15].Value.ToString();
-                    string HatayıBulanBolum = advancedDataGridView1.Rows[e.RowIndex].Cells[16].Value.ToString();
-                    string KokNeden = advancedDataGridView1.Rows[e.RowIndex].Cells[17].Value.ToString();
-                    string Aksiyon = advancedDataGridView1.Rows[e.RowIndex].Cells[18].Value.ToString();
-                    string Sonuc = advancedDataGridView1.Rows[e.RowIndex].Cells[19].Value.ToString();
+                    string HatayıBulanBolum = advancedDataGridView1.Rows[e.RowIndex].Cells[15].Value.ToString();
+                    string KokNeden = advancedDataGridView1.Rows[e.RowIndex].Cells[16].Value.ToString();
+                    string Aksiyon = advancedDataGridView1.Rows[e.RowIndex].Cells[17].Value.ToString();
+                    string Sonuc = advancedDataGridView1.Rows[e.RowIndex].Cells[18].Value.ToString();
 
-                    UOD.Resim1 = resim; // Form2'deki TextBox'a değeri aktar
+
                     UOD.UrunKodu1 = UrunKodu;
                     UOD.UrunAdi1 = UrunAdi;
                     UOD.SipNo1 = SipNo;
@@ -136,21 +134,7 @@ namespace UygunOlmayan
                 Application.Exit();
             }
         }
-        Resim RS;
-        private void advancedDataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex >= 0 && e.ColumnIndex == 14)
-            {
-                if (RS == null || RS.IsDisposed)
-                {
-                    RS = new Resim();
-                    string resim = advancedDataGridView1.Rows[e.RowIndex].Cells[14].Value.ToString();
-                    RS.picturebox132 = resim;
-                    RS.Show();
-
-                }
-            }
-        }
+       
 
         private void advancedDataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {

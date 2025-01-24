@@ -23,12 +23,16 @@ namespace UygunOlmayan.Tables
         public string? HataBolumu { get; set; }
         public string? RaporuHazirlayan { get; set; }
         public string? HatayıBulanBirim { get; set; }
-        public string? Resim { get; set; }
         public string? KokNeden { get; set; }
         public string? Aksiyon { get; set; }
         public string? Sonuc { get; set; }
         public  string? Durum { get; set; }
         public string? Tedarikci { get; set; }  
+        public string? Degerlendiren { get; set; }
+        public string? KokNedenAksiyon { get; set; }
+        public byte[] Resim { get; set; }
+        public DateTime KapanısTarihi { get; set; }
+        public DateTime TerminTarihi { get; set; }
 
     }
 }
