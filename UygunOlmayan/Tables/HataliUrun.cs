@@ -32,7 +32,7 @@ namespace UygunOlmayan.Tables
         public string? KokNedenAksiyon { get; set; }
         public byte[] Resim { get; set; }
         public DateTime KapanısTarihi { get; set; }
-        public DateTime TerminTarihi { get; set; }
+        public DateTime? TerminTarihi { get; set; }
 
     }
 }

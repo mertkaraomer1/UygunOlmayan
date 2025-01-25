@@ -45,8 +45,11 @@ namespace UygunOlmayan
             table.Columns.Add("Kök Neden");
             table.Columns.Add("Aksiyon");
             table.Columns.Add("Sonuc");
-
-
+            table.Columns.Add("Degerlendiren");
+            table.Columns.Add("KokNedenAksiyon");
+            table.Columns.Add("Resim");
+            table.Columns.Add("KapanısTarihi");
+            table.Columns.Add("TerminTarihi");
 
 
             var hataliUrun = dbContext.hataliUruns
@@ -57,7 +60,33 @@ namespace UygunOlmayan
 
             foreach (var urun in hataliUrun)
             {
-                table.Rows.Add(urun.UrunId, urun.UrunKodu, urun.UrunAdi, urun.SiparisNo, urun.HatalıMiktar, urun.Adet, urun.Tarih.ToString("yyyy.MM.dd"), urun.KayıpZaman, urun.ZamanCinsi, urun.HataTipi, urun.Aciklama,urun.Tedarikci ,urun.Ozet, urun.HataBolumu, urun.RaporuHazirlayan, urun.Resim, urun.HatayıBulanBirim, urun.KokNeden, urun.Aksiyon, urun.Sonuc);
+                table.Rows.Add(
+                    urun.UrunId,
+                    urun.UrunKodu, 
+                    urun.UrunAdi, 
+                    urun.SiparisNo, 
+                    urun.HatalıMiktar, 
+                    urun.Adet, 
+                    urun.Tarih.ToString("yyyy.MM.dd"), 
+                    urun.KayıpZaman, 
+                    urun.ZamanCinsi, 
+                    urun.HataTipi, 
+                    urun.Aciklama,
+                    urun.Tedarikci ,
+                    urun.Ozet,
+                    urun.HataBolumu,
+                    urun.RaporuHazirlayan,
+                    urun.HatayıBulanBirim,
+                    urun.KokNeden, 
+                    urun.Aksiyon, 
+                    urun.Sonuc,
+                    urun.Degerlendiren,
+                    urun.KokNedenAksiyon,
+                    urun.Resim,
+                    urun.TerminTarihi,
+                    urun.KapanısTarihi
+
+                    );
 
             }
 
@@ -101,7 +130,24 @@ namespace UygunOlmayan
                     string KokNeden = advancedDataGridView1.Rows[e.RowIndex].Cells[16].Value.ToString();
                     string Aksiyon = advancedDataGridView1.Rows[e.RowIndex].Cells[17].Value.ToString();
                     string Sonuc = advancedDataGridView1.Rows[e.RowIndex].Cells[18].Value.ToString();
+                    string Degerlendiren = advancedDataGridView1.Rows[e.RowIndex].Cells[19].Value.ToString();
+                    string KokNedenAksiyon = advancedDataGridView1.Rows[e.RowIndex].Cells[20].Value.ToString();
+                    string Resim = advancedDataGridView1.Rows[e.RowIndex].Cells[21].Value.ToString();
+                    // Hücre değerini al
+                    string terminTarihiString = advancedDataGridView1.Rows[e.RowIndex].Cells[22].Value.ToString();
 
+                    // DateTime'a dönüştür
+                    DateTime terminTarihi;
+                    if (DateTime.TryParse(terminTarihiString, out terminTarihi))
+                    {
+                        // Dönüşüm başarılı, terminTarihi değişkenini kullanabilirsiniz
+                        MessageBox.Show("Termin Tarihi: " + terminTarihi.ToString());
+                    }
+                    else
+                    {
+                        // Dönüşüm başarısız, hata yönetimi
+                        MessageBox.Show("Termin tarihi geçersiz!");
+                    }
 
                     UOD.UrunKodu1 = UrunKodu;
                     UOD.UrunAdi1 = UrunAdi;
@@ -118,6 +164,10 @@ namespace UygunOlmayan
                     UOD.Aksiyon1 = Aksiyon;
                     UOD.Sonuc1 = Sonuc;
                     UOD.tedarikci = Tedarikci;
+                    UOD.Degerlendiren = Degerlendiren;
+                    UOD.KokNedenAksiyon = KokNedenAksiyon;
+                    UOD.Resim = Resim;
+                    UOD.TerminTarihi = terminTarihi;
                     UOD.ButtonGuncelle = true;
                     UOD.Show();
                     this.Hide();

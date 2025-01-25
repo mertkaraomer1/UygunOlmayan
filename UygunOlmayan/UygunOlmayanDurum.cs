@@ -95,6 +95,28 @@ namespace UygunOlmayan.Tables
             get { return textBox13.Text; } // textBox1 burada TextBox'ın adı olmalı
             set { textBox13.Text = value; }
         }
+
+        public string Degerlendiren
+        {
+            get { return textBox6.Text; } // textBox1 burada TextBox'ın adı olmalı
+            set { textBox6.Text = value; }
+        }
+        public string KokNedenAksiyon
+        {
+            get { return textBox14.Text; } // textBox1 burada TextBox'ın adı olmalı
+            set { textBox14.Text = value; }
+        }
+        public string Resim
+        {
+            get { return textBox15.Text; } // textBox1 burada TextBox'ın adı olmalı
+            set { textBox15.Text = value; }
+        }
+        public DateTime TerminTarihi
+        {
+            get { return dateTimePicker1.Value; } // DateTime olarak döndür
+            set { dateTimePicker1.Value = value; } // DateTime olarak ayarla
+        }
+
         public bool ButtonGuncelle
         {
             get { return button4.Visible; }
@@ -102,6 +124,7 @@ namespace UygunOlmayan.Tables
         }
         private void button1_Click(object sender, EventArgs e)
         {
+            byte[] byteDizisi = Convert.FromBase64String(textBox15.Text);
             // 1. Veritabanı bağlamınızı oluşturun
             using (var dbContext = new MyDbContext())
             {
@@ -127,6 +150,11 @@ namespace UygunOlmayan.Tables
                     Sonuc = textBox12.Text,
                     Durum = "True",
                     Tedarikci = textBox13.Text,
+                    Degerlendiren = textBox6.Text,
+                    KokNedenAksiyon = textBox14.Text,
+                    Resim = byteDizisi,
+                    KapanısTarihi = new DateTime(1980, 5, 1),
+                    TerminTarihi=null
                 };
 
                 // 3. Veritabanına ekleme işlemi
@@ -219,6 +247,7 @@ namespace UygunOlmayan.Tables
                 eskiHataliUrun.Degerlendiren = textBox6.Text;
                 eskiHataliUrun.KokNedenAksiyon= textBox14.Text;
                 eskiHataliUrun.Resim= byteDizisi;
+                eskiHataliUrun.TerminTarihi = dateTimePicker1.Value.Date;
 
                 // Değişiklikleri veritabanına kaydedin
                 dbContext.SaveChanges();
