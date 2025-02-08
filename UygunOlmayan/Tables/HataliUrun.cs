@@ -14,6 +14,7 @@ namespace UygunOlmayan.Tables
         public string SiparisNo { get; set; }
         public int? HatalıMiktar { get; set; }
         public string? Adet { get; set; }
+        public int? toplamMiktar { get; set; }
         public DateTime Tarih { get; set; }
         public int? KayıpZaman { get; set; }
         public string? ZamanCinsi { get; set; }
@@ -33,6 +34,7 @@ namespace UygunOlmayan.Tables
         public byte[] Resim { get; set; }
         public DateTime KapanısTarihi { get; set; }
         public DateTime? TerminTarihi { get; set; }
+        public Guid? urunimza {  get; set; }
 
     }
 }

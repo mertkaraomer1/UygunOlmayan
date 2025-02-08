@@ -1,14 +1,20 @@
-﻿using OfficeOpenXml;
-using System.Data;
+﻿using System.Data;
 using System.Diagnostics;
-using System.Reflection;
-using System.Security.Cryptography;
 using UygunOlmayan.MyDb;
+using Newtonsoft.Json;
+using System.Net.Mail;
+using System.Net;
+using Microsoft.VisualBasic.ApplicationServices;
+using ClosedXML.Excel;
+using OfficeOpenXml;
+using System.Windows.Forms;
+
 
 namespace UygunOlmayan.Tables
 {
     public partial class UygunOlmayanDurum : Form
     {
+        private static readonly HttpClient client = new HttpClient();
         private MyDbContext dbContext;
         private MySDbContext SdbContext;
         public UygunOlmayanDurum()
@@ -16,6 +22,12 @@ namespace UygunOlmayan.Tables
             dbContext = new MyDbContext();
             SdbContext = new MySDbContext();
             InitializeComponent();
+        }
+        public byte[] secilenResimBytes; // Resmi saklamak için genel değişken
+        public string UrunID1
+        {
+            get { return textBox16.Text; } // textBox1 burada TextBox'ın adı olmalı
+            set { textBox16.Text = value; }
         }
         public string UrunKodu1
         {
@@ -37,6 +49,11 @@ namespace UygunOlmayan.Tables
             get { return textBox4.Text; } // textBox1 burada TextBox'ın adı olmalı
             set { textBox4.Text = value; }
         }
+        public string toplamMik1
+        {
+            get { return textBox17.Text; } // textBox1 burada TextBox'ın adı olmalı
+            set { textBox17.Text = value; }
+        }
         public string KayıpZaman1
         {
             get { return textBox7.Text; } // textBox1 burada TextBox'ın adı olmalı
@@ -44,7 +61,7 @@ namespace UygunOlmayan.Tables
         }
         public string Hatatipi1
         {
-            get { return comboBox2.Text; } // textBox1 burada TextBox'ın adı olmalı
+            get { return comboBox2.Text; }
             set { comboBox2.Text = value; }
         }
         public string Acıklama1
@@ -106,17 +123,34 @@ namespace UygunOlmayan.Tables
             get { return textBox14.Text; } // textBox1 burada TextBox'ın adı olmalı
             set { textBox14.Text = value; }
         }
-        public string Resim
-        {
-            get { return textBox15.Text; } // textBox1 burada TextBox'ın adı olmalı
-            set { textBox15.Text = value; }
-        }
+
         public DateTime TerminTarihi
         {
             get { return dateTimePicker1.Value; } // DateTime olarak döndür
             set { dateTimePicker1.Value = value; } // DateTime olarak ayarla
         }
 
+        public Image PictureBoxImage
+        {
+            get { return pictureBox1.Image; } // Image olarak döndür
+            set
+            {
+                if (value != null)
+                {
+                    pictureBox1.Image = value; // Image olarak ayarla
+                }
+            }
+        }
+        public void LoadImageFromBytes(byte[] imageData)
+        {
+            if (imageData != null && imageData.Length > 0)
+            {
+                using (var ms = new MemoryStream(imageData))
+                {
+                    PictureBoxImage = Image.FromStream(ms); // Byte dizisini resme çevir ve PictureBox'a ata
+                }
+            }
+        }
         public bool ButtonGuncelle
         {
             get { return button4.Visible; }
@@ -124,7 +158,7 @@ namespace UygunOlmayan.Tables
         }
         private void button1_Click(object sender, EventArgs e)
         {
-            byte[] byteDizisi = Convert.FromBase64String(textBox15.Text);
+
             // 1. Veritabanı bağlamınızı oluşturun
             using (var dbContext = new MyDbContext())
             {
@@ -136,6 +170,7 @@ namespace UygunOlmayan.Tables
                     SiparisNo = textBox3.Text,
                     HatalıMiktar = Convert.ToInt32(textBox4.Text),
                     Adet = "Adet",
+                    toplamMiktar = Convert.ToInt32(textBox17.Text),
                     Tarih = DateTime.Now, // Tarih alanı için uygun bir değer atayın
                     KayıpZaman = Convert.ToInt32(textBox7.Text),
                     ZamanCinsi = "DK",
@@ -152,9 +187,11 @@ namespace UygunOlmayan.Tables
                     Tedarikci = textBox13.Text,
                     Degerlendiren = textBox6.Text,
                     KokNedenAksiyon = textBox14.Text,
-                    Resim = byteDizisi,
+                    Resim = secilenResimBytes,
                     KapanısTarihi = new DateTime(1980, 5, 1),
-                    TerminTarihi=null
+                    TerminTarihi = dateTimePicker1.Value.Date,
+                    urunimza = new Guid()
+
                 };
 
                 // 3. Veritabanına ekleme işlemi
@@ -173,13 +210,14 @@ namespace UygunOlmayan.Tables
                 textBox11.Clear();
                 textBox12.Clear();
                 textBox13.Clear();
+                textBox14.Clear();
+                textBox17.Clear();
+
 
             }
         }
         private void UygunOlmayanDurum_Load(object sender, EventArgs e)
         {
-            var hatatipi = dbContext.hataGruplars.Select(a => a.HataTipi).ToList();
-            comboBox2.DataSource = hatatipi;
         }
 
 
@@ -218,7 +256,7 @@ namespace UygunOlmayan.Tables
 
         private void button4_Click(object sender, EventArgs e)
         {
-            byte[] byteDizisi = Convert.FromBase64String(textBox15.Text);
+
             // UrunKodu ve UrunAdi'ye göre eşleşen HataliUrun nesnesini bulun
             var eskiHataliUrun = dbContext.hataliUruns
                 .FirstOrDefault(u => u.UrunKodu == textBox1.Text && u.SiparisNo == textBox3.Text);
@@ -231,6 +269,7 @@ namespace UygunOlmayan.Tables
                 eskiHataliUrun.SiparisNo = textBox3.Text;
                 eskiHataliUrun.HatalıMiktar = Convert.ToInt32(textBox4.Text);
                 eskiHataliUrun.Adet = "Adet";
+                eskiHataliUrun.toplamMiktar = Convert.ToInt32(textBox17.Text);
                 eskiHataliUrun.KayıpZaman = Convert.ToInt32(textBox7.Text);
                 eskiHataliUrun.ZamanCinsi = "DK";
                 eskiHataliUrun.HataTipi = comboBox2.Text;
@@ -242,12 +281,13 @@ namespace UygunOlmayan.Tables
                 eskiHataliUrun.KokNeden = textBox5.Text;
                 eskiHataliUrun.Aksiyon = textBox10.Text;
                 eskiHataliUrun.Sonuc = textBox12.Text;
-                eskiHataliUrun.Durum = "True";
+                eskiHataliUrun.Durum = "False";
                 eskiHataliUrun.Tedarikci = textBox13.Text;
                 eskiHataliUrun.Degerlendiren = textBox6.Text;
-                eskiHataliUrun.KokNedenAksiyon= textBox14.Text;
-                eskiHataliUrun.Resim= byteDizisi;
+                eskiHataliUrun.KokNedenAksiyon = textBox14.Text;
+                eskiHataliUrun.Resim = secilenResimBytes;
                 eskiHataliUrun.TerminTarihi = dateTimePicker1.Value.Date;
+                eskiHataliUrun.urunimza = new Guid();
 
                 // Değişiklikleri veritabanına kaydedin
                 dbContext.SaveChanges();
@@ -286,51 +326,38 @@ namespace UygunOlmayan.Tables
             }
         }
 
-        private void button2_Click(object sender, EventArgs e)
-        {
-
-            try
-            {
-                // Projenize eklenen Excel dosyasının yolunu alın
-                string excelFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Dosyalar", "FR.87.01 Uygun Olmayan Ürün Raporu Formu (R1).xlsx");
-
-                // Dosyanın varlığını kontrol edin
-                if (File.Exists(excelFilePath))
-                {
-                    // Excel dosyasını varsayılan uygulamada aç
-                    Process.Start(new ProcessStartInfo(excelFilePath) { UseShellExecute = true });
-                }
-                else
-                {
-                    MessageBox.Show("Excel dosyası bulunamadı!", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Bir hata oluştu: {ex.Message}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-
-
-
-        }
 
         private void eXCELÇEKToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            ExceliDoldurVeAc();
         }
 
         private void button5_Click(object sender, EventArgs e)
         {
             using (OpenFileDialog openFileDialog = new OpenFileDialog())
             {
+                openFileDialog.Filter = "Resim Dosyaları|*.jpg;*.jpeg;*.png;*.bmp";
+
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    // Dosya yolunu al
-                    string dosyaYolu = openFileDialog.FileName;
+                    // Seçilen resmi PictureBox'a yükle
+                    Image selectedImage = Image.FromFile(openFileDialog.FileName);
+                    pictureBox1.Image = selectedImage;
 
-                    // Dosyayı yükle
-                    DosyaYukleAsync(dosyaYolu);
+                    // Resmi byte[] dizisine çevir ve değişkene ata
+                    secilenResimBytes = ResmiByteArrayeDonustur(selectedImage);
+
                 }
+            }
+        }
+        private byte[] ResmiByteArrayeDonustur(Image image)
+        {
+            if (image == null) return null;
+
+            using (MemoryStream ms = new MemoryStream())
+            {
+                image.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg); // PNG veya BMP olabilir
+                return ms.ToArray();
             }
         }
         private async Task DosyaYukleAsync(string dosyaYolu)
@@ -358,5 +385,132 @@ namespace UygunOlmayan.Tables
             MessageBox.Show("Dosya başarıyla yüklendi!");
         }
 
+
+        private void ePOSTAGÖNDERToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string subject = "UYGUN OLMAYAN ÜRÜN KONTROL FORMU";
+            string urunId = textBox16.Text;
+            string body;
+
+            // Bölümlere göre birden fazla e-posta adresi içeren sözlük tanımlandı.
+            var emailAddresses = new Dictionary<string, List<string>>
+                {
+                    { "Montaj", new List<string> { "dturkan@icmmakina.com", "oocak@icmmakina.com" } },
+                    { "Tasarım", new List<string> { "mbayram@icmmakina.com", "uulusoy@icmmakina.com" } },
+                    { "İmalat", new List<string> { "pyesilyurt@icmmakina.com", "skoca@icmmakina.com", "hetanta@icmmakina.com" } },
+                    { "Otomasyon", new List<string> { "otomasyon.proje@icmmakina.com", "tozpinar@icmmakina.com", "egozluk@icmmakina.com" } },
+                    { "Satınalma", new List<string> { "satinalma@icmmakina.com" } },
+                    { "Planlama", new List<string> { "shaci@icmmakina.com", "sbuyukay@icmmakina.com" } },
+                    { "Kalite Kontrol", new List<string> { "oarslan@icmmakina.com" } },
+                    { "Satış Sonrası", new List<string> { "hsokmen@icmmakina.com", "dtacyildiz@icmmakina.com" } },
+                    { "Muhasebe", new List<string> { "bozcan@icmmakina.com", "mcelik@icmmakina.com" } },
+                    { "Fabrika Müdürü", new List<string> { "ddeniz@icmmakina.com" } }
+                };
+
+            // Seçilen bölüme göre e-posta adresleri belirleniyor.
+            if (emailAddresses.TryGetValue(comboBox3.Text, out List<string> emailList))
+            {
+                body = $"{urunId} NO'LU ÜRÜNÜN UYGUN OLMAYAN FORMUNU KONTROL EDİNİZ.";
+
+                try
+                {
+                    // E-posta adreslerini virgülle ayırarak tek bir string olarak oluşturuyoruz.
+                    string emailTo = string.Join(",", emailList);
+
+                    SendEmail(emailTo, subject, body);
+                    MessageBox.Show("E-posta başarıyla gönderildi!", "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"E-posta gönderilemedi: {ex.Message}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Lütfen geçerli bir hata bölümü seçin!", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+
+
+        }
+        private void SendEmail(string to, string subject, string body)
+        {
+            MailMessage mail = new MailMessage();
+            SmtpClient smtpServer = new SmtpClient("smtp.office365.com");
+
+            mail.From = new MailAddress("oarslan@icmmakina.com"); // Gönderen e-posta adresi
+            mail.To.Add(to);
+            mail.Subject = subject;
+            mail.Body = body;
+
+
+            smtpServer.Port = 587; // Genellikle 587 veya 465
+            smtpServer.Credentials = new NetworkCredential("oarslan@icmmakina.com", "B/132269177480ar"); // Şifreyi buraya ekleyin
+            smtpServer.EnableSsl = true;
+
+            smtpServer.Send(mail);
+        }
+        private void ExceliDoldurVeAc()
+        {
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            try
+            {
+                // Excel dosyasının tam yolunu belirle
+                string excelFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Dosyalar", "UygunOlmayanUrunRaporu.xlsx");
+
+                // Dosyanın var olup olmadığını kontrol et
+                if (!File.Exists(excelFilePath))
+                {
+                    MessageBox.Show("Excel dosyası bulunamadı!", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                // Excel dosyasını aç
+                using (var package = new ExcelPackage(new FileInfo(excelFilePath)))
+                {
+                    // Çalışma sayfasını al
+                    var worksheet = package.Workbook.Worksheets["FR.87.01 (R1)"];
+                    if (worksheet == null)
+                    {
+                        MessageBox.Show("Çalışma sayfası bulunamadı!", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    // TextBox'lardan gelen verileri metin formatına dönüştür
+                    string urunKodu = textBox1.Text;
+                    string urunAdi = textBox2.Text;
+                    string projekodu = textBox3.Text;
+                    string hatalıMiktar = textBox4.Text;
+                    string toplammiktar = textBox17.Text;
+                    string islemKayipZamani = textBox7.Text + " DK";
+                    string tespitEdenBolum = comboBox4.Text;
+                    string raporuhazırlayan = textBox11.Text;
+
+                    // Excel dosyasına yaz
+                    worksheet.Cells["A4"].Value = $"Ürün Kodu: {urunKodu}";
+                    worksheet.Cells["E4"].Value = $"Ürün Adı: {urunAdi}";
+                    worksheet.Cells["J4"].Value = $"Sipariş No/Proje Kodu: {projekodu}";
+                    worksheet.Cells["A5"].Value = $"Hatalı Miktar: {hatalıMiktar}";
+                    worksheet.Cells["E5"].Value = $"Toplam Miktar: {toplammiktar}";
+                    worksheet.Cells["K5"].Value = $"İşlem Kayıp Zamanı: {islemKayipZamani}";
+                    worksheet.Cells["A6"].Value = $"Tespit Eden Bölüm: {tespitEdenBolum}";
+                    worksheet.Cells["A25"].Value = $"Raporu Hazırlayan: {raporuhazırlayan}";
+
+                    // Dosyayı kaydet
+                    package.Save();
+                }
+
+                // Dosyayı aç
+                Process.Start(new ProcessStartInfo(excelFilePath) { UseShellExecute = true });
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Bir hata oluştu: {ex.Message}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void yAZDIRToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

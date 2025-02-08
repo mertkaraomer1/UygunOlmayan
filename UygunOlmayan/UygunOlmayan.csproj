@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Dosyalar\FR.87.01 Uygun Olmayan Ürün Raporu Formu %28R1%29.xlsx" />
+    <None Remove="Dosyalar\UygunOlmayanUrunRaporu.xlsx" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,16 +25,33 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Dosyalar\FR.87.01 Uygun Olmayan Ürün Raporu Formu (R1).xlsx">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <EmbeddedResource Include="Dosyalar\UygunOlmayanUrunRaporu.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="ClosedXML" Version="0.104.2" />
     <PackageReference Include="DG.AdvancedDataGridView" Version="1.2.28405.11" />
     <PackageReference Include="EPPlus" Version="7.5.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.13" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.13" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

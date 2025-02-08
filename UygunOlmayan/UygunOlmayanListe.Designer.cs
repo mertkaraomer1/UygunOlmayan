@@ -56,6 +56,7 @@
             advancedDataGridView1.TabIndex = 3;
             advancedDataGridView1.CellContentClick += advancedDataGridView1_CellContentClick;
             advancedDataGridView1.CellDoubleClick += advancedDataGridView1_CellDoubleClick;
+            advancedDataGridView1.CellFormatting += advancedDataGridView1_CellFormatting;
             // 
             // toolStrip1
             // 
