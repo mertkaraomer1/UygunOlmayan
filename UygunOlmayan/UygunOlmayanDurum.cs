@@ -1,13 +1,11 @@
 ﻿using System.Data;
 using System.Diagnostics;
 using UygunOlmayan.MyDb;
-using Newtonsoft.Json;
 using System.Net.Mail;
 using System.Net;
-using Microsoft.VisualBasic.ApplicationServices;
-using ClosedXML.Excel;
 using OfficeOpenXml;
-using System.Windows.Forms;
+using System.Drawing.Imaging;
+using System.Drawing.Printing;
 
 
 namespace UygunOlmayan.Tables
@@ -17,11 +15,14 @@ namespace UygunOlmayan.Tables
         private static readonly HttpClient client = new HttpClient();
         private MyDbContext dbContext;
         private MySDbContext SdbContext;
+        private PrintDocument printDocument;
         public UygunOlmayanDurum()
         {
             dbContext = new MyDbContext();
             SdbContext = new MySDbContext();
             InitializeComponent();
+            printDocument = new PrintDocument();
+            printDocument.PrintPage += new PrintPageEventHandler(PrintDocument_PrintPage);
         }
         public byte[] secilenResimBytes; // Resmi saklamak için genel değişken
         public string UrunID1
@@ -141,6 +142,16 @@ namespace UygunOlmayan.Tables
                 }
             }
         }
+        public string uruntipi1
+        {
+            get { return comboBox1.Text; } // textBox1 burada TextBox'ın adı olmalı
+            set { comboBox1.Text = value; }
+        }
+        public string DuzelticiFaliyetDurum1
+        {
+            get { return comboBox5.Text; } // textBox1 burada TextBox'ın adı olmalı
+            set { comboBox5.Text = value; }
+        }
         public void LoadImageFromBytes(byte[] imageData)
         {
             if (imageData != null && imageData.Length > 0)
@@ -151,6 +162,7 @@ namespace UygunOlmayan.Tables
                 }
             }
         }
+
         public bool ButtonGuncelle
         {
             get { return button4.Visible; }
@@ -190,7 +202,9 @@ namespace UygunOlmayan.Tables
                     Resim = secilenResimBytes,
                     KapanısTarihi = new DateTime(1980, 5, 1),
                     TerminTarihi = dateTimePicker1.Value.Date,
-                    urunimza = new Guid()
+                    urunimza = new Guid(),
+                    uruntipi = comboBox1.Text,
+                    DuzelticiFaliyetDurum = comboBox5.Text,
 
                 };
 
@@ -216,10 +230,6 @@ namespace UygunOlmayan.Tables
 
             }
         }
-        private void UygunOlmayanDurum_Load(object sender, EventArgs e)
-        {
-        }
-
 
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -251,17 +261,16 @@ namespace UygunOlmayan.Tables
         {
             UygunOlmayanListe ul = new UygunOlmayanListe();
             ul.Show();
-            this.Hide();
+
         }
+
 
         private void button4_Click(object sender, EventArgs e)
         {
-
             // UrunKodu ve UrunAdi'ye göre eşleşen HataliUrun nesnesini bulun
             var eskiHataliUrun = dbContext.hataliUruns
                 .FirstOrDefault(u => u.UrunKodu == textBox1.Text && u.SiparisNo == textBox3.Text);
 
-            // Eğer eşleşen bir nesne bulunduysa, alanları güncelleyin
             if (eskiHataliUrun != null)
             {
                 eskiHataliUrun.UrunKodu = textBox1.Text;
@@ -285,15 +294,41 @@ namespace UygunOlmayan.Tables
                 eskiHataliUrun.Tedarikci = textBox13.Text;
                 eskiHataliUrun.Degerlendiren = textBox6.Text;
                 eskiHataliUrun.KokNedenAksiyon = textBox14.Text;
-                eskiHataliUrun.Resim = secilenResimBytes;
                 eskiHataliUrun.TerminTarihi = dateTimePicker1.Value.Date;
                 eskiHataliUrun.urunimza = new Guid();
+                eskiHataliUrun.uruntipi = comboBox1.Text;
+                eskiHataliUrun.DuzelticiFaliyetDurum = comboBox5.Text;
 
-                // Değişiklikleri veritabanına kaydedin
+                // Eğer pictureBox1'de resim varsa, onu byte[] formatına çevir ve ata
+                if (pictureBox1.Image != null)
+                {
+                    eskiHataliUrun.Resim = PictureBoxToByteArray(pictureBox1);
+                }
+
+                // Veritabanına değişiklikleri kaydet
                 dbContext.SaveChanges();
                 MessageBox.Show("Güncellendi.");
             }
         }
+
+        private byte[] PictureBoxToByteArray(PictureBox pictureBox)
+        {
+            if (pictureBox.Image == null)
+                return null;
+
+            using (MemoryStream ms = new MemoryStream())
+            {
+                // Yeni bir bitmap oluşturarak resmi yeniden çiz (GDI+ hatasını önlemek için)
+                using (Bitmap bmp = new Bitmap(pictureBox.Image))
+                {
+                    bmp.Save(ms, ImageFormat.Png);  // PNG formatı kullan
+                }
+
+                return ms.ToArray();
+            }
+        }
+
+
 
         private void UygunOlmayanDurum_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -360,31 +395,6 @@ namespace UygunOlmayan.Tables
                 return ms.ToArray();
             }
         }
-        private async Task DosyaYukleAsync(string dosyaYolu)
-        {
-            byte[] dosyaVerisi = await File.ReadAllBytesAsync(dosyaYolu);
-
-            // dosyaVerisi null kontrolü
-            if (dosyaVerisi == null || dosyaVerisi.Length == 0)
-            {
-                MessageBox.Show("Dosya yüklenirken bir hata oluştu. Lütfen geçerli bir dosya seçin.");
-                return; // İşlemi sonlandır
-            }
-
-            var dosyaEntity = new HataliUrun
-            {
-                Resim = dosyaVerisi
-            };
-
-            using (var context = new MyDbContext()) // DbContext'inizi burada kullanın
-            {
-                context.hataliUruns.Add(dosyaEntity);
-                await context.SaveChangesAsync();
-            }
-
-            MessageBox.Show("Dosya başarıyla yüklendi!");
-        }
-
 
         private void ePOSTAGÖNDERToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -484,6 +494,31 @@ namespace UygunOlmayan.Tables
                     string islemKayipZamani = textBox7.Text + " DK";
                     string tespitEdenBolum = comboBox4.Text;
                     string raporuhazırlayan = textBox11.Text;
+                    string hatanıntanımıAçıklama = textBox9.Text;
+                    string kökneden = textBox5.Text;
+                    string Aksiyon = textBox10.Text;
+                    string sonuc = textBox8.Text;
+                    string hatanınoluştuğubölüm = comboBox3.Text;
+                    string ürüntipi = comboBox1.Text;
+                    string düzelticifaliyet = comboBox5.Text;
+
+                    if (ürüntipi == "Ham Malzeme")
+                    {
+                        worksheet.Cells["A9"].Value = "X"; // A9 hücresine değeri yaz
+
+                    }
+                    else if (ürüntipi == "Standart Malzeme")
+                    {
+                        worksheet.Cells["D9"].Value = "X"; // A9 hücresine değeri yaz
+                    }
+                    else if (ürüntipi == "Yarı Mamul")
+                    {
+                        worksheet.Cells["H9"].Value = "X"; // A9 hücresine değeri yaz
+                    }
+                    else if (ürüntipi == "Bitmiş Ürün")
+                    {
+                        worksheet.Cells["K9"].Value = "X"; // A9 hücresine değeri yaz
+                    }
 
                     // Excel dosyasına yaz
                     worksheet.Cells["A4"].Value = $"Ürün Kodu: {urunKodu}";
@@ -493,8 +528,17 @@ namespace UygunOlmayan.Tables
                     worksheet.Cells["E5"].Value = $"Toplam Miktar: {toplammiktar}";
                     worksheet.Cells["K5"].Value = $"İşlem Kayıp Zamanı: {islemKayipZamani}";
                     worksheet.Cells["A6"].Value = $"Tespit Eden Bölüm: {tespitEdenBolum}";
+                    worksheet.Cells["A7"].Value = $"Dış Tedarikçi veya Uygun Olmayan Ürünün Oluştuğu Bölüm :  {hatanınoluştuğubölüm}";
                     worksheet.Cells["A25"].Value = $"Raporu Hazırlayan: {raporuhazırlayan}";
-
+                    // Aksiyon metnini hücreye ata
+                    worksheet.Cells["A16"].Value = $"Hatanın Tanımı: {hatanıntanımıAçıklama}";
+                    // Aksiyon metnini hücreye ata
+                    worksheet.Cells["A21"].Value = $"Hatanın Kök Nedeni: {kökneden}";
+                    // Aksiyon metnini hücreye ata
+                    worksheet.Cells["A29"].Value = $"DEĞERLENDİRME - YAPILACAK FAALİYETLER: {Aksiyon}";
+                    // Aksiyon metnini hücreye ata
+                    worksheet.Cells["A41"].Value = $"DEĞERLENDİRME NOTLARI / SONUÇ: {sonuc}";
+                    worksheet.Cells["A46"].Value = $"Düzeltici Faaliyet Gerekiyor: {düzelticifaliyet}";
                     // Dosyayı kaydet
                     package.Save();
                 }
@@ -510,7 +554,77 @@ namespace UygunOlmayan.Tables
 
         private void yAZDIRToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            using (PrintDialog printDialog = new PrintDialog())
+            {
+                printDialog.Document = printDocument;
 
+                // Yazıcıyı seçme
+                if (printDialog.ShowDialog() == DialogResult.OK)
+                {
+                    // Seçilen yazıcı ile yazdırma işlemini başlat
+                    printDocument.Print();
+                }
+            }
+        }
+
+        private void lİSTEToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            UygunOlmayanListe ul = new UygunOlmayanListe();
+            ul.Show();
+        }
+
+        private void rAPORToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            UygunOlmayanRapor ur = new UygunOlmayanRapor();
+            ur.Show();
+        }
+
+        private bool isZoomed = false;
+        private Size originalSize;
+        private Point originalLocation;
+        private PictureBoxSizeMode originalSizeMode;
+        private Control parentControl;
+
+
+        private void pictureBox1_DoubleClick(object sender, EventArgs e)
+        {
+            if (!isZoomed)
+            {
+                // Mevcut ayarları kaydet
+                originalSize = pictureBox1.Size;
+                originalLocation = pictureBox1.Location;
+                originalSizeMode = pictureBox1.SizeMode;
+                parentControl = pictureBox1.Parent;
+
+                // Form'un içine al ve en üste getir
+                this.Controls.Add(pictureBox1);
+                pictureBox1.BringToFront();
+
+                // Resmi tam ekran yap
+                pictureBox1.Dock = DockStyle.Fill;
+                pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+            }
+            else
+            {
+                // Eski konumuna geri al
+                pictureBox1.Dock = DockStyle.None;
+                pictureBox1.Size = originalSize;
+                pictureBox1.Location = originalLocation;
+                pictureBox1.SizeMode = originalSizeMode;
+
+                // Önceki ebeveyn kontrolüne geri taşı
+                parentControl.Controls.Add(pictureBox1);
+            }
+
+            isZoomed = !isZoomed;
+
+        }
+        private void PrintDocument_PrintPage(object sender, PrintPageEventArgs e)
+        {
+            if (pictureBox1.Image != null)
+            {
+                e.Graphics.DrawImage(pictureBox1.Image, 0, 0, e.PageBounds.Width, e.PageBounds.Height);
+            }
         }
     }
 }

@@ -1,11 +1,11 @@
-﻿using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using System.Data;
+﻿using System.Data;
+using System.Net.Mail;
+using System.Net;
 using System.Windows.Forms;
 using UygunOlmayan.MyDb;
 using UygunOlmayan.Tables;
-using Zuby.ADGV;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using OfficeOpenXml;
+using System.Diagnostics;
 
 namespace UygunOlmayan
 {
@@ -20,200 +20,173 @@ namespace UygunOlmayan
 
 
         DataTable table = new DataTable();
-        public void Uygunolmayanvol1()
+        public void UygunOlmayanVol1()
         {
-
+            // Önce tabloyu temizle
+            table.Clear();
             table.Columns.Clear();
-            table.Rows.Clear();
             advancedDataGridView1.Columns.Clear();
+
             // Sütunları ekle
-            table.Columns.Add("Urun Id");
-            table.Columns.Add("Urun Kodu");
-            table.Columns.Add("Urun Adi");
-            table.Columns.Add("Siparis No");
-            table.Columns.Add("Hatalı Miktar");
-            table.Columns.Add("Adet");
-            table.Columns.Add("Toplam Miktar");
-            table.Columns.Add("Tarih");
-            table.Columns.Add("Kayıp Zaman");
-            table.Columns.Add("Zaman Türü");
-            table.Columns.Add("HataTipi");
-            table.Columns.Add("Aciklama");
-            table.Columns.Add("Tedarikçi");
-            table.Columns.Add("Ozet");
-            table.Columns.Add("Hata Bolumu");
-            table.Columns.Add("Raporu Hazirlayan");
-            table.Columns.Add("Hatayı Bulan Birim");
-            table.Columns.Add("Kök Neden");
-            table.Columns.Add("Aksiyon");
-            table.Columns.Add("Sonuc");
-            table.Columns.Add("Degerlendiren");
-            table.Columns.Add("KokNedenAksiyon");
-            table.Columns.Add("Resim");
-            table.Columns.Add("KapanısTarihi");
-            table.Columns.Add("TerminTarihi");
-            table.Columns.Add("Durum");
+            string[] columnNames = {
+        "Urun Id", "Urun Kodu", "Urun Adi", "Siparis No", "Hatalı Miktar", "Adet",
+        "Toplam Miktar", "Tarih", "Kayıp Zaman", "Zaman Türü", "Hata Tipi", "Aciklama",
+        "Tedarikçi", "Ozet", "Hata Bolumu", "Raporu Hazirlayan", "Hatayı Bulan Birim",
+        "Kök Neden", "Aksiyon", "Sonuç", "Değerlendiren", "Kök Neden Aksiyon", "Resim",
+        "Kapanış Tarihi", "Termin Tarihi", "Ürün Tipi", "Düzeltici Faaliyet Var Mı?", "Durum"
+    };
 
-
-            var hataliUrun = dbContext.hataliUruns/*.Where(x=>x.urunimza==new Guid())*/
-                .ToList();
-
-
-            // İhtiyacınıza göre daha fazla sütun ekleyebilirsiniz.
-
-            foreach (var urun in hataliUrun)
+            foreach (string columnName in columnNames)
             {
-                string durum = "";
-                if (urun.Durum == "True")
-                {
-                    durum = "İŞLEMİ DEVAM EDİYOR.";
-                }
-                else if (urun.Durum == "False")
-                {
-                    durum = "DEĞERLENDİRMEYİ BEKLİYOR.";
-                }
-
-
-
-
-                table.Rows.Add(
-                    urun.UrunId,
-                    urun.UrunKodu,
-                    urun.UrunAdi,
-                    urun.SiparisNo,
-                    urun.HatalıMiktar,
-                    urun.Adet,
-                    urun.toplamMiktar,
-                    urun.Tarih.ToString("yyyy.MM.dd"),
-                    urun.KayıpZaman,
-                    urun.ZamanCinsi,
-                    urun.HataTipi,
-                    urun.Aciklama,
-                    urun.Tedarikci,
-                    urun.Ozet,
-                    urun.HataBolumu,
-                    urun.RaporuHazirlayan,
-                    urun.HatayıBulanBirim,
-                    urun.KokNeden,
-                    urun.Aksiyon,
-                    urun.Sonuc,
-                    urun.Degerlendiren,
-                    urun.KokNedenAksiyon,
-                    urun.Resim,
-                    urun.KapanısTarihi,
-                    urun.TerminTarihi,
-                    durum
-                    );
-
+                table.Columns.Add(columnName);
             }
 
-            // DataTable'ı DataGridView'e bağlayın
+            // Verileri çek
+            var hataliUrunList = dbContext.hataliUruns.Where(x => x.urunimza == new Guid()).ToList();
+
+            foreach (var urun in hataliUrunList)
+            {
+                string durum = urun.Durum == "True" ? "İŞLEMİ DEVAM EDİYOR." : "DEĞERLENDİRMEYİ BEKLİYOR.";
+
+                table.Rows.Add(
+                    urun.UrunId, urun.UrunKodu, urun.UrunAdi, urun.SiparisNo, urun.HatalıMiktar,
+                    urun.Adet, urun.toplamMiktar, urun.Tarih.ToString("yyyy.MM.dd"), urun.KayıpZaman,
+                    urun.ZamanCinsi, urun.HataTipi, urun.Aciklama, urun.Tedarikci, urun.Ozet,
+                    urun.HataBolumu, urun.RaporuHazirlayan, urun.HatayıBulanBirim, urun.KokNeden,
+                    urun.Aksiyon, urun.Sonuc, urun.Degerlendiren, urun.KokNedenAksiyon,
+                    urun.Resim, urun.KapanısTarihi, urun.TerminTarihi, urun.uruntipi,
+                    urun.DuzelticiFaliyetDurum, durum
+                );
+            }
+
+            // DataTable'ı DataGridView'e bağla
             advancedDataGridView1.DataSource = table;
 
-
-            // DataGridView kontrolünüze bir buton sütunu ekleyin.
-            DataGridViewImageColumn buttonColumn1 = new DataGridViewImageColumn();
-            buttonColumn1.HeaderText = "İmza"; // Sütun başlığı
-            buttonColumn1.Image = Image.FromFile("imza.png"); // Silme resmini belirtin
-            buttonColumn1.ImageLayout = DataGridViewImageCellLayout.Zoom; // Resmi düzgün görüntülemek için ayar
+            // DataGridView'e imza sütunu ekle
+            DataGridViewImageColumn buttonColumn1 = new DataGridViewImageColumn
+            {
+                HeaderText = "İmza",
+                Image = Image.FromFile("imza.png"),
+                ImageLayout = DataGridViewImageCellLayout.Zoom
+            };
             advancedDataGridView1.Columns.Add(buttonColumn1);
-            // DataGridView'deki her bir satırı kontrol et
 
+            // **Durum sütunu için renklendirme işlemi**
+            for (int i = 0; i < advancedDataGridView1.Rows.Count; i++)
+            {
+                DataGridViewRow row = advancedDataGridView1.Rows[i];
 
+                // "Durum" sütununun index'ini al
+                int durumColumnIndex = advancedDataGridView1.Columns["Durum"].Index;
+
+                if (row.Cells[durumColumnIndex].Value != null)
+                {
+                    string durumText = row.Cells[durumColumnIndex].Value.ToString();
+
+                    if (durumText == "İŞLEMİ DEVAM EDİYOR.")
+                    {
+                        row.Cells[durumColumnIndex].Style.BackColor = Color.Yellow;
+                        row.Cells[durumColumnIndex].Style.ForeColor = Color.Black;
+                    }
+                    else if (durumText == "DEĞERLENDİRMEYİ BEKLİYOR.")
+                    {
+                        row.Cells[durumColumnIndex].Style.BackColor = Color.Red;
+                        row.Cells[durumColumnIndex].Style.ForeColor = Color.White;
+                    }
+                }
+            }
         }
+
         private void UygunOlmayanListe_Load(object sender, EventArgs e)
         {
-            Uygunolmayanvol1();
+            UygunOlmayanVol1();
         }
 
-        UygunOlmayanDurum UOD;
+        private UygunOlmayanDurum UOD; // Formun bir örneği için alan
         private void advancedDataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0 && e.ColumnIndex == 1)
             {
+                // Uygun Olmayan Durum formunun mevcut olup olmadığını kontrol et
                 if (UOD == null || UOD.IsDisposed)
                 {
                     UOD = new UygunOlmayanDurum();
-                    string UrunID = advancedDataGridView1.Rows[e.RowIndex].Cells[0].Value.ToString();
-                    string UrunKodu = advancedDataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString();
-                    string UrunAdi = advancedDataGridView1.Rows[e.RowIndex].Cells[2].Value.ToString();
-                    string SipNo = advancedDataGridView1.Rows[e.RowIndex].Cells[3].Value.ToString();
-                    string HataMik = advancedDataGridView1.Rows[e.RowIndex].Cells[4].Value.ToString();
-                    string toplamMik = advancedDataGridView1.Rows[e.RowIndex].Cells[6].Value.ToString();
-                    string KayıpZamna = advancedDataGridView1.Rows[e.RowIndex].Cells[8].Value.ToString();
-                    string HataTipi = advancedDataGridView1.Rows[e.RowIndex].Cells[10].Value.ToString();
-                    string Aciklama = advancedDataGridView1.Rows[e.RowIndex].Cells[11].Value.ToString();
-                    string Tedarikci = advancedDataGridView1.Rows[e.RowIndex].Cells[12].Value.ToString();
-                    string Ozet = advancedDataGridView1.Rows[e.RowIndex].Cells[13].Value.ToString();
-                    string HataBolumu = advancedDataGridView1.Rows[e.RowIndex].Cells[14].Value.ToString();
-                    string RHazırlayan = advancedDataGridView1.Rows[e.RowIndex].Cells[15].Value.ToString();
-                    string HatayıBulanBolum = advancedDataGridView1.Rows[e.RowIndex].Cells[16].Value.ToString();
-                    string KokNeden = advancedDataGridView1.Rows[e.RowIndex].Cells[17].Value.ToString();
-                    string Aksiyon = advancedDataGridView1.Rows[e.RowIndex].Cells[18].Value.ToString();
-                    string Sonuc = advancedDataGridView1.Rows[e.RowIndex].Cells[19].Value.ToString();
-                    string Degerlendiren = advancedDataGridView1.Rows[e.RowIndex].Cells[20].Value.ToString();
-                    string KokNedenAksiyon = advancedDataGridView1.Rows[e.RowIndex].Cells[21].Value.ToString();
-                    string Resim = advancedDataGridView1.Rows[e.RowIndex].Cells[22].Value.ToString();
-                    // Hücre değerini al
-                    string terminTarihiString = advancedDataGridView1.Rows[e.RowIndex].Cells[24].Value.ToString();
-                    
-                    var resim=dbContext.hataliUruns.Where(x=>x.UrunId==Convert.ToInt32(UrunID)).Select(x=>x.Resim).FirstOrDefault();
-
-                    
-                    // DateTime'a dönüştür
-                    DateTime terminTarihi;
-                    if (DateTime.TryParse(terminTarihiString, out terminTarihi))
-                    {
-
-                    }
-                    else
-                    {
-                        // Dönüşüm başarısız, hata yönetimi
-                        MessageBox.Show("Termin tarihi geçersiz!");
-                    }
-
-                    UOD.UrunID1 = UrunID;
-                    UOD.UrunKodu1 = UrunKodu;
-                    UOD.UrunAdi1 = UrunAdi;
-                    UOD.SipNo1 = SipNo;
-                    UOD.HataMik1 = HataMik;
-                    UOD.toplamMik1 = toplamMik;
-                    UOD.KayıpZaman1 = KayıpZamna;
-                    UOD.Hatatipi1 = HataTipi;
-                    UOD.Acıklama1 = Aciklama;
-                    UOD.ozet1 = Ozet;
-                    UOD.HataBolumu1 = HataBolumu;
-                    UOD.Rhazirlayan1 = RHazırlayan;
-                    UOD.HataBulanBlum1 = HatayıBulanBolum;
-                    UOD.KokNeden1 = KokNeden;
-                    UOD.Aksiyon1 = Aksiyon;
-                    UOD.Sonuc1 = Sonuc;
-                    UOD.tedarikci = Tedarikci;
-                    UOD.Degerlendiren = Degerlendiren;
-                    UOD.KokNedenAksiyon = KokNedenAksiyon;
-                    UOD.LoadImageFromBytes(resim);
-                    UOD.TerminTarihi = terminTarihi;
-                    UOD.ButtonGuncelle = true;
-                    UOD.Show();
-                    this.Hide();
                 }
+                else
+                {
+                    // Form zaten açıksa, mevcut formu güncelleyelim
+                    UOD.BringToFront(); // Formu ön plana getir
+                    return; // Fonksiyondan çık
+                }
+
+                // Hücre değerlerini alma
+                string UrunID = advancedDataGridView1.Rows[e.RowIndex].Cells[0].Value.ToString();
+                string UrunKodu = advancedDataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString();
+                string UrunAdi = advancedDataGridView1.Rows[e.RowIndex].Cells[2].Value.ToString();
+                string SipNo = advancedDataGridView1.Rows[e.RowIndex].Cells[3].Value.ToString();
+                string HataMik = advancedDataGridView1.Rows[e.RowIndex].Cells[4].Value.ToString();
+                string toplamMik = advancedDataGridView1.Rows[e.RowIndex].Cells[6].Value.ToString();
+                string KayıpZamna = advancedDataGridView1.Rows[e.RowIndex].Cells[8].Value.ToString();
+                string HataTipi = advancedDataGridView1.Rows[e.RowIndex].Cells[10].Value.ToString();
+                string Aciklama = advancedDataGridView1.Rows[e.RowIndex].Cells[11].Value.ToString();
+                string Tedarikci = advancedDataGridView1.Rows[e.RowIndex].Cells[12].Value.ToString();
+                string Ozet = advancedDataGridView1.Rows[e.RowIndex].Cells[13].Value.ToString();
+                string HataBolumu = advancedDataGridView1.Rows[e.RowIndex].Cells[14].Value.ToString();
+                string RHazırlayan = advancedDataGridView1.Rows[e.RowIndex].Cells[15].Value.ToString();
+                string HatayıBulanBolum = advancedDataGridView1.Rows[e.RowIndex].Cells[16].Value.ToString();
+                string KokNeden = advancedDataGridView1.Rows[e.RowIndex].Cells[17].Value.ToString();
+                string Aksiyon = advancedDataGridView1.Rows[e.RowIndex].Cells[18].Value.ToString();
+                string Sonuc = advancedDataGridView1.Rows[e.RowIndex].Cells[19].Value.ToString();
+                string Degerlendiren = advancedDataGridView1.Rows[e.RowIndex].Cells[20].Value.ToString();
+                string KokNedenAksiyon = advancedDataGridView1.Rows[e.RowIndex].Cells[21].Value.ToString();
+                string Resim = advancedDataGridView1.Rows[e.RowIndex].Cells[22].Value.ToString();
+                string terminTarihiString = advancedDataGridView1.Rows[e.RowIndex].Cells[24].Value.ToString();
+                string uruntipi2 = advancedDataGridView1.Rows[e.RowIndex].Cells[25].Value.ToString();
+                var resim = dbContext.hataliUruns.Where(x => x.UrunId == Convert.ToInt32(UrunID)).Select(x => x.Resim).FirstOrDefault();
+                string DuzelticiFaliyetDurum2 = advancedDataGridView1.Rows[e.RowIndex].Cells[26].Value.ToString();
+
+                // DateTime'a dönüştür
+                if (DateTime.TryParse(terminTarihiString, out DateTime terminTarihi))
+                {
+                    UOD.TerminTarihi = terminTarihi;
+                }
+                else
+                {
+                    MessageBox.Show("Termin tarihi geçersiz!");
+                }
+
+                // Formu doldurma
+                UOD.UrunID1 = UrunID;
+                UOD.UrunKodu1 = UrunKodu;
+                UOD.UrunAdi1 = UrunAdi;
+                UOD.SipNo1 = SipNo;
+                UOD.HataMik1 = HataMik;
+                UOD.toplamMik1 = toplamMik;
+                UOD.KayıpZaman1 = KayıpZamna;
+                UOD.Hatatipi1 = HataTipi;
+                UOD.Acıklama1 = Aciklama;
+                UOD.ozet1 = Ozet;
+                UOD.HataBolumu1 = HataBolumu;
+                UOD.Rhazirlayan1 = RHazırlayan;
+                UOD.HataBulanBlum1 = HatayıBulanBolum;
+                UOD.KokNeden1 = KokNeden;
+                UOD.Aksiyon1 = Aksiyon;
+                UOD.Sonuc1 = Sonuc;
+                UOD.tedarikci = Tedarikci;
+                UOD.Degerlendiren = Degerlendiren;
+                UOD.KokNedenAksiyon = KokNedenAksiyon;
+                UOD.LoadImageFromBytes(resim);
+                UOD.uruntipi1 = uruntipi2;
+                UOD.DuzelticiFaliyetDurum1 = DuzelticiFaliyetDurum2;
+
+                // Formu göster
+                UOD.Show();
             }
         }
-
-        private void UygunOlmayanListe_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            // Form kapatılmak istendiğinde
-            if (e.CloseReason == CloseReason.UserClosing)
-            {
-                // Programı kapat
-                Application.Exit();
-            }
-        }
-
 
         private void advancedDataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex >= 0 && e.ColumnIndex == 26)
+            if (e.RowIndex >= 0 && e.ColumnIndex == 28)
             {
                 // Seçilen satırın verilerini almak için DataGridView'den erişin
                 DataGridViewRow selectedRow = advancedDataGridView1.Rows[e.RowIndex];
@@ -235,7 +208,7 @@ namespace UygunOlmayan
                     // Değişiklikleri veritabanına kaydedin
                     dbContext.SaveChanges();
                     MessageBox.Show("Güncellendi.");
-                    Uygunolmayanvol1();
+                    UygunOlmayanVol1();
                 }
             }
         }
@@ -292,27 +265,236 @@ namespace UygunOlmayan
             }
         }
 
-        private void advancedDataGridView1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+
+        private void lİSTEYİEXCELEAKTARToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            // "Durum" sütununun index'ini belirleyin (sütun adını kullanabilirsiniz)
-            int durumColumnIndex = advancedDataGridView1.Columns["Durum"].Index;
+            // DataGridView'deki verileri bir DataTable'a kopyalayın
+            DataTable dt = new DataTable();
 
-            // Eğer ilgili sütundaysak ve hücre null değilse
-            if (e.ColumnIndex == durumColumnIndex && e.Value != null)
+            foreach (DataGridViewColumn column in advancedDataGridView1.Columns)
             {
-                string durumText = e.Value.ToString();
+                // Eğer ValueType null ise, varsayılan bir veri türü kullanabilirsiniz.
+                Type columnType = column.ValueType ?? typeof(string);
+                dt.Columns.Add(column.HeaderText, columnType);
+            }
 
-                if (durumText == "İŞLEMİ DEVAM EDİYOR.")
+            // Satırları ekle
+            foreach (DataGridViewRow row in advancedDataGridView1.Rows)
+            {
+                DataRow dataRow = dt.NewRow();
+                foreach (DataGridViewCell cell in row.Cells)
                 {
-                    e.CellStyle.BackColor = Color.Yellow;
-                    e.CellStyle.ForeColor = Color.Black; // Yazıyı siyah yap
+                    dataRow[cell.ColumnIndex] = cell.Value;
                 }
-                else if (durumText == "DEĞERLENDİRMEYİ BEKLİYOR.")
+                dt.Rows.Add(dataRow);
+            }
+
+            // Excel uygulamasını başlatın
+            Microsoft.Office.Interop.Excel.Application excelApp = new Microsoft.Office.Interop.Excel.Application();
+            excelApp.Visible = true;
+
+            // Yeni bir Excel çalışma kitabı oluşturun
+            Microsoft.Office.Interop.Excel.Workbook workbook = excelApp.Workbooks.Add(Type.Missing);
+            Microsoft.Office.Interop.Excel.Worksheet worksheet = (Microsoft.Office.Interop.Excel.Worksheet)workbook.Sheets[1];
+
+            // DataTable'ı Excel çalışma sayfasına aktarın (tablo başlıklarını da dahil etmek için)
+            int rowIndex = 1;
+
+            // Başlıkları yaz
+            for (int j = 0; j < dt.Columns.Count; j++)
+            {
+                worksheet.Cells[1, j + 1] = dt.Columns[j].ColumnName;
+                worksheet.Cells[1, j + 1].Font.Bold = true;
+            }
+
+            // Verileri yaz
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                rowIndex++;
+                for (int j = 0; j < dt.Columns.Count; j++)
                 {
-                    e.CellStyle.BackColor = Color.Red;
-                    e.CellStyle.ForeColor = Color.White; // Yazıyı beyaz yap
+                    worksheet.Cells[rowIndex, j + 1] = dt.Rows[i][j].ToString();
                 }
             }
         }
+
+        private void ePOSTAGÖNDERToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DataGridViewRow selectedRow = advancedDataGridView1.CurrentRow;
+            if (selectedRow != null)
+            {
+                var urunIdValue = selectedRow.Cells["Urun Id"].Value?.ToString(); // "UrunId" sütunundaki değeri string olarak al
+                var HataBolumu = selectedRow.Cells["Hata Bolumu"].Value?.ToString();
+                string subject = "UYGUN OLMAYAN ÜRÜN KONTROL FORMU";
+                string urunId = urunIdValue; // urunId'yi buraya ata
+                string body;
+
+                // Bölümlere göre birden fazla e-posta adresi içeren sözlük tanımlandı.
+                var emailAddresses = new Dictionary<string, List<string>>
+                        {
+                            { "Montaj", new List<string> { "dturkan@icmmakina.com", "oocak@icmmakina.com" } },
+                            { "Tasarım", new List<string> { "mbayram@icmmakina.com", "uulusoy@icmmakina.com" } },
+                            { "İmalat", new List<string> { "pyesilyurt@icmmakina.com", "skoca@icmmakina.com", "hetanta@icmmakina.com" } },
+                            { "Otomasyon", new List<string> { "otomasyon.proje@icmmakina.com", "tozpinar@icmmakina.com", "egozluk@icmmakina.com" } },
+                            { "Satınalma", new List<string> { "satinalma@icmmakina.com" } },
+                            { "Planlama", new List<string> { "shaci@icmmakina.com", "sbuyukay@icmmakina.com" } },
+                            { "Kalite Kontrol", new List<string> { "oarslan@icmmakina.com" } },
+                            { "Satış Sonrası", new List<string> { "hsokmen@icmmakina.com", "dtacyildiz@icmmakina.com" } },
+                            { "Muhasebe", new List<string> { "bozcan@icmmakina.com", "mcelik@icmmakina.com" } },
+                            { "Fabrika Müdürü", new List<string> { "ddeniz@icmmakina.com" } }
+                        };
+
+                // Seçilen bölüme göre e-posta adresleri belirleniyor.
+                if (emailAddresses.TryGetValue(HataBolumu, out List<string> emailList))
+                {
+                    body = $"{urunId} NO'LU ÜRÜNÜN UYGUN OLMAYAN FORMUNU KONTROL EDİNİZ.";
+
+                    try
+                    {
+                        // E-posta adreslerini virgülle ayırarak tek bir string olarak oluşturuyoruz.
+                        string emailTo = string.Join(",", emailList);
+
+                        SendEmail(emailTo, subject, body);
+                        MessageBox.Show("E-posta başarıyla gönderildi!", "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"E-posta gönderilemedi: {ex.Message}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Lütfen geçerli bir hata bölümü seçin!", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Lütfen bir satır seçin!", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+        private void SendEmail(string to, string subject, string body)
+        {
+            MailMessage mail = new MailMessage();
+            SmtpClient smtpServer = new SmtpClient("smtp.office365.com");
+
+            mail.From = new MailAddress("oarslan@icmmakina.com"); // Gönderen e-posta adresi
+            mail.To.Add(to);
+            mail.Subject = subject;
+            mail.Body = body;
+
+
+            smtpServer.Port = 587; // Genellikle 587 veya 465
+            smtpServer.Credentials = new NetworkCredential("oarslan@icmmakina.com", "B/132269177480ar"); // Şifreyi buraya ekleyin
+            smtpServer.EnableSsl = true;
+
+            smtpServer.Send(mail);
+        }
+
+        private void eXCELÇEKToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DataGridViewRow selectedRow = advancedDataGridView1.CurrentRow;
+            if (selectedRow == null)
+            {
+                MessageBox.Show("Lütfen bir satır seçiniz!", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Seçili satırdan gerekli verileri al
+            var urunIdValue = selectedRow.Cells["Urun Id"].Value?.ToString();
+            var urunKodu = selectedRow.Cells["Urun Kodu"].Value?.ToString();
+            var urunAdi = selectedRow.Cells["Urun Adi"].Value?.ToString();
+            var siparisNo = selectedRow.Cells["Siparis No"].Value?.ToString();
+            var hataliMiktar = selectedRow.Cells["Hatalı Miktar"].Value?.ToString();
+            var adet = selectedRow.Cells["Adet"].Value?.ToString();
+            var toplamMiktar = selectedRow.Cells["Toplam Miktar"].Value?.ToString();
+            var tarih = selectedRow.Cells["Tarih"].Value?.ToString();
+            var kayipZaman = selectedRow.Cells["Kayıp Zaman"].Value?.ToString();
+            var zamanTuru = selectedRow.Cells["Zaman Türü"].Value?.ToString();
+            var hataTipi = selectedRow.Cells["Hata Tipi"].Value?.ToString();
+            var aciklama = selectedRow.Cells["Aciklama"].Value?.ToString();
+            var tedarikci = selectedRow.Cells["Tedarikçi"].Value?.ToString();
+            var ozet = selectedRow.Cells["Ozet"].Value?.ToString();
+            var hataBolumu = selectedRow.Cells["Hata Bolumu"].Value?.ToString();
+            var raporuHazirlayan = selectedRow.Cells["Raporu Hazirlayan"].Value?.ToString();
+            var hatayiBulanBirim = selectedRow.Cells["Hatayı Bulan Birim"].Value?.ToString();
+            var kokNeden = selectedRow.Cells["Kök Neden"].Value?.ToString();
+            var aksiyon = selectedRow.Cells["Aksiyon"].Value?.ToString();
+            var sonuc = selectedRow.Cells["Sonuç"].Value?.ToString();
+            var degerlendiren = selectedRow.Cells["Değerlendiren"].Value?.ToString();
+            var kokNedenAksiyon = selectedRow.Cells["Kök Neden Aksiyon"].Value?.ToString();
+            var resim = selectedRow.Cells["Resim"].Value?.ToString();
+            var kapanisTarihi = selectedRow.Cells["Kapanış Tarihi"].Value?.ToString();
+            var terminTarihi = selectedRow.Cells["Termin Tarihi"].Value?.ToString();
+            var urunTipi = selectedRow.Cells["Ürün Tipi"].Value?.ToString();
+            var duzelticiFaaliyetVarMi = selectedRow.Cells["Düzeltici Faaliyet Var Mı?"].Value?.ToString();
+            var durum = selectedRow.Cells["Durum"].Value?.ToString();
+
+            // Excel işlemleri
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+
+            try
+            {
+                // Excel dosyasının yolu
+                string excelFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Dosyalar", "UygunOlmayanUrunRaporu.xlsx");
+
+                if (!File.Exists(excelFilePath))
+                {
+                    MessageBox.Show("Excel dosyası bulunamadı!", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                using (var package = new ExcelPackage(new FileInfo(excelFilePath)))
+                {
+                    var worksheet = package.Workbook.Worksheets["FR.87.01 (R1)"];
+                    if (worksheet == null)
+                    {
+                        MessageBox.Show("Çalışma sayfası bulunamadı!", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    // Ürün tipi işaretleme
+                    if (urunTipi == "Ham Malzeme") worksheet.Cells["A9"].Value = "X";
+                    else if (urunTipi == "Standart Malzeme") worksheet.Cells["D9"].Value = "X";
+                    else if (urunTipi == "Yarı Mamul") worksheet.Cells["H9"].Value = "X";
+                    else if (urunTipi == "Bitmiş Ürün") worksheet.Cells["K9"].Value = "X";
+
+                    // Verileri Excel'e yaz
+                    worksheet.Cells["A4"].Value = $"Ürün Kodu: {urunKodu}";
+                    worksheet.Cells["E4"].Value = $"Ürün Adı: {urunAdi}";
+                    worksheet.Cells["J4"].Value = $"Sipariş No/Proje Kodu: {siparisNo}";
+                    worksheet.Cells["A5"].Value = $"Hatalı Miktar: {hataliMiktar}";
+                    worksheet.Cells["E5"].Value = $"Toplam Miktar: {toplamMiktar}";
+                    worksheet.Cells["K5"].Value = $"İşlem Kayıp Zamanı: {kayipZaman}";
+                    worksheet.Cells["A6"].Value = $"Tespit Eden Bölüm: {hatayiBulanBirim}";
+                    worksheet.Cells["A7"].Value = $"Dış Tedarikçi veya Uygun Olmayan Ürünün Oluştuğu Bölüm: {hataBolumu}";
+                    worksheet.Cells["A25"].Value = $"Raporu Hazırlayan: {raporuHazirlayan}";
+
+                    // Açıklamalar için hücreleri birleştir ve metni ayarla
+                    worksheet.Cells["A16"].Value = $"Hatanın Tanımı: {aciklama}";
+                    worksheet.Cells["A21"].Value =  $"Hatanın Kök Nedeni: {kokNeden}";
+                    worksheet.Cells["A29"].Value =  $"DEĞERLENDİRME - YAPILACAK FAALİYETLER: {aksiyon}";
+                    worksheet.Cells["A41"].Value =  $"DEĞERLENDİRME NOTLARI / SONUÇ: {sonuc}";
+                    worksheet.Cells["A46"].Value = $"Düzeltici Faaliyet Gerekiyor: {duzelticiFaaliyetVarMi}";
+
+                    // Dosyayı kaydet
+                    package.Save();
+                }
+
+                // Dosyayı aç
+                Process.Start(new ProcessStartInfo(excelFilePath) { UseShellExecute = true });
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Bir hata oluştu: {ex.Message}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        // Hücre birleştirme ve metin ekleme fonksiyonu
+        private void MergeAndSetCell(ExcelWorksheet worksheet, string range, string text)
+        {
+            worksheet.Cells[range].Merge = true;
+            worksheet.Cells[range].Style.WrapText = true;
+            worksheet.Cells[range].Value = text;
+        }
+
     }
 }
