@@ -35,6 +35,7 @@
             eXCELÇEKToolStripMenuItem = new ToolStripMenuItem();
             ePOSTAGÖNDERToolStripMenuItem = new ToolStripMenuItem();
             lİSTEYİEXCELEAKTARToolStripMenuItem = new ToolStripMenuItem();
+            gERİDÖNToolStripMenuItem = new ToolStripMenuItem();
             lİSTEToolStripMenuItem = new ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)advancedDataGridView1).BeginInit();
             menuStrip1.SuspendLayout();
@@ -75,7 +76,7 @@
             // 
             // fORMToolStripMenuItem
             // 
-            fORMToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { eXCELÇEKToolStripMenuItem, ePOSTAGÖNDERToolStripMenuItem, lİSTEYİEXCELEAKTARToolStripMenuItem });
+            fORMToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { eXCELÇEKToolStripMenuItem, ePOSTAGÖNDERToolStripMenuItem, lİSTEYİEXCELEAKTARToolStripMenuItem, gERİDÖNToolStripMenuItem });
             fORMToolStripMenuItem.Image = (Image)resources.GetObject("fORMToolStripMenuItem.Image");
             fORMToolStripMenuItem.Name = "fORMToolStripMenuItem";
             fORMToolStripMenuItem.Size = new Size(92, 24);
@@ -104,6 +105,14 @@
             lİSTEYİEXCELEAKTARToolStripMenuItem.Size = new Size(253, 26);
             lİSTEYİEXCELEAKTARToolStripMenuItem.Text = "LİSTEYİ EXCELE AKTAR";
             lİSTEYİEXCELEAKTARToolStripMenuItem.Click += lİSTEYİEXCELEAKTARToolStripMenuItem_Click;
+            // 
+            // gERİDÖNToolStripMenuItem
+            // 
+            gERİDÖNToolStripMenuItem.Image = (Image)resources.GetObject("gERİDÖNToolStripMenuItem.Image");
+            gERİDÖNToolStripMenuItem.Name = "gERİDÖNToolStripMenuItem";
+            gERİDÖNToolStripMenuItem.Size = new Size(253, 26);
+            gERİDÖNToolStripMenuItem.Text = "GERİ DÖN";
+            gERİDÖNToolStripMenuItem.Click += gERİDÖNToolStripMenuItem_Click;
             // 
             // lİSTEToolStripMenuItem
             // 
@@ -139,5 +148,6 @@
         private ToolStripMenuItem ePOSTAGÖNDERToolStripMenuItem;
         private ToolStripMenuItem lİSTEYİEXCELEAKTARToolStripMenuItem;
         private ToolStripMenuItem lİSTEToolStripMenuItem;
+        private ToolStripMenuItem gERİDÖNToolStripMenuItem;
     }
 }

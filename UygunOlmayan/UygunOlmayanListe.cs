@@ -471,9 +471,9 @@ namespace UygunOlmayan
 
                     // Açıklamalar için hücreleri birleştir ve metni ayarla
                     worksheet.Cells["A16"].Value = $"Hatanın Tanımı: {aciklama}";
-                    worksheet.Cells["A21"].Value =  $"Hatanın Kök Nedeni: {kokNeden}";
-                    worksheet.Cells["A29"].Value =  $"DEĞERLENDİRME - YAPILACAK FAALİYETLER: {aksiyon}";
-                    worksheet.Cells["A41"].Value =  $"DEĞERLENDİRME NOTLARI / SONUÇ: {sonuc}";
+                    worksheet.Cells["A21"].Value = $"Hatanın Kök Nedeni: {kokNeden}";
+                    worksheet.Cells["A29"].Value = $"DEĞERLENDİRME - YAPILACAK FAALİYETLER: {aksiyon}";
+                    worksheet.Cells["A41"].Value = $"DEĞERLENDİRME NOTLARI / SONUÇ: {sonuc}";
                     worksheet.Cells["A46"].Value = $"Düzeltici Faaliyet Gerekiyor: {duzelticiFaaliyetVarMi}";
 
                     // Dosyayı kaydet
@@ -496,5 +496,11 @@ namespace UygunOlmayan
             worksheet.Cells[range].Value = text;
         }
 
+        private void gERİDÖNToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            UygunOlmayanDurum UGOD=new UygunOlmayanDurum();
+            UGOD.Show();
+            this.Close();
+        }
     }
 }

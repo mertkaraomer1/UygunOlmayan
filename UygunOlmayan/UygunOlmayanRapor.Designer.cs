@@ -32,6 +32,7 @@
             toolStrip1 = new ToolStrip();
             toolStripLabel1 = new ToolStripLabel();
             toolStripButton1 = new ToolStripButton();
+            toolStripButton2 = new ToolStripButton();
             advancedDataGridView1 = new Zuby.ADGV.AdvancedDataGridView();
             toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)advancedDataGridView1).BeginInit();
@@ -41,7 +42,7 @@
             // 
             toolStrip1.BackColor = Color.DimGray;
             toolStrip1.ImageScalingSize = new Size(20, 20);
-            toolStrip1.Items.AddRange(new ToolStripItem[] { toolStripLabel1, toolStripButton1 });
+            toolStrip1.Items.AddRange(new ToolStripItem[] { toolStripLabel1, toolStripButton1, toolStripButton2 });
             toolStrip1.Location = new Point(0, 0);
             toolStrip1.Name = "toolStrip1";
             toolStrip1.Size = new Size(1902, 27);
@@ -62,6 +63,16 @@
             toolStripButton1.Size = new Size(29, 24);
             toolStripButton1.Text = "toolStripButton1";
             toolStripButton1.Click += toolStripButton1_Click;
+            // 
+            // toolStripButton2
+            // 
+            toolStripButton2.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            toolStripButton2.Image = (Image)resources.GetObject("toolStripButton2.Image");
+            toolStripButton2.ImageTransparentColor = Color.Magenta;
+            toolStripButton2.Name = "toolStripButton2";
+            toolStripButton2.Size = new Size(29, 24);
+            toolStripButton2.Text = "toolStripButton2";
+            toolStripButton2.Click += toolStripButton2_Click;
             // 
             // advancedDataGridView1
             // 
@@ -110,5 +121,6 @@
         private ToolStripLabel toolStripLabel1;
         private ToolStripButton toolStripButton1;
         private Zuby.ADGV.AdvancedDataGridView advancedDataGridView1;
+        private ToolStripButton toolStripButton2;
     }
 }

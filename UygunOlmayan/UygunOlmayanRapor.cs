@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using UygunOlmayan.MyDb;
+using UygunOlmayan.Tables;
 
 namespace UygunOlmayan
 {
@@ -16,7 +17,7 @@ namespace UygunOlmayan
     {
         MyDbContext dbContext;
         public UygunOlmayanRapor()
-        { 
+        {
             dbContext = new MyDbContext();
             InitializeComponent();
         }
@@ -108,16 +109,22 @@ namespace UygunOlmayan
                     urun.HataBolumu, urun.RaporuHazirlayan, urun.HatayıBulanBirim, urun.KokNeden,
                     urun.Aksiyon, urun.Sonuc, urun.Degerlendiren, urun.KokNedenAksiyon,
                     urun.Resim, urun.KapanısTarihi, urun.TerminTarihi, urun.uruntipi,
-                    urun.DuzelticiFaliyetDurum,urun.urunimza
+                    urun.DuzelticiFaliyetDurum, urun.urunimza
                 );
             }
-
             // DataTable'ı DataGridView'e bağla
             advancedDataGridView1.DataSource = table;
         }
         private void UygunOlmayanRapor_Load(object sender, EventArgs e)
         {
             UygunOlmayanVol1();
+        }
+
+        private void toolStripButton2_Click(object sender, EventArgs e)
+        {
+            UygunOlmayanDurum UGOD = new UygunOlmayanDurum();
+            UGOD.Show();
+            this.Close();
         }
     }
 }

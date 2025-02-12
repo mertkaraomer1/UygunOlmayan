@@ -571,6 +571,7 @@ namespace UygunOlmayan.Tables
         {
             UygunOlmayanListe ul = new UygunOlmayanListe();
             ul.Show();
+            this.Hide();
         }
 
         private void rAPORToolStripMenuItem_Click(object sender, EventArgs e)
