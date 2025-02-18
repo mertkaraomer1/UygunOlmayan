@@ -178,6 +178,7 @@ namespace UygunOlmayan
                 UOD.LoadImageFromBytes(resim);
                 UOD.uruntipi1 = uruntipi2;
                 UOD.DuzelticiFaliyetDurum1 = DuzelticiFaliyetDurum2;
+                UOD.ButtonGuncelle = true;
 
                 // Formu göster
                 UOD.Show();
