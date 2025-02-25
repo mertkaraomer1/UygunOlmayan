@@ -30,6 +30,36 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UygunOlmayanDurum));
             groupBox1 = new GroupBox();
+            groupBox25 = new GroupBox();
+            groupBox12 = new GroupBox();
+            textBox1 = new TextBox();
+            groupBox11 = new GroupBox();
+            textBox2 = new TextBox();
+            groupBox2 = new GroupBox();
+            textBox11 = new TextBox();
+            groupBox19 = new GroupBox();
+            comboBox1 = new ComboBox();
+            groupBox22 = new GroupBox();
+            textBox16 = new TextBox();
+            groupBox10 = new GroupBox();
+            textBox3 = new TextBox();
+            groupBox23 = new GroupBox();
+            textBox17 = new TextBox();
+            groupBox8 = new GroupBox();
+            comboBox4 = new ComboBox();
+            groupBox3 = new GroupBox();
+            comboBox3 = new ComboBox();
+            groupBox6 = new GroupBox();
+            textBox7 = new TextBox();
+            button1 = new Button();
+            groupBox5 = new GroupBox();
+            groupBox17 = new GroupBox();
+            textBox13 = new TextBox();
+            comboBox2 = new ComboBox();
+            groupBox4 = new GroupBox();
+            textBox9 = new TextBox();
+            groupBox9 = new GroupBox();
+            textBox4 = new TextBox();
             groupBox21 = new GroupBox();
             groupBox24 = new GroupBox();
             comboBox5 = new ComboBox();
@@ -49,36 +79,7 @@
             groupBox7 = new GroupBox();
             textBox5 = new TextBox();
             button5 = new Button();
-            groupBox19 = new GroupBox();
-            comboBox1 = new ComboBox();
-            groupBox23 = new GroupBox();
-            textBox17 = new TextBox();
             pictureBox1 = new PictureBox();
-            groupBox22 = new GroupBox();
-            textBox16 = new TextBox();
-            button1 = new Button();
-            groupBox12 = new GroupBox();
-            textBox1 = new TextBox();
-            groupBox9 = new GroupBox();
-            textBox4 = new TextBox();
-            groupBox4 = new GroupBox();
-            textBox9 = new TextBox();
-            groupBox5 = new GroupBox();
-            groupBox17 = new GroupBox();
-            textBox13 = new TextBox();
-            comboBox2 = new ComboBox();
-            groupBox6 = new GroupBox();
-            textBox7 = new TextBox();
-            groupBox3 = new GroupBox();
-            comboBox3 = new ComboBox();
-            groupBox8 = new GroupBox();
-            comboBox4 = new ComboBox();
-            groupBox10 = new GroupBox();
-            textBox3 = new TextBox();
-            groupBox2 = new GroupBox();
-            textBox11 = new TextBox();
-            groupBox11 = new GroupBox();
-            textBox2 = new TextBox();
             menuStrip1 = new MenuStrip();
             fORMToolStripMenuItem = new ToolStripMenuItem();
             eXCELÇEKToolStripMenuItem = new ToolStripMenuItem();
@@ -88,8 +89,22 @@
             vERİGÖRÜNTÜLÜMEToolStripMenuItem = new ToolStripMenuItem();
             lİSTEToolStripMenuItem1 = new ToolStripMenuItem();
             rAPORToolStripMenuItem = new ToolStripMenuItem();
-            groupBox25 = new GroupBox();
             groupBox1.SuspendLayout();
+            groupBox25.SuspendLayout();
+            groupBox12.SuspendLayout();
+            groupBox11.SuspendLayout();
+            groupBox2.SuspendLayout();
+            groupBox19.SuspendLayout();
+            groupBox22.SuspendLayout();
+            groupBox10.SuspendLayout();
+            groupBox23.SuspendLayout();
+            groupBox8.SuspendLayout();
+            groupBox3.SuspendLayout();
+            groupBox6.SuspendLayout();
+            groupBox5.SuspendLayout();
+            groupBox17.SuspendLayout();
+            groupBox4.SuspendLayout();
+            groupBox9.SuspendLayout();
             groupBox21.SuspendLayout();
             groupBox24.SuspendLayout();
             groupBox20.SuspendLayout();
@@ -99,23 +114,8 @@
             groupBox13.SuspendLayout();
             groupBox16.SuspendLayout();
             groupBox7.SuspendLayout();
-            groupBox19.SuspendLayout();
-            groupBox23.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
-            groupBox22.SuspendLayout();
-            groupBox12.SuspendLayout();
-            groupBox9.SuspendLayout();
-            groupBox4.SuspendLayout();
-            groupBox5.SuspendLayout();
-            groupBox17.SuspendLayout();
-            groupBox6.SuspendLayout();
-            groupBox3.SuspendLayout();
-            groupBox8.SuspendLayout();
-            groupBox10.SuspendLayout();
-            groupBox2.SuspendLayout();
-            groupBox11.SuspendLayout();
             menuStrip1.SuspendLayout();
-            groupBox25.SuspendLayout();
             SuspendLayout();
             // 
             // groupBox1
@@ -125,11 +125,307 @@
             groupBox1.Controls.Add(button5);
             groupBox1.Controls.Add(pictureBox1);
             groupBox1.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            groupBox1.Location = new Point(33, 54);
+            groupBox1.Location = new Point(12, 40);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(1843, 920);
+            groupBox1.Size = new Size(1628, 920);
             groupBox1.TabIndex = 49;
             groupBox1.TabStop = false;
+            // 
+            // groupBox25
+            // 
+            groupBox25.Controls.Add(groupBox12);
+            groupBox25.Controls.Add(groupBox11);
+            groupBox25.Controls.Add(groupBox2);
+            groupBox25.Controls.Add(groupBox19);
+            groupBox25.Controls.Add(groupBox22);
+            groupBox25.Controls.Add(groupBox10);
+            groupBox25.Controls.Add(groupBox23);
+            groupBox25.Controls.Add(groupBox8);
+            groupBox25.Controls.Add(groupBox3);
+            groupBox25.Controls.Add(groupBox6);
+            groupBox25.Controls.Add(button1);
+            groupBox25.Controls.Add(groupBox5);
+            groupBox25.Controls.Add(groupBox4);
+            groupBox25.Controls.Add(groupBox9);
+            groupBox25.Location = new Point(6, 26);
+            groupBox25.Name = "groupBox25";
+            groupBox25.Size = new Size(736, 770);
+            groupBox25.TabIndex = 52;
+            groupBox25.TabStop = false;
+            groupBox25.Text = "UYGUN OLMAYAN FORMU 1.BÖLÜM";
+            // 
+            // groupBox12
+            // 
+            groupBox12.Controls.Add(textBox1);
+            groupBox12.Location = new Point(35, 110);
+            groupBox12.Name = "groupBox12";
+            groupBox12.Size = new Size(274, 65);
+            groupBox12.TabIndex = 46;
+            groupBox12.TabStop = false;
+            groupBox12.Text = "Ürün Kodu";
+            // 
+            // textBox1
+            // 
+            textBox1.Location = new Point(6, 26);
+            textBox1.MaxLength = 50;
+            textBox1.Name = "textBox1";
+            textBox1.Size = new Size(250, 27);
+            textBox1.TabIndex = 11;
+            textBox1.TextChanged += textBox1_TextChanged;
+            // 
+            // groupBox11
+            // 
+            groupBox11.Controls.Add(textBox2);
+            groupBox11.Location = new Point(35, 189);
+            groupBox11.Name = "groupBox11";
+            groupBox11.Size = new Size(274, 61);
+            groupBox11.TabIndex = 45;
+            groupBox11.TabStop = false;
+            groupBox11.Text = "Ürün Adı";
+            // 
+            // textBox2
+            // 
+            textBox2.Location = new Point(12, 22);
+            textBox2.MaxLength = 50;
+            textBox2.Name = "textBox2";
+            textBox2.Size = new Size(250, 27);
+            textBox2.TabIndex = 12;
+            // 
+            // groupBox2
+            // 
+            groupBox2.Controls.Add(textBox11);
+            groupBox2.Location = new Point(35, 619);
+            groupBox2.Name = "groupBox2";
+            groupBox2.Size = new Size(274, 68);
+            groupBox2.TabIndex = 33;
+            groupBox2.TabStop = false;
+            groupBox2.Text = "Raporu Hazırlayan";
+            // 
+            // textBox11
+            // 
+            textBox11.Location = new Point(6, 26);
+            textBox11.MaxLength = 50;
+            textBox11.Name = "textBox11";
+            textBox11.Size = new Size(250, 27);
+            textBox11.TabIndex = 21;
+            // 
+            // groupBox19
+            // 
+            groupBox19.Controls.Add(comboBox1);
+            groupBox19.Location = new Point(430, 278);
+            groupBox19.Name = "groupBox19";
+            groupBox19.Size = new Size(280, 70);
+            groupBox19.TabIndex = 45;
+            groupBox19.TabStop = false;
+            groupBox19.Text = "Ürün Tipi";
+            // 
+            // comboBox1
+            // 
+            comboBox1.FormattingEnabled = true;
+            comboBox1.Items.AddRange(new object[] { "Ham Malzeme", "Standart Malzeme", "Yarı Mamul", "Bitmiş Ürün" });
+            comboBox1.Location = new Point(6, 26);
+            comboBox1.Name = "comboBox1";
+            comboBox1.Size = new Size(262, 28);
+            comboBox1.TabIndex = 12;
+            comboBox1.Text = "Birim Seçiniz...";
+            // 
+            // groupBox22
+            // 
+            groupBox22.Controls.Add(textBox16);
+            groupBox22.Location = new Point(29, 37);
+            groupBox22.Name = "groupBox22";
+            groupBox22.Size = new Size(693, 65);
+            groupBox22.TabIndex = 47;
+            groupBox22.TabStop = false;
+            groupBox22.Text = "Ürün ID";
+            // 
+            // textBox16
+            // 
+            textBox16.Enabled = false;
+            textBox16.Location = new Point(6, 26);
+            textBox16.MaxLength = 50;
+            textBox16.Name = "textBox16";
+            textBox16.Size = new Size(675, 27);
+            textBox16.TabIndex = 11;
+            // 
+            // groupBox10
+            // 
+            groupBox10.Controls.Add(textBox3);
+            groupBox10.Location = new Point(35, 278);
+            groupBox10.Name = "groupBox10";
+            groupBox10.Size = new Size(274, 69);
+            groupBox10.TabIndex = 44;
+            groupBox10.TabStop = false;
+            groupBox10.Text = "Sipariş No/Proje No";
+            // 
+            // textBox3
+            // 
+            textBox3.Location = new Point(6, 26);
+            textBox3.MaxLength = 50;
+            textBox3.Name = "textBox3";
+            textBox3.Size = new Size(250, 27);
+            textBox3.TabIndex = 13;
+            // 
+            // groupBox23
+            // 
+            groupBox23.Controls.Add(textBox17);
+            groupBox23.Location = new Point(430, 189);
+            groupBox23.Name = "groupBox23";
+            groupBox23.Size = new Size(280, 70);
+            groupBox23.TabIndex = 44;
+            groupBox23.TabStop = false;
+            groupBox23.Text = "Toplam Miktar";
+            // 
+            // textBox17
+            // 
+            textBox17.Location = new Point(6, 26);
+            textBox17.Name = "textBox17";
+            textBox17.Size = new Size(268, 27);
+            textBox17.TabIndex = 14;
+            // 
+            // groupBox8
+            // 
+            groupBox8.Controls.Add(comboBox4);
+            groupBox8.Location = new Point(430, 591);
+            groupBox8.Name = "groupBox8";
+            groupBox8.Size = new Size(280, 55);
+            groupBox8.TabIndex = 34;
+            groupBox8.TabStop = false;
+            groupBox8.Text = "Hatayı Bulan Bölüm";
+            // 
+            // comboBox4
+            // 
+            comboBox4.FormattingEnabled = true;
+            comboBox4.Items.AddRange(new object[] { "Montaj", "İmalat", "Tasarım", "Kalite", "Satın Alma" });
+            comboBox4.Location = new Point(6, 19);
+            comboBox4.Name = "comboBox4";
+            comboBox4.Size = new Size(262, 28);
+            comboBox4.TabIndex = 11;
+            comboBox4.Text = "Birim Seçiniz...";
+            // 
+            // groupBox3
+            // 
+            groupBox3.Controls.Add(comboBox3);
+            groupBox3.Location = new Point(430, 652);
+            groupBox3.Name = "groupBox3";
+            groupBox3.Size = new Size(280, 62);
+            groupBox3.TabIndex = 36;
+            groupBox3.TabStop = false;
+            groupBox3.Text = "Hatanı Oluştuğu Bölümü";
+            // 
+            // comboBox3
+            // 
+            comboBox3.FormattingEnabled = true;
+            comboBox3.Items.AddRange(new object[] { "Montaj", "Tasarım", "İmalat", "Otomasyon", "Satınalma", "Planlama", "Kalite Kontrol", "Fabrika Müdürü", "Satış Sonrası", "Muhasebe" });
+            comboBox3.Location = new Point(6, 26);
+            comboBox3.Name = "comboBox3";
+            comboBox3.Size = new Size(262, 28);
+            comboBox3.TabIndex = 10;
+            comboBox3.Text = "Hata Bölümü seçiniz...";
+            // 
+            // groupBox6
+            // 
+            groupBox6.Controls.Add(textBox7);
+            groupBox6.Location = new Point(430, 108);
+            groupBox6.Name = "groupBox6";
+            groupBox6.Size = new Size(280, 67);
+            groupBox6.TabIndex = 42;
+            groupBox6.TabStop = false;
+            groupBox6.Text = "Kayıp Zaman";
+            // 
+            // textBox7
+            // 
+            textBox7.Location = new Point(6, 26);
+            textBox7.Name = "textBox7";
+            textBox7.Size = new Size(268, 27);
+            textBox7.TabIndex = 17;
+            // 
+            // button1
+            // 
+            button1.Location = new Point(47, 693);
+            button1.Name = "button1";
+            button1.Size = new Size(235, 61);
+            button1.TabIndex = 48;
+            button1.Text = "Kaydet";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
+            // 
+            // groupBox5
+            // 
+            groupBox5.Controls.Add(groupBox17);
+            groupBox5.Controls.Add(comboBox2);
+            groupBox5.Location = new Point(35, 459);
+            groupBox5.Name = "groupBox5";
+            groupBox5.Size = new Size(274, 144);
+            groupBox5.TabIndex = 40;
+            groupBox5.TabStop = false;
+            groupBox5.Text = "Hata Tipi";
+            // 
+            // groupBox17
+            // 
+            groupBox17.Controls.Add(textBox13);
+            groupBox17.Location = new Point(6, 71);
+            groupBox17.Name = "groupBox17";
+            groupBox17.Size = new Size(256, 67);
+            groupBox17.TabIndex = 42;
+            groupBox17.TabStop = false;
+            groupBox17.Text = "Tedarikçi";
+            groupBox17.Visible = false;
+            // 
+            // textBox13
+            // 
+            textBox13.Location = new Point(6, 26);
+            textBox13.MaxLength = 50;
+            textBox13.Name = "textBox13";
+            textBox13.Size = new Size(228, 27);
+            textBox13.TabIndex = 19;
+            // 
+            // comboBox2
+            // 
+            comboBox2.FormattingEnabled = true;
+            comboBox2.Items.AddRange(new object[] { "Parça Ölçü Hatası | İmalat kaynaklı", "Parça Ölçü Hatası | Resim kaynaklı", "Parça Uygunsuzluğu | Eksik proses", "Parça Uygunsuzluğu | Yanlış proses", "Eksik Malzeme ", "Direk Satınalma-Component", "Montaj Hataları", "Fason Satınalma" });
+            comboBox2.Location = new Point(6, 26);
+            comboBox2.Name = "comboBox2";
+            comboBox2.Size = new Size(250, 28);
+            comboBox2.TabIndex = 8;
+            comboBox2.Text = "Hata tipi Seçiniz...";
+            comboBox2.SelectedIndexChanged += comboBox2_SelectedIndexChanged;
+            // 
+            // groupBox4
+            // 
+            groupBox4.Controls.Add(textBox9);
+            groupBox4.Location = new Point(430, 369);
+            groupBox4.Name = "groupBox4";
+            groupBox4.Size = new Size(280, 216);
+            groupBox4.TabIndex = 37;
+            groupBox4.TabStop = false;
+            groupBox4.Text = "Açıklama";
+            // 
+            // textBox9
+            // 
+            textBox9.Location = new Point(6, 26);
+            textBox9.MaxLength = 250;
+            textBox9.Multiline = true;
+            textBox9.Name = "textBox9";
+            textBox9.Size = new Size(268, 184);
+            textBox9.TabIndex = 19;
+            // 
+            // groupBox9
+            // 
+            groupBox9.Controls.Add(textBox4);
+            groupBox9.Location = new Point(35, 372);
+            groupBox9.Name = "groupBox9";
+            groupBox9.Size = new Size(274, 70);
+            groupBox9.TabIndex = 43;
+            groupBox9.TabStop = false;
+            groupBox9.Text = "Hatalı Miktar";
+            // 
+            // textBox4
+            // 
+            textBox4.Location = new Point(6, 26);
+            textBox4.Name = "textBox4";
+            textBox4.Size = new Size(250, 27);
+            textBox4.TabIndex = 14;
             // 
             // groupBox21
             // 
@@ -144,7 +440,7 @@
             groupBox21.Controls.Add(groupBox16);
             groupBox21.Controls.Add(groupBox7);
             groupBox21.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 162);
-            groupBox21.Location = new Point(953, 26);
+            groupBox21.Location = new Point(818, 26);
             groupBox21.Name = "groupBox21";
             groupBox21.Size = new Size(804, 603);
             groupBox21.TabIndex = 50;
@@ -315,7 +611,7 @@
             // 
             button5.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             button5.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 162);
-            button5.Location = new Point(1769, 829);
+            button5.Location = new Point(773, 635);
             button5.Name = "button5";
             button5.Size = new Size(39, 29);
             button5.TabIndex = 20;
@@ -323,289 +619,16 @@
             button5.UseVisualStyleBackColor = true;
             button5.Click += button5_Click;
             // 
-            // groupBox19
-            // 
-            groupBox19.Controls.Add(comboBox1);
-            groupBox19.Location = new Point(430, 293);
-            groupBox19.Name = "groupBox19";
-            groupBox19.Size = new Size(280, 70);
-            groupBox19.TabIndex = 45;
-            groupBox19.TabStop = false;
-            groupBox19.Text = "Ürün Tipi";
-            // 
-            // comboBox1
-            // 
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Items.AddRange(new object[] { "Ham Malzeme", "Standart Malzeme", "Yarı Mamul", "Bitmiş Ürün" });
-            comboBox1.Location = new Point(6, 26);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(262, 28);
-            comboBox1.TabIndex = 12;
-            comboBox1.Text = "Birim Seçiniz...";
-            // 
-            // groupBox23
-            // 
-            groupBox23.Controls.Add(textBox17);
-            groupBox23.Location = new Point(430, 189);
-            groupBox23.Name = "groupBox23";
-            groupBox23.Size = new Size(280, 70);
-            groupBox23.TabIndex = 44;
-            groupBox23.TabStop = false;
-            groupBox23.Text = "Toplam Miktar";
-            // 
-            // textBox17
-            // 
-            textBox17.Location = new Point(6, 26);
-            textBox17.Name = "textBox17";
-            textBox17.Size = new Size(268, 27);
-            textBox17.TabIndex = 14;
-            // 
             // pictureBox1
             // 
             pictureBox1.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            pictureBox1.Location = new Point(953, 635);
+            pictureBox1.Location = new Point(818, 635);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(804, 278);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox1.TabIndex = 51;
             pictureBox1.TabStop = false;
             pictureBox1.DoubleClick += pictureBox1_DoubleClick;
-            // 
-            // groupBox22
-            // 
-            groupBox22.Controls.Add(textBox16);
-            groupBox22.Location = new Point(29, 37);
-            groupBox22.Name = "groupBox22";
-            groupBox22.Size = new Size(693, 65);
-            groupBox22.TabIndex = 47;
-            groupBox22.TabStop = false;
-            groupBox22.Text = "Ürün ID";
-            // 
-            // textBox16
-            // 
-            textBox16.Enabled = false;
-            textBox16.Location = new Point(6, 26);
-            textBox16.MaxLength = 50;
-            textBox16.Name = "textBox16";
-            textBox16.Size = new Size(675, 27);
-            textBox16.TabIndex = 11;
-            // 
-            // button1
-            // 
-            button1.Location = new Point(56, 797);
-            button1.Name = "button1";
-            button1.Size = new Size(235, 61);
-            button1.TabIndex = 48;
-            button1.Text = "Kaydet";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
-            // 
-            // groupBox12
-            // 
-            groupBox12.Controls.Add(textBox1);
-            groupBox12.Location = new Point(35, 110);
-            groupBox12.Name = "groupBox12";
-            groupBox12.Size = new Size(274, 65);
-            groupBox12.TabIndex = 46;
-            groupBox12.TabStop = false;
-            groupBox12.Text = "Ürün Kodu";
-            // 
-            // textBox1
-            // 
-            textBox1.Location = new Point(6, 26);
-            textBox1.MaxLength = 50;
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(250, 27);
-            textBox1.TabIndex = 11;
-            textBox1.TextChanged += textBox1_TextChanged;
-            // 
-            // groupBox9
-            // 
-            groupBox9.Controls.Add(textBox4);
-            groupBox9.Location = new Point(35, 372);
-            groupBox9.Name = "groupBox9";
-            groupBox9.Size = new Size(274, 70);
-            groupBox9.TabIndex = 43;
-            groupBox9.TabStop = false;
-            groupBox9.Text = "Hatalı Miktar";
-            // 
-            // textBox4
-            // 
-            textBox4.Location = new Point(6, 26);
-            textBox4.Name = "textBox4";
-            textBox4.Size = new Size(250, 27);
-            textBox4.TabIndex = 14;
-            // 
-            // groupBox4
-            // 
-            groupBox4.Controls.Add(textBox9);
-            groupBox4.Location = new Point(430, 387);
-            groupBox4.Name = "groupBox4";
-            groupBox4.Size = new Size(280, 273);
-            groupBox4.TabIndex = 37;
-            groupBox4.TabStop = false;
-            groupBox4.Text = "Açıklama";
-            // 
-            // textBox9
-            // 
-            textBox9.Location = new Point(6, 26);
-            textBox9.MaxLength = 250;
-            textBox9.Multiline = true;
-            textBox9.Name = "textBox9";
-            textBox9.Size = new Size(268, 241);
-            textBox9.TabIndex = 19;
-            // 
-            // groupBox5
-            // 
-            groupBox5.Controls.Add(groupBox17);
-            groupBox5.Controls.Add(comboBox2);
-            groupBox5.Location = new Point(35, 496);
-            groupBox5.Name = "groupBox5";
-            groupBox5.Size = new Size(274, 144);
-            groupBox5.TabIndex = 40;
-            groupBox5.TabStop = false;
-            groupBox5.Text = "Hata Tipi";
-            // 
-            // groupBox17
-            // 
-            groupBox17.Controls.Add(textBox13);
-            groupBox17.Location = new Point(6, 71);
-            groupBox17.Name = "groupBox17";
-            groupBox17.Size = new Size(256, 67);
-            groupBox17.TabIndex = 42;
-            groupBox17.TabStop = false;
-            groupBox17.Text = "Tedarikçi";
-            groupBox17.Visible = false;
-            // 
-            // textBox13
-            // 
-            textBox13.Location = new Point(6, 26);
-            textBox13.MaxLength = 50;
-            textBox13.Name = "textBox13";
-            textBox13.Size = new Size(228, 27);
-            textBox13.TabIndex = 19;
-            // 
-            // comboBox2
-            // 
-            comboBox2.FormattingEnabled = true;
-            comboBox2.Items.AddRange(new object[] { "Parça Ölçü Hatası | İmalat kaynaklı", "Parça Ölçü Hatası | Resim kaynaklı", "Parça Uygunsuzluğu | Eksik proses", "Parça Uygunsuzluğu | Yanlış proses", "Eksik Malzeme ", "Direk Satınalma-Component", "Montaj Hataları", "Fason Satınalma" });
-            comboBox2.Location = new Point(6, 26);
-            comboBox2.Name = "comboBox2";
-            comboBox2.Size = new Size(250, 28);
-            comboBox2.TabIndex = 8;
-            comboBox2.Text = "Hata tipi Seçiniz...";
-            comboBox2.SelectedIndexChanged += comboBox2_SelectedIndexChanged;
-            // 
-            // groupBox6
-            // 
-            groupBox6.Controls.Add(textBox7);
-            groupBox6.Location = new Point(430, 108);
-            groupBox6.Name = "groupBox6";
-            groupBox6.Size = new Size(280, 67);
-            groupBox6.TabIndex = 42;
-            groupBox6.TabStop = false;
-            groupBox6.Text = "Kayıp Zaman";
-            // 
-            // textBox7
-            // 
-            textBox7.Location = new Point(6, 26);
-            textBox7.Name = "textBox7";
-            textBox7.Size = new Size(268, 27);
-            textBox7.TabIndex = 17;
-            // 
-            // groupBox3
-            // 
-            groupBox3.Controls.Add(comboBox3);
-            groupBox3.Location = new Point(430, 765);
-            groupBox3.Name = "groupBox3";
-            groupBox3.Size = new Size(280, 62);
-            groupBox3.TabIndex = 36;
-            groupBox3.TabStop = false;
-            groupBox3.Text = "Hatanı Oluştuğu Bölümü";
-            // 
-            // comboBox3
-            // 
-            comboBox3.FormattingEnabled = true;
-            comboBox3.Items.AddRange(new object[] { "Montaj", "Tasarım", "İmalat", "Otomasyon", "Satınalma", "Planlama", "Kalite Kontrol", "Fabrika Müdürü", "Satış Sonrası", "Muhasebe" });
-            comboBox3.Location = new Point(6, 26);
-            comboBox3.Name = "comboBox3";
-            comboBox3.Size = new Size(262, 28);
-            comboBox3.TabIndex = 10;
-            comboBox3.Text = "Hata Bölümü seçiniz...";
-            // 
-            // groupBox8
-            // 
-            groupBox8.Controls.Add(comboBox4);
-            groupBox8.Location = new Point(430, 684);
-            groupBox8.Name = "groupBox8";
-            groupBox8.Size = new Size(280, 55);
-            groupBox8.TabIndex = 34;
-            groupBox8.TabStop = false;
-            groupBox8.Text = "Hatayı Bulan Bölüm";
-            // 
-            // comboBox4
-            // 
-            comboBox4.FormattingEnabled = true;
-            comboBox4.Items.AddRange(new object[] { "Montaj", "İmalat", "Tasarım", "Kalite", "Satın Alma" });
-            comboBox4.Location = new Point(6, 19);
-            comboBox4.Name = "comboBox4";
-            comboBox4.Size = new Size(262, 28);
-            comboBox4.TabIndex = 11;
-            comboBox4.Text = "Birim Seçiniz...";
-            // 
-            // groupBox10
-            // 
-            groupBox10.Controls.Add(textBox3);
-            groupBox10.Location = new Point(35, 278);
-            groupBox10.Name = "groupBox10";
-            groupBox10.Size = new Size(274, 69);
-            groupBox10.TabIndex = 44;
-            groupBox10.TabStop = false;
-            groupBox10.Text = "Sipariş No/Proje No";
-            // 
-            // textBox3
-            // 
-            textBox3.Location = new Point(6, 26);
-            textBox3.MaxLength = 50;
-            textBox3.Name = "textBox3";
-            textBox3.Size = new Size(250, 27);
-            textBox3.TabIndex = 13;
-            // 
-            // groupBox2
-            // 
-            groupBox2.Controls.Add(textBox11);
-            groupBox2.Location = new Point(29, 686);
-            groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(274, 68);
-            groupBox2.TabIndex = 33;
-            groupBox2.TabStop = false;
-            groupBox2.Text = "Raporu Hazırlayan";
-            // 
-            // textBox11
-            // 
-            textBox11.Location = new Point(6, 26);
-            textBox11.MaxLength = 50;
-            textBox11.Name = "textBox11";
-            textBox11.Size = new Size(250, 27);
-            textBox11.TabIndex = 21;
-            // 
-            // groupBox11
-            // 
-            groupBox11.Controls.Add(textBox2);
-            groupBox11.Location = new Point(35, 189);
-            groupBox11.Name = "groupBox11";
-            groupBox11.Size = new Size(274, 61);
-            groupBox11.TabIndex = 45;
-            groupBox11.TabStop = false;
-            groupBox11.Text = "Ürün Adı";
-            // 
-            // textBox2
-            // 
-            textBox2.Location = new Point(12, 22);
-            textBox2.MaxLength = 50;
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(250, 27);
-            textBox2.TabIndex = 12;
             // 
             // menuStrip1
             // 
@@ -614,7 +637,7 @@
             menuStrip1.Items.AddRange(new ToolStripItem[] { fORMToolStripMenuItem, lİSTEToolStripMenuItem, vERİGÖRÜNTÜLÜMEToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(1902, 28);
+            menuStrip1.Size = new Size(1647, 28);
             menuStrip1.TabIndex = 52;
             menuStrip1.Text = "menuStrip1";
             // 
@@ -679,35 +702,12 @@
             rAPORToolStripMenuItem.Text = "RAPOR";
             rAPORToolStripMenuItem.Click += rAPORToolStripMenuItem_Click;
             // 
-            // groupBox25
-            // 
-            groupBox25.Controls.Add(groupBox12);
-            groupBox25.Controls.Add(groupBox11);
-            groupBox25.Controls.Add(groupBox2);
-            groupBox25.Controls.Add(groupBox19);
-            groupBox25.Controls.Add(groupBox22);
-            groupBox25.Controls.Add(groupBox10);
-            groupBox25.Controls.Add(groupBox23);
-            groupBox25.Controls.Add(groupBox8);
-            groupBox25.Controls.Add(groupBox3);
-            groupBox25.Controls.Add(groupBox6);
-            groupBox25.Controls.Add(button1);
-            groupBox25.Controls.Add(groupBox5);
-            groupBox25.Controls.Add(groupBox4);
-            groupBox25.Controls.Add(groupBox9);
-            groupBox25.Location = new Point(6, 26);
-            groupBox25.Name = "groupBox25";
-            groupBox25.Size = new Size(736, 887);
-            groupBox25.TabIndex = 52;
-            groupBox25.TabStop = false;
-            groupBox25.Text = "UYGUN OLMAYAN FORMU 1.BÖLÜM";
-            // 
             // UygunOlmayanDurum
             // 
             AutoScaleDimensions = new SizeF(120F, 120F);
             AutoScaleMode = AutoScaleMode.Dpi;
             BackColor = Color.Gray;
-            ClientSize = new Size(1902, 1033);
+            ClientSize = new Size(1647, 974);
             Controls.Add(groupBox1);
             Controls.Add(menuStrip1);
             Icon = (Icon)resources.GetObject("$this.Icon");
@@ -715,9 +715,33 @@
             Name = "UygunOlmayanDurum";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "UygunOlmayanDurum";
-            WindowState = FormWindowState.Maximized;
             FormClosing += UygunOlmayanDurum_FormClosing;
             groupBox1.ResumeLayout(false);
+            groupBox25.ResumeLayout(false);
+            groupBox12.ResumeLayout(false);
+            groupBox12.PerformLayout();
+            groupBox11.ResumeLayout(false);
+            groupBox11.PerformLayout();
+            groupBox2.ResumeLayout(false);
+            groupBox2.PerformLayout();
+            groupBox19.ResumeLayout(false);
+            groupBox22.ResumeLayout(false);
+            groupBox22.PerformLayout();
+            groupBox10.ResumeLayout(false);
+            groupBox10.PerformLayout();
+            groupBox23.ResumeLayout(false);
+            groupBox23.PerformLayout();
+            groupBox8.ResumeLayout(false);
+            groupBox3.ResumeLayout(false);
+            groupBox6.ResumeLayout(false);
+            groupBox6.PerformLayout();
+            groupBox5.ResumeLayout(false);
+            groupBox17.ResumeLayout(false);
+            groupBox17.PerformLayout();
+            groupBox4.ResumeLayout(false);
+            groupBox4.PerformLayout();
+            groupBox9.ResumeLayout(false);
+            groupBox9.PerformLayout();
             groupBox21.ResumeLayout(false);
             groupBox24.ResumeLayout(false);
             groupBox20.ResumeLayout(false);
@@ -733,34 +757,9 @@
             groupBox16.PerformLayout();
             groupBox7.ResumeLayout(false);
             groupBox7.PerformLayout();
-            groupBox19.ResumeLayout(false);
-            groupBox23.ResumeLayout(false);
-            groupBox23.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
-            groupBox22.ResumeLayout(false);
-            groupBox22.PerformLayout();
-            groupBox12.ResumeLayout(false);
-            groupBox12.PerformLayout();
-            groupBox9.ResumeLayout(false);
-            groupBox9.PerformLayout();
-            groupBox4.ResumeLayout(false);
-            groupBox4.PerformLayout();
-            groupBox5.ResumeLayout(false);
-            groupBox17.ResumeLayout(false);
-            groupBox17.PerformLayout();
-            groupBox6.ResumeLayout(false);
-            groupBox6.PerformLayout();
-            groupBox3.ResumeLayout(false);
-            groupBox8.ResumeLayout(false);
-            groupBox10.ResumeLayout(false);
-            groupBox10.PerformLayout();
-            groupBox2.ResumeLayout(false);
-            groupBox2.PerformLayout();
-            groupBox11.ResumeLayout(false);
-            groupBox11.PerformLayout();
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
-            groupBox25.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
