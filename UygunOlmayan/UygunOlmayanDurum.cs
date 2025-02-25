@@ -183,7 +183,7 @@ namespace UygunOlmayan.Tables
                     HatalıMiktar = Convert.ToInt32(textBox4.Text),
                     Adet = "Adet",
                     toplamMiktar = Convert.ToInt32(textBox17.Text),
-                    Tarih = DateTime.Now, 
+                    Tarih = DateTime.Now,
                     KayıpZaman = Convert.ToInt32(textBox7.Text),
                     ZamanCinsi = "DK",
                     HataTipi = comboBox2.Text,
@@ -413,7 +413,7 @@ namespace UygunOlmayan.Tables
                     { "Planlama", new List<string> { "shaci@icmmakina.com", "sbuyukay@icmmakina.com" } },
                     { "Kalite Kontrol", new List<string> { "oarslan@icmmakina.com" } },
                     { "Satış Sonrası", new List<string> { "hsokmen@icmmakina.com", "dtacyildiz@icmmakina.com" } },
-                    { "Muhasebe", new List<string> { "bozcan@icmmakina.com", "mcelik@icmmakina.com" } }, 
+                    { "Muhasebe", new List<string> { "bozcan@icmmakina.com", "mcelik@icmmakina.com" } },
                     { "Fabrika Müdürü", new List<string> { "ddeniz@icmmakina.com" } }
                 };
 
@@ -626,6 +626,11 @@ namespace UygunOlmayan.Tables
             {
                 e.Graphics.DrawImage(pictureBox1.Image, 0, 0, e.PageBounds.Width, e.PageBounds.Height);
             }
+        }
+
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
         }
     }
 }

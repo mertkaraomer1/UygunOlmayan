@@ -139,6 +139,7 @@
             groupBox1.TabIndex = 49;
             groupBox1.TabStop = false;
             groupBox1.Text = "UYGUN OLMAYAN FORMU 1.BÖLÜM";
+            groupBox1.Enter += groupBox1_Enter;
             // 
             // groupBox19
             // 
@@ -432,8 +433,9 @@
             // 
             // button5
             // 
+            button5.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             button5.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 162);
-            button5.Location = new Point(1802, 945);
+            button5.Location = new Point(1650, 945);
             button5.Name = "button5";
             button5.Size = new Size(39, 29);
             button5.TabIndex = 20;
@@ -571,7 +573,7 @@
             menuStrip1.Items.AddRange(new ToolStripItem[] { fORMToolStripMenuItem, lİSTEToolStripMenuItem, vERİGÖRÜNTÜLÜMEToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(1902, 28);
+            menuStrip1.Size = new Size(1721, 28);
             menuStrip1.TabIndex = 52;
             menuStrip1.Text = "menuStrip1";
             // 
@@ -638,6 +640,7 @@
             // 
             // groupBox21
             // 
+            groupBox21.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             groupBox21.Controls.Add(groupBox24);
             groupBox21.Controls.Add(button4);
             groupBox21.Controls.Add(groupBox20);
@@ -648,7 +651,7 @@
             groupBox21.Controls.Add(groupBox16);
             groupBox21.Controls.Add(groupBox7);
             groupBox21.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 162);
-            groupBox21.Location = new Point(977, 54);
+            groupBox21.Location = new Point(840, 54);
             groupBox21.Name = "groupBox21";
             groupBox21.Size = new Size(804, 603);
             groupBox21.TabIndex = 50;
@@ -677,9 +680,10 @@
             // 
             // pictureBox1
             // 
-            pictureBox1.Location = new Point(838, 663);
+            pictureBox1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            pictureBox1.Location = new Point(840, 663);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(943, 311);
+            pictureBox1.Size = new Size(804, 311);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox1.TabIndex = 51;
             pictureBox1.TabStop = false;
@@ -690,7 +694,7 @@
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Gray;
-            ClientSize = new Size(1902, 1033);
+            ClientSize = new Size(1721, 1033);
             Controls.Add(groupBox21);
             Controls.Add(button5);
             Controls.Add(groupBox1);
@@ -701,7 +705,6 @@
             Name = "UygunOlmayanDurum";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "UygunOlmayanDurum";
-            WindowState = FormWindowState.Maximized;
             FormClosing += UygunOlmayanDurum_FormClosing;
             groupBox1.ResumeLayout(false);
             groupBox19.ResumeLayout(false);
