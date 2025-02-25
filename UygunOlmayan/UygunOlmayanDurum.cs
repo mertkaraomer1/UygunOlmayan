@@ -627,10 +627,5 @@ namespace UygunOlmayan.Tables
                 e.Graphics.DrawImage(pictureBox1.Image, 0, 0, e.PageBounds.Width, e.PageBounds.Height);
             }
         }
-
-        private void groupBox1_Enter(object sender, EventArgs e)
-        {
-
-        }
     }
 }
