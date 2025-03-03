@@ -180,11 +180,11 @@ namespace UygunOlmayan.Tables
                     UrunKodu = textBox1.Text,
                     UrunAdi = textBox2.Text,
                     SiparisNo = textBox3.Text,
-                    HatalıMiktar = Convert.ToInt32(textBox4.Text),
+                    HatalıMiktar = int.TryParse(textBox4.Text, out int hataliMiktar) ? hataliMiktar : 0,
                     Adet = "Adet",
-                    toplamMiktar = Convert.ToInt32(textBox17.Text),
+                    toplamMiktar = int.TryParse(textBox17.Text, out int toplamMiktar) ? toplamMiktar : 0,
                     Tarih = DateTime.Now,
-                    KayıpZaman = Convert.ToInt32(textBox7.Text),
+                    KayıpZaman = int.TryParse(textBox7.Text, out int kayipZaman) ? kayipZaman : 0,
                     ZamanCinsi = "DK",
                     HataTipi = comboBox2.Text,
                     Aciklama = textBox9.Text,
@@ -204,9 +204,9 @@ namespace UygunOlmayan.Tables
                     TerminTarihi = dateTimePicker1.Value.Date,
                     urunimza = new Guid(),
                     uruntipi = comboBox1.Text,
-                    DuzelticiFaliyetDurum = comboBox5.Text,
-
+                    DuzelticiFaliyetDurum = comboBox5.Text
                 };
+
 
                 // 3. Veritabanına ekleme işlemi
                 dbContext.hataliUruns.Add(yeniHataliUrun);
@@ -406,9 +406,9 @@ namespace UygunOlmayan.Tables
             var emailAddresses = new Dictionary<string, List<string>>
                 {
                     { "Montaj", new List<string> { "dturkan@icmmakina.com", "oocak@icmmakina.com" } },
-                    { "Tasarım", new List<string> { "mbayram@icmmakina.com", "uulusoy@icmmakina.com" } },
+                    { "Tasarım", new List<string> { "mbayram@icmmakina.com", "uulusoy@icmmakina.com", "ecobanbas@icmmakina.com", "etaskin@icmmakina.com", "ucsari@icmmakina.com", "minan@icmmakina.com", "akucukler@icmmakina.com", "morhan@icmmakina.com" } },
                     { "İmalat", new List<string> { "pyesilyurt@icmmakina.com", "skoca@icmmakina.com", "hetanta@icmmakina.com" } },
-                    { "Otomasyon", new List<string> { "otomasyon.proje@icmmakina.com", "tozpinar@icmmakina.com", "egozluk@icmmakina.com" } },
+                    { "Otomasyon", new List<string> { "otomasyon.proje@icmmakina.com", "tozpinar@icmmakina.com", "egozluk@icmmakina.com", "bguden@icmmakina.com" , "byanik@icmmakina.com" } },
                     { "Satınalma", new List<string> { "satinalma@icmmakina.com" } },
                     { "Planlama", new List<string> { "shaci@icmmakina.com", "sbuyukay@icmmakina.com" } },
                     { "Kalite Kontrol", new List<string> { "oarslan@icmmakina.com" } },
