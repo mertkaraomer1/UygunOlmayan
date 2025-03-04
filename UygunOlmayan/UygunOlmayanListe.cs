@@ -65,7 +65,7 @@ namespace UygunOlmayan
                     urun.HataBolumu, urun.RaporuHazirlayan, urun.HatayıBulanBirim, urun.KokNeden,
                     urun.Aksiyon, urun.Sonuc, urun.Degerlendiren, urun.KokNedenAksiyon,
                     urun.Resim, urun.KapanısTarihi, urun.TerminTarihi, urun.uruntipi,
-                    urun.DuzelticiFaliyetDurum, durum,aksiyonbölümü?.AksiyonBölümü
+                    urun.DuzelticiFaliyetDurum, durum, aksiyonbölümü?.AksiyonBölümü
                 );
             }
 
@@ -111,7 +111,7 @@ namespace UygunOlmayan
                         row.Cells[durumColumnIndex].Style.BackColor = Color.Red;
                         row.Cells[durumColumnIndex].Style.ForeColor = Color.White;
                     }
-                    else if (durumText=="AKSİYON ALINDI")
+                    else if (durumText == "AKSİYON ALINDI")
                     {
                         row.Cells[durumColumnIndex].Style.BackColor = Color.Blue;
                         row.Cells[durumColumnIndex].Style.ForeColor = Color.White;
@@ -235,7 +235,7 @@ namespace UygunOlmayan
                     UygunOlmayanVol1();
                 }
             }
-            else if(e.RowIndex >= 0 && e.ColumnIndex == 29)
+            else if (e.RowIndex >= 0 && e.ColumnIndex == 29)
             {
                 // Seçilen satırın verilerini almak için DataGridView'den erişin
                 DataGridViewRow selectedRow = advancedDataGridView1.Rows[e.RowIndex];
@@ -546,9 +546,10 @@ namespace UygunOlmayan
 
         private void gERİDÖNToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            UygunOlmayanDurum UGOD=new UygunOlmayanDurum();
+            UygunOlmayanDurum UGOD = new UygunOlmayanDurum();
             UGOD.Show();
             this.Close();
         }
+
     }
 }
