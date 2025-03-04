@@ -33,7 +33,7 @@ namespace UygunOlmayan
         "Toplam Miktar", "Tarih", "Kayıp Zaman", "Zaman Türü", "Hata Tipi", "Aciklama",
         "Tedarikçi", "Ozet", "Hata Bolumu", "Raporu Hazirlayan", "Hatayı Bulan Birim",
         "Kök Neden", "Aksiyon", "Sonuç", "Değerlendiren", "Kök Neden Aksiyon", "Resim",
-        "Kapanış Tarihi", "Termin Tarihi", "Ürün Tipi", "Düzeltici Faaliyet Var Mı?", "Durum"
+        "Kapanış Tarihi", "Termin Tarihi", "Ürün Tipi", "Düzeltici Faaliyet Var Mı?", "Durum","Aksiyon Alancak Bölüm"
     };
 
             foreach (string columnName in columnNames)
@@ -46,10 +46,18 @@ namespace UygunOlmayan
                 .ToList();
 
 
+
+
             foreach (var urun in hataliUrunList)
             {
-                string durum = urun.Durum == "True" ? "İŞLEMİ DEVAM EDİYOR." : "DEĞERLENDİRMEYİ BEKLİYOR.";
+                var aksiyonbölümü = dbContext.aksiyonAlacakBölüms
+                    .Where(x => x.UygunOlmayanId == urun.UrunId)
+                    .OrderByDescending(x => x.Tarihi) // Tarihi en yeni olanı seç
+                    .FirstOrDefault();
 
+                string durum = urun.Durum == "False" ? "İŞLEMİ DEVAM EDİYOR." : "DEĞERLENDİRMEYİ BEKLİYOR.";
+                string aksiyonAlındımı = urun.AksiyonAlındı == "False" ? durum : "AKSİYON ALINDI";
+                durum = aksiyonAlındımı;
                 table.Rows.Add(
                     urun.UrunId, urun.UrunKodu, urun.UrunAdi, urun.SiparisNo, urun.HatalıMiktar,
                     urun.Adet, urun.toplamMiktar, urun.Tarih.ToString("yyyy.MM.dd"), urun.KayıpZaman,
@@ -57,21 +65,29 @@ namespace UygunOlmayan
                     urun.HataBolumu, urun.RaporuHazirlayan, urun.HatayıBulanBirim, urun.KokNeden,
                     urun.Aksiyon, urun.Sonuc, urun.Degerlendiren, urun.KokNedenAksiyon,
                     urun.Resim, urun.KapanısTarihi, urun.TerminTarihi, urun.uruntipi,
-                    urun.DuzelticiFaliyetDurum, durum
+                    urun.DuzelticiFaliyetDurum, durum,aksiyonbölümü?.AksiyonBölümü
                 );
             }
 
             // DataTable'ı DataGridView'e bağla
             advancedDataGridView1.DataSource = table;
-
             // DataGridView'e imza sütunu ekle
             DataGridViewImageColumn buttonColumn1 = new DataGridViewImageColumn
             {
-                HeaderText = "İmza",
-                Image = Image.FromFile("imza.png"),
+                HeaderText = "Aksiyon Alındı Butonu",
+                Image = Image.FromFile("delete.png"),
                 ImageLayout = DataGridViewImageCellLayout.Zoom
             };
             advancedDataGridView1.Columns.Add(buttonColumn1);
+            // DataGridView'e imza sütunu ekle
+            DataGridViewImageColumn buttonColumn2 = new DataGridViewImageColumn
+            {
+                HeaderText = "Yetkili İmza Alanı",
+                Image = Image.FromFile("imza.png"),
+                ImageLayout = DataGridViewImageCellLayout.Zoom
+            };
+            advancedDataGridView1.Columns.Add(buttonColumn2);
+
 
             // **Durum sütunu için renklendirme işlemi**
             for (int i = 0; i < advancedDataGridView1.Rows.Count; i++)
@@ -93,6 +109,11 @@ namespace UygunOlmayan
                     else if (durumText == "DEĞERLENDİRMEYİ BEKLİYOR.")
                     {
                         row.Cells[durumColumnIndex].Style.BackColor = Color.Red;
+                        row.Cells[durumColumnIndex].Style.ForeColor = Color.White;
+                    }
+                    else if (durumText=="AKSİYON ALINDI")
+                    {
+                        row.Cells[durumColumnIndex].Style.BackColor = Color.Blue;
                         row.Cells[durumColumnIndex].Style.ForeColor = Color.White;
                     }
                 }
@@ -189,7 +210,7 @@ namespace UygunOlmayan
 
         private void advancedDataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex >= 0 && e.ColumnIndex == 28)
+            if (e.RowIndex >= 0 && e.ColumnIndex == 30)
             {
                 // Seçilen satırın verilerini almak için DataGridView'den erişin
                 DataGridViewRow selectedRow = advancedDataGridView1.Rows[e.RowIndex];
@@ -209,6 +230,30 @@ namespace UygunOlmayan
                     eskiHataliUrun.urunimza = Guid.NewGuid();
                     eskiHataliUrun.KapanısTarihi = DateTime.Now.Date;
                     // Değişiklikleri veritabanına kaydedin
+                    dbContext.SaveChanges();
+                    MessageBox.Show("Güncellendi.");
+                    UygunOlmayanVol1();
+                }
+            }
+            else if(e.RowIndex >= 0 && e.ColumnIndex == 29)
+            {
+                // Seçilen satırın verilerini almak için DataGridView'den erişin
+                DataGridViewRow selectedRow = advancedDataGridView1.Rows[e.RowIndex];
+
+
+                string UrunKod = selectedRow.Cells["Urun Kodu"].Value.ToString();
+                string SipNo = selectedRow.Cells["Siparis No"].Value.ToString();
+
+
+                // UrunKodu ve UrunAdi'ye göre eşleşen HataliUrun nesnesini bulun
+                var eskiHataliUrun = dbContext.hataliUruns
+                    .FirstOrDefault(u => u.UrunKodu == UrunKod && u.SiparisNo == SipNo);
+
+                // Eğer eşleşen bir nesne bulunduysa, alanları güncelleyin
+                if (eskiHataliUrun != null)
+                {
+                    eskiHataliUrun.AksiyonAlındı = "True";
+
                     dbContext.SaveChanges();
                     MessageBox.Show("Güncellendi.");
                     UygunOlmayanVol1();

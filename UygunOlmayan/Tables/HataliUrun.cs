@@ -37,6 +37,7 @@ namespace UygunOlmayan.Tables
         public Guid? urunimza {  get; set; }
         public string? uruntipi {  get; set; }
         public string? DuzelticiFaliyetDurum { get; set; }
+        public string AksiyonAlındı { get; set; }
 
     }
 }

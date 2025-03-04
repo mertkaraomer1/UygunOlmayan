@@ -204,7 +204,9 @@ namespace UygunOlmayan.Tables
                     TerminTarihi = dateTimePicker1.Value.Date,
                     urunimza = new Guid(),
                     uruntipi = comboBox1.Text,
-                    DuzelticiFaliyetDurum = comboBox5.Text
+                    DuzelticiFaliyetDurum = comboBox5.Text,
+                    AksiyonAlındı = "False"
+
                 };
 
 
@@ -519,6 +521,13 @@ namespace UygunOlmayan.Tables
                     {
                         worksheet.Cells["K9"].Value = "X"; // A9 hücresine değeri yaz
                     }
+                    else if (ürüntipi == "Ürün Tipi Seçiniz...")
+                    {
+                        worksheet.Cells["A9"].Value = ""; // A9 hücresine değeri yaz
+                        worksheet.Cells["D9"].Value = ""; // A9 hücresine değeri yaz
+                        worksheet.Cells["H9"].Value = ""; // A9 hücresine değeri yaz
+                        worksheet.Cells["K9"].Value = ""; // A9 hücresine değeri yaz
+                    }
 
                     // Excel dosyasına yaz
                     worksheet.Cells["A4"].Value = $"Ürün Kodu: {urunKodu}";
@@ -626,6 +635,68 @@ namespace UygunOlmayan.Tables
             {
                 e.Graphics.DrawImage(pictureBox1.Image, 0, 0, e.PageBounds.Width, e.PageBounds.Height);
             }
+        }
+
+        private void bİLDİRToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SorunBildir SB = new SorunBildir();
+            SB.Show();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            string subject = "UYGUN OLMAYAN ÜRÜN KONTROL FORMU";
+            string urunId = textBox16.Text;
+            string body;
+
+            // Bölümlere göre birden fazla e-posta adresi içeren sözlük tanımlandı.
+            var emailAddresses = new Dictionary<string, List<string>>
+                {
+                    { "Montaj", new List<string> { "dturkan@icmmakina.com", "oocak@icmmakina.com" } },
+                    { "Tasarım", new List<string> { "mbayram@icmmakina.com", "uulusoy@icmmakina.com", "ecobanbas@icmmakina.com", "etaskin@icmmakina.com", "ucsari@icmmakina.com", "minan@icmmakina.com", "akucukler@icmmakina.com", "morhan@icmmakina.com" } },
+                    { "İmalat", new List<string> { "pyesilyurt@icmmakina.com", "skoca@icmmakina.com", "hetanta@icmmakina.com" } },
+                    { "Otomasyon", new List<string> { "otomasyon.proje@icmmakina.com", "tozpinar@icmmakina.com", "egozluk@icmmakina.com", "bguden@icmmakina.com" , "byanik@icmmakina.com" } },
+                    { "Satınalma", new List<string> { "satinalma@icmmakina.com" } },
+                    { "Planlama", new List<string> { "shaci@icmmakina.com", "sbuyukay@icmmakina.com" } },
+                    { "Kalite Kontrol", new List<string> { "oarslan@icmmakina.com" } },
+                    { "Satış Sonrası", new List<string> { "hsokmen@icmmakina.com", "dtacyildiz@icmmakina.com" } },
+                    { "Muhasebe", new List<string> { "bozcan@icmmakina.com", "mcelik@icmmakina.com" } },
+                    { "Fabrika Müdürü", new List<string> { "ddeniz@icmmakina.com" } }
+                };
+
+            // Seçilen bölüme göre e-posta adresleri belirleniyor.
+            if (emailAddresses.TryGetValue(comboBox6.Text, out List<string> emailList))
+            {
+                body = $"{urunId} NO'LU ÜRÜNÜN UYGUN OLMAYAN FORMUNU KONTROL EDİNİZ.";
+
+                try
+                {
+                    // E-posta adreslerini virgülle ayırarak tek bir string olarak oluşturuyoruz.
+                    string emailTo = string.Join(",", emailList);
+
+                    SendEmail(emailTo, subject, body);
+                    MessageBox.Show("E-posta başarıyla gönderildi!", "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"E-posta gönderilemedi: {ex.Message}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Lütfen geçerli bir hata bölümü seçin!", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+
+            string AksiyonBölümü=comboBox6.Text;
+            var bölüm = new AksiyonAlacakBölüm
+            {
+                UygunOlmayanId=Convert.ToInt32(urunId),
+                AksiyonBölümü=AksiyonBölümü,
+                Tarihi=DateTime.Now
+            };
+
+            dbContext.aksiyonAlacakBölüms.Add(bölüm);
+            dbContext.SaveChanges();
         }
     }
 }

@@ -14,6 +14,8 @@ namespace UygunOlmayan.MyDb
         public DbSet<HataliUrun> hataliUruns { get; set; }
         public DbSet<HataGrupları> hataGruplars { get; set; }
         public DbSet<UrunTıpı> urunTıpıs {  get; set; }
+        public DbSet<Sorun_Bildirim> sorun_Bildirims { get; set; }
+        public DbSet<AksiyonAlacakBölüm> aksiyonAlacakBölüms { get; set; }
 
 
 
@@ -31,6 +33,8 @@ namespace UygunOlmayan.MyDb
             modelBuilder.Entity<HataliUrun>().ToTable("HataliUrun").HasKey(x => x.UrunId);
             modelBuilder.Entity<HataGrupları>().ToTable("HataGrupları").HasKey(x=>x.HataId);
             modelBuilder.Entity<UrunTıpı>().ToTable("UrunTıpı").HasKey(x => x.Id);
+            modelBuilder.Entity<Sorun_Bildirim>().ToTable("Sorun_Bildirim").HasKey(x => x.Sorun_ID);
+            modelBuilder.Entity<AksiyonAlacakBölüm>().ToTable("AksiyonAlacakBölüm").HasKey(x => x.UygunOlmayanId);
 
         }
     }
