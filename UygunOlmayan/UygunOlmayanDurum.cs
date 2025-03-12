@@ -168,6 +168,11 @@ namespace UygunOlmayan.Tables
             get { return button4.Visible; }
             set { button4.Visible = value; }
         }
+        public bool ButtonKaydet
+        {
+            get { return button1.Visible; }
+            set { button1.Visible = value; }
+        }
         private void button1_Click(object sender, EventArgs e)
         {
 
@@ -330,20 +335,6 @@ namespace UygunOlmayan.Tables
             }
         }
 
-
-
-        private void UygunOlmayanDurum_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            // Form kapatılmak istendiğinde
-            if (e.CloseReason == CloseReason.UserClosing)
-            {
-                // Formun kapatılmasını engelle
-                e.Cancel = true;
-
-                // Programı kapat
-                Application.Exit();
-            }
-        }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
@@ -687,16 +678,29 @@ namespace UygunOlmayan.Tables
                 MessageBox.Show("Lütfen geçerli bir hata bölümü seçin!", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
 
-            string AksiyonBölümü=comboBox6.Text;
+            string AksiyonBölümü = comboBox6.Text;
             var bölüm = new AksiyonAlacakBölüm
             {
-                UygunOlmayanId=Convert.ToInt32(urunId),
-                AksiyonBölümü=AksiyonBölümü,
-                Tarihi=DateTime.Now
+                UygunOlmayanId = Convert.ToInt32(urunId),
+                AksiyonBölümü = AksiyonBölümü,
+                Tarihi = DateTime.Now
             };
 
             dbContext.aksiyonAlacakBölüms.Add(bölüm);
             dbContext.SaveChanges();
         }
+        private void pROGRAMIKAPATToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DialogResult result = MessageBox.Show("Programı kapatmak istediğinize emin misiniz?",
+                                                  "Çıkış Onayı",
+                                                  MessageBoxButtons.YesNo,
+                                                  MessageBoxIcon.Question);
+
+            if (result == DialogResult.Yes)
+            {
+                Application.Exit();
+            }
+        }
+
     }
 }

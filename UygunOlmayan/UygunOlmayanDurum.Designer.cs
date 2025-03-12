@@ -89,6 +89,7 @@
             yAZDIRToolStripMenuItem = new ToolStripMenuItem();
             ePOSTAGÖNDERToolStripMenuItem = new ToolStripMenuItem();
             bİLDİRToolStripMenuItem = new ToolStripMenuItem();
+            pROGRAMIKAPATToolStripMenuItem = new ToolStripMenuItem();
             lİSTEToolStripMenuItem = new ToolStripMenuItem();
             vERİGÖRÜNTÜLÜMEToolStripMenuItem = new ToolStripMenuItem();
             lİSTEToolStripMenuItem1 = new ToolStripMenuItem();
@@ -420,7 +421,7 @@
             // comboBox2
             // 
             comboBox2.FormattingEnabled = true;
-            comboBox2.Items.AddRange(new object[] { "Parça Ölçü Hatası | İmalat kaynaklı", "Parça Ölçü Hatası | Resim kaynaklı", "Parça Uygunsuzluğu | Eksik proses", "Parça Uygunsuzluğu | Yanlış proses", "Eksik Malzeme ", "Direk Satınalma-Component", "Montaj Hataları", "Fason Satınalma" });
+            comboBox2.Items.AddRange(new object[] { "Parça Ölçü Hatası | İmalat kaynaklı", "Parça Ölçü Hatası | Resim kaynaklı", "Parça Uygunsuzluğu | Eksik proses", "Parça Uygunsuzluğu | Yanlış proses", "Eksik Malzeme ", "Direk Satınalma-Component", "Montaj Hataları", "Fason Satınalma", "İş Yapış Biçimi" });
             comboBox2.Location = new Point(6, 26);
             comboBox2.Name = "comboBox2";
             comboBox2.Size = new Size(250, 28);
@@ -680,7 +681,7 @@
             // 
             // fORMToolStripMenuItem
             // 
-            fORMToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { eXCELÇEKToolStripMenuItem, yAZDIRToolStripMenuItem, ePOSTAGÖNDERToolStripMenuItem, bİLDİRToolStripMenuItem });
+            fORMToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { eXCELÇEKToolStripMenuItem, yAZDIRToolStripMenuItem, ePOSTAGÖNDERToolStripMenuItem, bİLDİRToolStripMenuItem, pROGRAMIKAPATToolStripMenuItem });
             fORMToolStripMenuItem.Image = (Image)resources.GetObject("fORMToolStripMenuItem.Image");
             fORMToolStripMenuItem.Name = "fORMToolStripMenuItem";
             fORMToolStripMenuItem.Size = new Size(92, 24);
@@ -690,7 +691,7 @@
             // 
             eXCELÇEKToolStripMenuItem.Image = (Image)resources.GetObject("eXCELÇEKToolStripMenuItem.Image");
             eXCELÇEKToolStripMenuItem.Name = "eXCELÇEKToolStripMenuItem";
-            eXCELÇEKToolStripMenuItem.Size = new Size(224, 26);
+            eXCELÇEKToolStripMenuItem.Size = new Size(225, 26);
             eXCELÇEKToolStripMenuItem.Text = "EXCELE AKTAR";
             eXCELÇEKToolStripMenuItem.Click += eXCELÇEKToolStripMenuItem_Click;
             // 
@@ -698,7 +699,7 @@
             // 
             yAZDIRToolStripMenuItem.Image = (Image)resources.GetObject("yAZDIRToolStripMenuItem.Image");
             yAZDIRToolStripMenuItem.Name = "yAZDIRToolStripMenuItem";
-            yAZDIRToolStripMenuItem.Size = new Size(224, 26);
+            yAZDIRToolStripMenuItem.Size = new Size(225, 26);
             yAZDIRToolStripMenuItem.Text = "YAZDIR";
             yAZDIRToolStripMenuItem.Click += yAZDIRToolStripMenuItem_Click;
             // 
@@ -706,7 +707,7 @@
             // 
             ePOSTAGÖNDERToolStripMenuItem.Image = (Image)resources.GetObject("ePOSTAGÖNDERToolStripMenuItem.Image");
             ePOSTAGÖNDERToolStripMenuItem.Name = "ePOSTAGÖNDERToolStripMenuItem";
-            ePOSTAGÖNDERToolStripMenuItem.Size = new Size(224, 26);
+            ePOSTAGÖNDERToolStripMenuItem.Size = new Size(225, 26);
             ePOSTAGÖNDERToolStripMenuItem.Text = "E-POSTA GÖNDER";
             ePOSTAGÖNDERToolStripMenuItem.Click += ePOSTAGÖNDERToolStripMenuItem_Click;
             // 
@@ -714,9 +715,17 @@
             // 
             bİLDİRToolStripMenuItem.Image = (Image)resources.GetObject("bİLDİRToolStripMenuItem.Image");
             bİLDİRToolStripMenuItem.Name = "bİLDİRToolStripMenuItem";
-            bİLDİRToolStripMenuItem.Size = new Size(224, 26);
+            bİLDİRToolStripMenuItem.Size = new Size(225, 26);
             bİLDİRToolStripMenuItem.Text = "BİLDİR";
             bİLDİRToolStripMenuItem.Click += bİLDİRToolStripMenuItem_Click;
+            // 
+            // pROGRAMIKAPATToolStripMenuItem
+            // 
+            pROGRAMIKAPATToolStripMenuItem.Image = (Image)resources.GetObject("pROGRAMIKAPATToolStripMenuItem.Image");
+            pROGRAMIKAPATToolStripMenuItem.Name = "pROGRAMIKAPATToolStripMenuItem";
+            pROGRAMIKAPATToolStripMenuItem.Size = new Size(225, 26);
+            pROGRAMIKAPATToolStripMenuItem.Text = "PROGRAMI KAPAT";
+            pROGRAMIKAPATToolStripMenuItem.Click += pROGRAMIKAPATToolStripMenuItem_Click;
             // 
             // lİSTEToolStripMenuItem
             // 
@@ -760,7 +769,6 @@
             Name = "UygunOlmayanDurum";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "UygunOlmayanDurum";
-            FormClosing += UygunOlmayanDurum_FormClosing;
             groupBox1.ResumeLayout(false);
             groupBox26.ResumeLayout(false);
             groupBox25.ResumeLayout(false);
@@ -875,5 +883,6 @@
         private GroupBox groupBox26;
         private ComboBox comboBox6;
         private Button button2;
+        private ToolStripMenuItem pROGRAMIKAPATToolStripMenuItem;
     }
 }
