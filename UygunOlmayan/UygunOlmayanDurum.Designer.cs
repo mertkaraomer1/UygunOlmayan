@@ -334,7 +334,7 @@
             // comboBox4
             // 
             comboBox4.FormattingEnabled = true;
-            comboBox4.Items.AddRange(new object[] { "Montaj", "İmalat", "Tasarım", "Kalite", "Satın Alma" });
+            comboBox4.Items.AddRange(new object[] { "Montaj", "İmalat", "Tasarım", "Kalite", "Satın Alma", "Otomasyon" });
             comboBox4.Location = new Point(6, 19);
             comboBox4.Name = "comboBox4";
             comboBox4.Size = new Size(262, 28);
@@ -442,7 +442,7 @@
             // textBox9
             // 
             textBox9.Location = new Point(6, 26);
-            textBox9.MaxLength = 250;
+            textBox9.MaxLength = 10000;
             textBox9.Multiline = true;
             textBox9.Name = "textBox9";
             textBox9.Size = new Size(268, 184);
@@ -547,7 +547,7 @@
             // textBox8
             // 
             textBox8.Location = new Point(8, 20);
-            textBox8.MaxLength = 750;
+            textBox8.MaxLength = 10000;
             textBox8.Multiline = true;
             textBox8.Name = "textBox8";
             textBox8.Size = new Size(319, 137);
@@ -584,7 +584,7 @@
             // textBox10
             // 
             textBox10.Location = new Point(6, 26);
-            textBox10.MaxLength = 550;
+            textBox10.MaxLength = 10000;
             textBox10.Multiline = true;
             textBox10.Name = "textBox10";
             textBox10.Size = new Size(321, 176);
@@ -639,7 +639,7 @@
             // textBox5
             // 
             textBox5.Location = new Point(6, 26);
-            textBox5.MaxLength = 550;
+            textBox5.MaxLength = 10000;
             textBox5.Multiline = true;
             textBox5.Name = "textBox5";
             textBox5.Size = new Size(299, 179);
