@@ -381,7 +381,7 @@ namespace UygunOlmayan
                 var emailAddresses = new Dictionary<string, List<string>>
                 {
                     { "Montaj", new List<string> { "dturkan@icmmakina.com", "oocak@icmmakina.com" } },
-                    { "Tasarım", new List<string> { "mbayram@icmmakina.com", "uulusoy@icmmakina.com", "ecobanbas@icmmakina.com", "etaskin@icmmakina.com", "ucsari@icmmakina.com", "minan@icmmakina.com", "akucukler@icmmakina.com", "morhan@icmmakina.com" } },
+                    { "Tasarım", new List<string> { "mbayram@icmmakina.com", "uulusoy@icmmakina.com" } },
                     { "İmalat", new List<string> { "pyesilyurt@icmmakina.com", "skoca@icmmakina.com", "hetanta@icmmakina.com" } },
                     { "Otomasyon", new List<string> { "otomasyon.proje@icmmakina.com", "tozpinar@icmmakina.com", "egozluk@icmmakina.com", "bguden@icmmakina.com" , "byanik@icmmakina.com" } },
                     { "Satınalma", new List<string> { "satinalma@icmmakina.com" } },

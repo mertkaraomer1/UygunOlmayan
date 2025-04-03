@@ -399,12 +399,12 @@ namespace UygunOlmayan.Tables
             var emailAddresses = new Dictionary<string, List<string>>
                 {
                     { "Montaj", new List<string> { "dturkan@icmmakina.com", "oocak@icmmakina.com" } },
-                    { "Tasarım", new List<string> { "mbayram@icmmakina.com", "uulusoy@icmmakina.com", "ecobanbas@icmmakina.com", "etaskin@icmmakina.com", "ucsari@icmmakina.com", "minan@icmmakina.com", "akucukler@icmmakina.com", "morhan@icmmakina.com" } },
+                    { "Tasarım", new List<string> { "mbayram@icmmakina.com", "uulusoy@icmmakina.com" } },
                     { "İmalat", new List<string> { "pyesilyurt@icmmakina.com", "skoca@icmmakina.com", "hetanta@icmmakina.com" } },
                     { "Otomasyon", new List<string> { "otomasyon.proje@icmmakina.com", "tozpinar@icmmakina.com", "egozluk@icmmakina.com", "bguden@icmmakina.com" , "byanik@icmmakina.com" } },
                     { "Satınalma", new List<string> { "satinalma@icmmakina.com" } },
                     { "Planlama", new List<string> { "shaci@icmmakina.com", "sbuyukay@icmmakina.com" } },
-                    { "Kalite Kontrol", new List<string> { "oarslan@icmmakina.com" } },
+                    { "Kalite Kontrol", new List<string> { "oarslan@icmmakina.com", "bgebedek@icmmakina.com" } },
                     { "Satış Sonrası", new List<string> { "hsokmen@icmmakina.com", "dtacyildiz@icmmakina.com" } },
                     { "Muhasebe", new List<string> { "bozcan@icmmakina.com", "mcelik@icmmakina.com" } },
                     { "Fabrika Müdürü", new List<string> { "ddeniz@icmmakina.com" } }
@@ -644,7 +644,7 @@ namespace UygunOlmayan.Tables
             var emailAddresses = new Dictionary<string, List<string>>
                 {
                     { "Montaj", new List<string> { "dturkan@icmmakina.com", "oocak@icmmakina.com" } },
-                    { "Tasarım", new List<string> { "mbayram@icmmakina.com", "uulusoy@icmmakina.com", "ecobanbas@icmmakina.com", "etaskin@icmmakina.com", "ucsari@icmmakina.com", "minan@icmmakina.com", "akucukler@icmmakina.com", "morhan@icmmakina.com" } },
+                    { "Tasarım", new List<string> { "mbayram@icmmakina.com", "uulusoy@icmmakina.com" } },
                     { "İmalat", new List<string> { "pyesilyurt@icmmakina.com", "skoca@icmmakina.com", "hetanta@icmmakina.com" } },
                     { "Otomasyon", new List<string> { "otomasyon.proje@icmmakina.com", "tozpinar@icmmakina.com", "egozluk@icmmakina.com", "bguden@icmmakina.com" , "byanik@icmmakina.com" } },
                     { "Satınalma", new List<string> { "satinalma@icmmakina.com" } },
