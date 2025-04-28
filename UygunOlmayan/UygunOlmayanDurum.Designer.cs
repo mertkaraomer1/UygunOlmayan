@@ -94,6 +94,7 @@
             vERİGÖRÜNTÜLÜMEToolStripMenuItem = new ToolStripMenuItem();
             lİSTEToolStripMenuItem1 = new ToolStripMenuItem();
             rAPORToolStripMenuItem = new ToolStripMenuItem();
+            rAPORToolStripMenuItem1 = new ToolStripMenuItem();
             groupBox1.SuspendLayout();
             groupBox26.SuspendLayout();
             groupBox25.SuspendLayout();
@@ -734,7 +735,7 @@
             // 
             // vERİGÖRÜNTÜLÜMEToolStripMenuItem
             // 
-            vERİGÖRÜNTÜLÜMEToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { lİSTEToolStripMenuItem1, rAPORToolStripMenuItem });
+            vERİGÖRÜNTÜLÜMEToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { lİSTEToolStripMenuItem1, rAPORToolStripMenuItem, rAPORToolStripMenuItem1 });
             vERİGÖRÜNTÜLÜMEToolStripMenuItem.Image = (Image)resources.GetObject("vERİGÖRÜNTÜLÜMEToolStripMenuItem.Image");
             vERİGÖRÜNTÜLÜMEToolStripMenuItem.Name = "vERİGÖRÜNTÜLÜMEToolStripMenuItem";
             vERİGÖRÜNTÜLÜMEToolStripMenuItem.Size = new Size(196, 24);
@@ -744,7 +745,7 @@
             // 
             lİSTEToolStripMenuItem1.Image = (Image)resources.GetObject("lİSTEToolStripMenuItem1.Image");
             lİSTEToolStripMenuItem1.Name = "lİSTEToolStripMenuItem1";
-            lİSTEToolStripMenuItem1.Size = new Size(143, 26);
+            lİSTEToolStripMenuItem1.Size = new Size(224, 26);
             lİSTEToolStripMenuItem1.Text = "LİSTE";
             lİSTEToolStripMenuItem1.Click += lİSTEToolStripMenuItem1_Click;
             // 
@@ -752,9 +753,16 @@
             // 
             rAPORToolStripMenuItem.Image = (Image)resources.GetObject("rAPORToolStripMenuItem.Image");
             rAPORToolStripMenuItem.Name = "rAPORToolStripMenuItem";
-            rAPORToolStripMenuItem.Size = new Size(143, 26);
-            rAPORToolStripMenuItem.Text = "RAPOR";
+            rAPORToolStripMenuItem.Size = new Size(224, 26);
+            rAPORToolStripMenuItem.Text = "KAPANANLAR";
             rAPORToolStripMenuItem.Click += rAPORToolStripMenuItem_Click;
+            // 
+            // rAPORToolStripMenuItem1
+            // 
+            rAPORToolStripMenuItem1.Name = "rAPORToolStripMenuItem1";
+            rAPORToolStripMenuItem1.Size = new Size(224, 26);
+            rAPORToolStripMenuItem1.Text = "RAPOR";
+            rAPORToolStripMenuItem1.Click += rAPORToolStripMenuItem1_Click;
             // 
             // UygunOlmayanDurum
             // 
@@ -884,5 +892,6 @@
         private ComboBox comboBox6;
         private Button button2;
         private ToolStripMenuItem pROGRAMIKAPATToolStripMenuItem;
+        private ToolStripMenuItem rAPORToolStripMenuItem1;
     }
 }

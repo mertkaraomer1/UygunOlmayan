@@ -391,12 +391,14 @@ namespace UygunOlmayan.Tables
 
         private void ePOSTAGÖNDERToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string subject = "UYGUN OLMAYAN ÜRÜN KONTROL FORMU";
-            string urunId = textBox16.Text;
-            string body;
+            if (!string.IsNullOrEmpty(textBox1.Text))
+            {
+                string subject = "UYGUN OLMAYAN ÜRÜN KONTROL FORMU";
+                string urunId = textBox16.Text;
+                string body;
 
-            // Bölümlere göre birden fazla e-posta adresi içeren sözlük tanımlandı.
-            var emailAddresses = new Dictionary<string, List<string>>
+                // Bölümlere göre birden fazla e-posta adresi içeren sözlük tanımlandı.
+                var emailAddresses = new Dictionary<string, List<string>>
                 {
                     { "Montaj", new List<string> { "dturkan@icmmakina.com", "oocak@icmmakina.com" } },
                     { "Tasarım", new List<string> { "mbayram@icmmakina.com", "uulusoy@icmmakina.com" } },
@@ -410,29 +412,34 @@ namespace UygunOlmayan.Tables
                     { "Fabrika Müdürü", new List<string> { "ddeniz@icmmakina.com" } }
                 };
 
-            // Seçilen bölüme göre e-posta adresleri belirleniyor.
-            if (emailAddresses.TryGetValue(comboBox3.Text, out List<string> emailList))
-            {
-                body = $"{urunId} NO'LU ÜRÜNÜN UYGUN OLMAYAN FORMUNU KONTROL EDİNİZ.";
-
-                try
+                // Seçilen bölüme göre e-posta adresleri belirleniyor.
+                if (emailAddresses.TryGetValue(comboBox3.Text, out List<string> emailList))
                 {
-                    // E-posta adreslerini virgülle ayırarak tek bir string olarak oluşturuyoruz.
-                    string emailTo = string.Join(",", emailList);
+                    body = $"{urunId} NO'LU ÜRÜNÜN UYGUN OLMAYAN FORMUNU KONTROL EDİNİZ.";
 
-                    SendEmail(emailTo, subject, body);
-                    MessageBox.Show("E-posta başarıyla gönderildi!", "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    try
+                    {
+                        // E-posta adreslerini virgülle ayırarak tek bir string olarak oluşturuyoruz.
+                        string emailTo = string.Join(",", emailList);
+
+                        SendEmail(emailTo, subject, body);
+                        MessageBox.Show("E-posta başarıyla gönderildi!", "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"E-posta gönderilemedi: {ex.Message}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
-                catch (Exception ex)
+                else
                 {
-                    MessageBox.Show($"E-posta gönderilemedi: {ex.Message}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Lütfen geçerli bir hata bölümü seçin!", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
             else
             {
-                MessageBox.Show("Lütfen geçerli bir hata bölümü seçin!", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Lütfen Kayıt Edip Tekrar Deneyiniz...", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
             }
-
 
         }
         private void SendEmail(string to, string subject, string body)
@@ -702,5 +709,10 @@ namespace UygunOlmayan.Tables
             }
         }
 
+        private void rAPORToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            RAPOR R=new RAPOR();
+            R.Show();
+        }
     }
 }
