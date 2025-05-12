@@ -119,6 +119,7 @@
             // groupBox3
             // 
             groupBox3.Controls.Add(comboBox3);
+            groupBox3.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 162);
             groupBox3.Location = new Point(30, 40);
             groupBox3.Name = "groupBox3";
             groupBox3.Size = new Size(280, 62);

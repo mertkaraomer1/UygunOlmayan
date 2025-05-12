@@ -391,7 +391,7 @@ namespace UygunOlmayan.Tables
 
         private void ePOSTAGÖNDERToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(textBox1.Text))
+            if (!string.IsNullOrEmpty(textBox16.Text))
             {
                 string subject = "UYGUN OLMAYAN ÜRÜN KONTROL FORMU";
                 string urunId = textBox16.Text;

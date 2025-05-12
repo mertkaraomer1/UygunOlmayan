@@ -90,7 +90,6 @@
             ePOSTAGÖNDERToolStripMenuItem = new ToolStripMenuItem();
             bİLDİRToolStripMenuItem = new ToolStripMenuItem();
             pROGRAMIKAPATToolStripMenuItem = new ToolStripMenuItem();
-            lİSTEToolStripMenuItem = new ToolStripMenuItem();
             vERİGÖRÜNTÜLÜMEToolStripMenuItem = new ToolStripMenuItem();
             lİSTEToolStripMenuItem1 = new ToolStripMenuItem();
             rAPORToolStripMenuItem = new ToolStripMenuItem();
@@ -673,7 +672,7 @@
             // 
             menuStrip1.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             menuStrip1.ImageScalingSize = new Size(20, 20);
-            menuStrip1.Items.AddRange(new ToolStripItem[] { fORMToolStripMenuItem, lİSTEToolStripMenuItem, vERİGÖRÜNTÜLÜMEToolStripMenuItem });
+            menuStrip1.Items.AddRange(new ToolStripItem[] { fORMToolStripMenuItem, vERİGÖRÜNTÜLÜMEToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
             menuStrip1.Size = new Size(1647, 28);
@@ -728,11 +727,6 @@
             pROGRAMIKAPATToolStripMenuItem.Text = "PROGRAMI KAPAT";
             pROGRAMIKAPATToolStripMenuItem.Click += pROGRAMIKAPATToolStripMenuItem_Click;
             // 
-            // lİSTEToolStripMenuItem
-            // 
-            lİSTEToolStripMenuItem.Name = "lİSTEToolStripMenuItem";
-            lİSTEToolStripMenuItem.Size = new Size(14, 24);
-            // 
             // vERİGÖRÜNTÜLÜMEToolStripMenuItem
             // 
             vERİGÖRÜNTÜLÜMEToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { lİSTEToolStripMenuItem1, rAPORToolStripMenuItem, rAPORToolStripMenuItem1 });
@@ -745,7 +739,7 @@
             // 
             lİSTEToolStripMenuItem1.Image = (Image)resources.GetObject("lİSTEToolStripMenuItem1.Image");
             lİSTEToolStripMenuItem1.Name = "lİSTEToolStripMenuItem1";
-            lİSTEToolStripMenuItem1.Size = new Size(224, 26);
+            lİSTEToolStripMenuItem1.Size = new Size(196, 26);
             lİSTEToolStripMenuItem1.Text = "LİSTE";
             lİSTEToolStripMenuItem1.Click += lİSTEToolStripMenuItem1_Click;
             // 
@@ -753,14 +747,15 @@
             // 
             rAPORToolStripMenuItem.Image = (Image)resources.GetObject("rAPORToolStripMenuItem.Image");
             rAPORToolStripMenuItem.Name = "rAPORToolStripMenuItem";
-            rAPORToolStripMenuItem.Size = new Size(224, 26);
+            rAPORToolStripMenuItem.Size = new Size(196, 26);
             rAPORToolStripMenuItem.Text = "KAPANANLAR";
             rAPORToolStripMenuItem.Click += rAPORToolStripMenuItem_Click;
             // 
             // rAPORToolStripMenuItem1
             // 
+            rAPORToolStripMenuItem1.Image = (Image)resources.GetObject("rAPORToolStripMenuItem1.Image");
             rAPORToolStripMenuItem1.Name = "rAPORToolStripMenuItem1";
-            rAPORToolStripMenuItem1.Size = new Size(224, 26);
+            rAPORToolStripMenuItem1.Size = new Size(196, 26);
             rAPORToolStripMenuItem1.Text = "RAPOR";
             rAPORToolStripMenuItem1.Click += rAPORToolStripMenuItem1_Click;
             // 
@@ -882,7 +877,6 @@
         private ComboBox comboBox1;
         private GroupBox groupBox24;
         private ComboBox comboBox5;
-        private ToolStripMenuItem lİSTEToolStripMenuItem;
         private ToolStripMenuItem vERİGÖRÜNTÜLÜMEToolStripMenuItem;
         private ToolStripMenuItem lİSTEToolStripMenuItem1;
         private ToolStripMenuItem rAPORToolStripMenuItem;
