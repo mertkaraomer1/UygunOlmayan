@@ -32,8 +32,6 @@
             advancedDataGridView1 = new Zuby.ADGV.AdvancedDataGridView();
             menuStrip1 = new MenuStrip();
             fORMToolStripMenuItem = new ToolStripMenuItem();
-            eXCELÇEKToolStripMenuItem = new ToolStripMenuItem();
-            ePOSTAGÖNDERToolStripMenuItem = new ToolStripMenuItem();
             lİSTEYİEXCELEAKTARToolStripMenuItem = new ToolStripMenuItem();
             gERİDÖNToolStripMenuItem = new ToolStripMenuItem();
             lİSTEToolStripMenuItem = new ToolStripMenuItem();
@@ -77,25 +75,11 @@
             // 
             // fORMToolStripMenuItem
             // 
-            fORMToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { eXCELÇEKToolStripMenuItem, ePOSTAGÖNDERToolStripMenuItem, lİSTEYİEXCELEAKTARToolStripMenuItem, gERİDÖNToolStripMenuItem });
+            fORMToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { lİSTEYİEXCELEAKTARToolStripMenuItem, gERİDÖNToolStripMenuItem });
             fORMToolStripMenuItem.Image = (Image)resources.GetObject("fORMToolStripMenuItem.Image");
             fORMToolStripMenuItem.Name = "fORMToolStripMenuItem";
             fORMToolStripMenuItem.Size = new Size(92, 24);
             fORMToolStripMenuItem.Text = "DOSYA";
-            // 
-            // eXCELÇEKToolStripMenuItem
-            // 
-            eXCELÇEKToolStripMenuItem.Image = (Image)resources.GetObject("eXCELÇEKToolStripMenuItem.Image");
-            eXCELÇEKToolStripMenuItem.Name = "eXCELÇEKToolStripMenuItem";
-            eXCELÇEKToolStripMenuItem.Size = new Size(253, 26);
-            eXCELÇEKToolStripMenuItem.Text = "EXCELE AKTAR";
-            // 
-            // ePOSTAGÖNDERToolStripMenuItem
-            // 
-            ePOSTAGÖNDERToolStripMenuItem.Image = (Image)resources.GetObject("ePOSTAGÖNDERToolStripMenuItem.Image");
-            ePOSTAGÖNDERToolStripMenuItem.Name = "ePOSTAGÖNDERToolStripMenuItem";
-            ePOSTAGÖNDERToolStripMenuItem.Size = new Size(253, 26);
-            ePOSTAGÖNDERToolStripMenuItem.Text = "E-POSTA GÖNDER";
             // 
             // lİSTEYİEXCELEAKTARToolStripMenuItem
             // 
@@ -103,6 +87,7 @@
             lİSTEYİEXCELEAKTARToolStripMenuItem.Name = "lİSTEYİEXCELEAKTARToolStripMenuItem";
             lİSTEYİEXCELEAKTARToolStripMenuItem.Size = new Size(253, 26);
             lİSTEYİEXCELEAKTARToolStripMenuItem.Text = "LİSTEYİ EXCELE AKTAR";
+            lİSTEYİEXCELEAKTARToolStripMenuItem.Click += lİSTEYİEXCELEAKTARToolStripMenuItem_Click;
             // 
             // gERİDÖNToolStripMenuItem
             // 
@@ -165,8 +150,6 @@
         private Zuby.ADGV.AdvancedDataGridView advancedDataGridView1;
         private MenuStrip menuStrip1;
         private ToolStripMenuItem fORMToolStripMenuItem;
-        private ToolStripMenuItem eXCELÇEKToolStripMenuItem;
-        private ToolStripMenuItem ePOSTAGÖNDERToolStripMenuItem;
         private ToolStripMenuItem lİSTEYİEXCELEAKTARToolStripMenuItem;
         private ToolStripMenuItem gERİDÖNToolStripMenuItem;
         private ToolStripMenuItem lİSTEToolStripMenuItem;
