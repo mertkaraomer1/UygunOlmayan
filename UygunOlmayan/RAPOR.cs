@@ -35,6 +35,7 @@ namespace UygunOlmayan
             table.Columns.Add("KokNeden");
             table.Columns.Add("KokNedenAksiyon");
             table.Columns.Add("Açıklama"); // KokNedenAksiyon kolonu da şart!
+            table.Columns.Add("Tedarikçi"); // KokNedenAksiyon kolonu da şart!
             table.Columns.Add("KayıpGun");  // kayıp gün kolonu da şart!
             table.Columns.Add("Tarih"); // Tarih kolonu da şart!
             table.Columns.Add("KapanisTarihi"); // Kapanış tarihi kolonu da şart!
@@ -50,6 +51,7 @@ namespace UygunOlmayan
                     x.KokNeden,
                     x.KokNedenAksiyon,
                     x.Aciklama,
+                    x.Tedarikci,
                     x.Tarih,
                     x.KapanısTarihi,
                     kayıpGun = Math.Round((x.KapanısTarihi - x.Tarih).TotalDays, 0) // sadece gün sayısını verir
@@ -58,7 +60,7 @@ namespace UygunOlmayan
             int sayac = 1;
             foreach (var urun in hataliUrunList)
             {
-                table.Rows.Add(sayac++, urun.UrunKodu, urun.SiparisNo, urun.HataTipi, urun.HataBolumu, urun.KokNeden, urun.KokNedenAksiyon,urun.Aciklama, urun.kayıpGun, urun.Tarih, urun.KapanısTarihi);
+                table.Rows.Add(sayac++, urun.UrunKodu, urun.SiparisNo, urun.HataTipi, urun.HataBolumu, urun.KokNeden, urun.KokNedenAksiyon,urun.Aciklama,urun.Tedarikci, urun.kayıpGun, urun.Tarih, urun.KapanısTarihi);
             }
             advancedDataGridView1.DataSource = table;
         }
