@@ -215,10 +215,21 @@ namespace UygunOlmayan.Tables
                 };
 
 
+
+
                 // 3. Veritabanına ekleme işlemi
                 dbContext.hataliUruns.Add(yeniHataliUrun);
                 dbContext.SaveChanges(); // Değişiklikleri kaydedin
                 MessageBox.Show("Kaydedildi...");
+
+                var existingRecord = dbContext.hataliUruns
+                .Where(u => u.UrunKodu == yeniHataliUrun.UrunKodu
+                && u.SiparisNo == yeniHataliUrun.SiparisNo && u.UrunAdi == yeniHataliUrun.UrunAdi
+                && u.RaporuHazirlayan == yeniHataliUrun.RaporuHazirlayan &&u.HataBolumu==yeniHataliUrun.HataBolumu
+                &&u.HatalıMiktar==yeniHataliUrun.HatalıMiktar&&u.HatayıBulanBirim==yeniHataliUrun.HatayıBulanBirim&&u.HataTipi==yeniHataliUrun.HataTipi).Select(x=>x.UrunId).FirstOrDefault();
+
+                textBox16.Text = existingRecord.ToString();
+
                 textBox1.Clear();
                 textBox2.Clear();
                 textBox3.Clear();
