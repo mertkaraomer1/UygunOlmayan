@@ -70,8 +70,10 @@
             advancedDataGridView1.Size = new Size(1843, 925);
             advancedDataGridView1.SortStringChangedInvokeBeforeDatasourceUpdate = true;
             advancedDataGridView1.TabIndex = 3;
+            advancedDataGridView1.FilterStringChanged += advancedDataGridView1_FilterStringChanged;
             advancedDataGridView1.CellContentClick += advancedDataGridView1_CellContentClick;
             advancedDataGridView1.CellDoubleClick += advancedDataGridView1_CellDoubleClick;
+            advancedDataGridView1.DataBindingComplete += advancedDataGridView1_DataBindingComplete;
             // 
             // menuStrip1
             // 

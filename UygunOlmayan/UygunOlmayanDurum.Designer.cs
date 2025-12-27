@@ -162,7 +162,7 @@
             // comboBox6
             // 
             comboBox6.FormattingEnabled = true;
-            comboBox6.Items.AddRange(new object[] { "Montaj", "Tasarım", "İmalat", "Otomasyon", "Satınalma", "Planlama", "Kalite Kontrol", "Fabrika Müdürü", "Satış Sonrası", "Muhasebe" });
+            comboBox6.Items.AddRange(new object[] { "Montaj", "Tasarım", "İmalat", "Otomasyon", "Satınalma", "Planlama", "Kalite Kontrol", "Fabrika Müdürü", "Satış Sonrası", "Muhasebe", "Depo" });
             comboBox6.Location = new Point(6, 26);
             comboBox6.Name = "comboBox6";
             comboBox6.Size = new Size(262, 28);
@@ -334,7 +334,7 @@
             // comboBox4
             // 
             comboBox4.FormattingEnabled = true;
-            comboBox4.Items.AddRange(new object[] { "Montaj", "İmalat", "Tasarım", "Kalite", "Satın Alma", "Otomasyon" });
+            comboBox4.Items.AddRange(new object[] { "Montaj", "İmalat", "Tasarım", "Kalite", "Planlama", "Satın Alma", "Otomasyon", "Depo" });
             comboBox4.Location = new Point(6, 19);
             comboBox4.Name = "comboBox4";
             comboBox4.Size = new Size(262, 28);
@@ -354,7 +354,7 @@
             // comboBox3
             // 
             comboBox3.FormattingEnabled = true;
-            comboBox3.Items.AddRange(new object[] { "Montaj", "Tasarım", "İmalat", "Otomasyon", "Satınalma", "Planlama", "Kalite Kontrol", "Fabrika Müdürü", "Satış Sonrası", "Muhasebe" });
+            comboBox3.Items.AddRange(new object[] { "Montaj", "Tasarım", "İmalat", "Otomasyon", "Satınalma", "Planlama", "Kalite Kontrol", "Fabrika Müdürü", "Satış Sonrası", "Muhasebe", "Depo" });
             comboBox3.Location = new Point(6, 26);
             comboBox3.Name = "comboBox3";
             comboBox3.Size = new Size(262, 28);

@@ -42,32 +42,59 @@ namespace UygunOlmayan
             }
 
             var hataliUrunList = dbContext.hataliUruns
-                .Where(x => x.urunimza == new Guid())
+                .Where(x => x.urunimza == new Guid()).OrderBy(x => x.Tarih)
                 .ToList();
 
 
 
+                        foreach (var urun in hataliUrunList)
+                        {
+                            var aksiyonbölümü = dbContext.aksiyonAlacakBölüms
+                                .Where(x => x.UygunOlmayanId == urun.UrunId)
+                                .OrderByDescending(x => x.Tarihi)
+                                .FirstOrDefault();
 
-            foreach (var urun in hataliUrunList)
-            {
-                var aksiyonbölümü = dbContext.aksiyonAlacakBölüms
-                    .Where(x => x.UygunOlmayanId == urun.UrunId)
-                    .OrderByDescending(x => x.Tarihi) // Tarihi en yeni olanı seç
-                    .FirstOrDefault();
+                            string durum = (urun.Durum ?? "False") == "False"
+                                ? "İŞLEMİ DEVAM EDİYOR."
+                                : "DEĞERLENDİRMEYİ BEKLİYOR.";
 
-                string durum = urun.Durum == "False" ? "İŞLEMİ DEVAM EDİYOR." : "DEĞERLENDİRMEYİ BEKLİYOR.";
-                string aksiyonAlındımı = urun.AksiyonAlındı == "False" ? durum : "AKSİYON ALINDI";
-                durum = aksiyonAlındımı;
-                table.Rows.Add(
-                    urun.UrunId, urun.UrunKodu, urun.UrunAdi, urun.SiparisNo, urun.HatalıMiktar,
-                    urun.Adet, urun.toplamMiktar, urun.Tarih.ToString("yyyy.MM.dd"), urun.KayıpZaman,
-                    urun.ZamanCinsi, urun.HataTipi, urun.Aciklama, urun.Tedarikci, urun.Ozet,
-                    urun.HataBolumu, urun.RaporuHazirlayan, urun.HatayıBulanBirim, urun.KokNeden,
-                    urun.Aksiyon, urun.Sonuc, urun.Degerlendiren, urun.KokNedenAksiyon,
-                    urun.Resim, urun.KapanısTarihi, urun.TerminTarihi, urun.uruntipi,
-                    urun.DuzelticiFaliyetDurum, durum, aksiyonbölümü?.AksiyonBölümü
-                );
-            }
+                            string aksiyonAlındımı = (urun.AksiyonAlındı ?? "False") == "False"
+                                ? durum
+                                : "AKSİYON ALINDI";
+                                            table.Rows.Add(
+                                urun.UrunId,
+                                urun.UrunKodu,
+                                urun.UrunAdi,
+                                urun.SiparisNo,
+                                urun.HatalıMiktar,
+                                urun.Adet,
+                                urun.toplamMiktar,
+                                urun.Tarih.ToString("yyyy.MM.dd"),
+                                urun.KayıpZaman,
+                                urun.ZamanCinsi,
+                                urun.HataTipi,
+                                urun.Aciklama,
+                                urun.Tedarikci,
+                                urun.Ozet,
+                                urun.HataBolumu,
+                                urun.RaporuHazirlayan,
+                                urun.HatayıBulanBirim,
+                                urun.KokNeden,
+                                urun.Aksiyon,
+                                urun.Sonuc,
+                                urun.Degerlendiren,
+                                urun.KokNedenAksiyon,
+                                urun.Resim != null ? "VAR" : "",   // 🔥 STRING
+                                urun.KapanısTarihi,
+                                urun.TerminTarihi,
+                                urun.uruntipi,
+                                urun.DuzelticiFaliyetDurum,
+                                aksiyonAlındımı,
+                                aksiyonbölümü?.AksiyonBölümü ?? ""
+                            );
+    
+                                        }
+
 
             // DataTable'ı DataGridView'e bağla
             advancedDataGridView1.DataSource = table;
@@ -118,6 +145,18 @@ namespace UygunOlmayan
                     }
                 }
             }
+            // === Başlıkları biçimlendir ===
+            var headerStyle = new DataGridViewCellStyle();
+            headerStyle.Font = new System.Drawing.Font("Segoe UI", 9F, FontStyle.Bold); // Kalın font
+            headerStyle.BackColor = Color.LightSteelBlue; // Başlık arka plan rengi
+            headerStyle.ForeColor = Color.Black; // Yazı rengi
+            headerStyle.Alignment = DataGridViewContentAlignment.MiddleCenter; // Ortala
+
+            advancedDataGridView1.EnableHeadersVisualStyles = false; // Windows varsayılan stilini kapat
+            advancedDataGridView1.ColumnHeadersDefaultCellStyle = headerStyle;
+
+            // === Alternatif satır renklendirme (isteğe bağlı) ===
+            advancedDataGridView1.AlternatingRowsDefaultCellStyle.BackColor = Color.AliceBlue;
         }
 
         private void UygunOlmayanListe_Load(object sender, EventArgs e)
@@ -202,7 +241,7 @@ namespace UygunOlmayan
                 UOD.uruntipi1 = uruntipi2;
                 UOD.DuzelticiFaliyetDurum1 = DuzelticiFaliyetDurum2;
                 UOD.ButtonGuncelle = true;
-               UOD.ButtonKaydet = false;
+                UOD.ButtonKaydet = false;
                 // Formu göster
                 UOD.Show();
             }
@@ -212,55 +251,65 @@ namespace UygunOlmayan
         {
             if (e.RowIndex >= 0 && e.ColumnIndex == 30)
             {
-                // Seçilen satırın verilerini almak için DataGridView'den erişin
-                DataGridViewRow selectedRow = advancedDataGridView1.Rows[e.RowIndex];
+                DataGridViewRow gridRow = advancedDataGridView1.Rows[e.RowIndex];
 
+                int urunId;
+                if (!int.TryParse(gridRow.Cells["Urun Id"]?.Value?.ToString(), out urunId))
+                    return;
 
-                string UrunKod = selectedRow.Cells["Urun Kodu"].Value.ToString();
-                string SipNo = selectedRow.Cells["Siparis No"].Value.ToString();
-
-
-                // UrunKodu ve UrunAdi'ye göre eşleşen HataliUrun nesnesini bulun
                 var eskiHataliUrun = dbContext.hataliUruns
-                    .FirstOrDefault(u => u.UrunKodu == UrunKod && u.SiparisNo == SipNo);
+                    .FirstOrDefault(x => x.UrunId == urunId);
 
-                // Eğer eşleşen bir nesne bulunduysa, alanları güncelleyin
-                if (eskiHataliUrun != null)
+                if (eskiHataliUrun == null)
+                    return;
+
+                // 🔥 DB güncelle
+                eskiHataliUrun.urunimza = Guid.NewGuid();
+                eskiHataliUrun.KapanısTarihi = DateTime.Now.Date;
+                dbContext.SaveChanges();
+
+                // 🔥 SADECE BU SATIRI DATATABLE'DAN SİL
+                DataRowView drv = gridRow.DataBoundItem as DataRowView;
+                if (drv != null)
                 {
-                    eskiHataliUrun.urunimza = Guid.NewGuid();
-                    eskiHataliUrun.KapanısTarihi = DateTime.Now.Date;
-                    // Değişiklikleri veritabanına kaydedin
-                    dbContext.SaveChanges();
-                    MessageBox.Show("Güncellendi.");
-                    UygunOlmayanVol1();
+                    drv.Row.Delete();   // 💥 ASIL KRİTİK SATIR
                 }
+
+                MessageBox.Show("Güncellendi.");
             }
+
             else if (e.RowIndex >= 0 && e.ColumnIndex == 29)
             {
-                // Seçilen satırın verilerini almak için DataGridView'den erişin
-                DataGridViewRow selectedRow = advancedDataGridView1.Rows[e.RowIndex];
+                DataGridViewRow row = advancedDataGridView1.Rows[e.RowIndex];
 
+                string urunKod = row.Cells["Urun Kodu"]?.Value?.ToString();
+                string sipNo = row.Cells["Siparis No"]?.Value?.ToString();
 
-                string UrunKod = selectedRow.Cells["Urun Kodu"].Value.ToString();
-                string SipNo = selectedRow.Cells["Siparis No"].Value.ToString();
+                if (string.IsNullOrEmpty(urunKod) || string.IsNullOrEmpty(sipNo))
+                    return;
 
-
-                // UrunKodu ve UrunAdi'ye göre eşleşen HataliUrun nesnesini bulun
                 var eskiHataliUrun = dbContext.hataliUruns
-                    .FirstOrDefault(u => u.UrunKodu == UrunKod && u.SiparisNo == SipNo);
+                    .FirstOrDefault(u => u.UrunKodu == urunKod && u.SiparisNo == sipNo);
 
-                // Eğer eşleşen bir nesne bulunduysa, alanları güncelleyin
-                if (eskiHataliUrun != null)
-                {
-                    eskiHataliUrun.AksiyonAlındı = "True";
+                if (eskiHataliUrun == null)
+                    return;
 
-                    dbContext.SaveChanges();
-                    MessageBox.Show("Güncellendi.");
-                    UygunOlmayanVol1();
-                }
+                // 🔥 DB güncelle
+                eskiHataliUrun.AksiyonAlındı = "True";
+                dbContext.SaveChanges();
+
+                // 🔥 Grid tarafında sadece DURUMU değiştir
+                if (advancedDataGridView1.Columns.Contains("Durum"))
+                    row.Cells["Durum"].Value = "AKSİYON ALINDI";
+
+                // 🎨 Yeniden renklendir
+                RenklendirDurum();
+
+                MessageBox.Show("Güncellendi.");
             }
-        }
 
+        }
+        
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
             // DataGridView'deki verileri bir DataTable'a kopyalayın
@@ -549,6 +598,63 @@ namespace UygunOlmayan
             UygunOlmayanDurum UGOD = new UygunOlmayanDurum();
             UGOD.Show();
             this.Close();
+        }
+
+
+
+        public void filtreleme()
+        {
+       
+        }
+        private void advancedDataGridView1_FilterStringChanged(object sender, Zuby.ADGV.AdvancedDataGridView.FilterEventArgs e)
+        {
+            try
+            {
+                table.DefaultView.RowFilter = advancedDataGridView1.FilterString;
+            }
+            catch
+            {
+                table.DefaultView.RowFilter = "";
+            }
+        }
+
+        private void advancedDataGridView1_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            RenklendirDurum();
+        }
+        private void RenklendirDurum()
+        {
+            if (!advancedDataGridView1.Columns.Contains("Durum"))
+                return;
+
+            int durumColumnIndex = advancedDataGridView1.Columns["Durum"].Index;
+
+            foreach (DataGridViewRow row in advancedDataGridView1.Rows)
+            {
+                if (row.IsNewRow)
+                    continue;
+
+                if (row.Cells[durumColumnIndex].Value == null)
+                    continue;
+
+                string durumText = row.Cells[durumColumnIndex].Value.ToString();
+
+                if (durumText == "İŞLEMİ DEVAM EDİYOR.")
+                {
+                    row.Cells[durumColumnIndex].Style.BackColor = Color.Yellow;
+                    row.Cells[durumColumnIndex].Style.ForeColor = Color.Black;
+                }
+                else if (durumText == "DEĞERLENDİRMEYİ BEKLİYOR.")
+                {
+                    row.Cells[durumColumnIndex].Style.BackColor = Color.Red;
+                    row.Cells[durumColumnIndex].Style.ForeColor = Color.White;
+                }
+                else if (durumText == "AKSİYON ALINDI")
+                {
+                    row.Cells[durumColumnIndex].Style.BackColor = Color.Blue;
+                    row.Cells[durumColumnIndex].Style.ForeColor = Color.White;
+                }
+            }
         }
 
     }
