@@ -481,7 +481,7 @@ namespace UygunOlmayan
 
 
             smtpServer.Port = 587; // Genellikle 587 veya 465
-            smtpServer.Credentials = new NetworkCredential("oarslan@icmmakina.com", "K.470555320398ot"); // Şifreyi buraya ekleyin
+            smtpServer.Credentials = new NetworkCredential("oarslan@icmmakina.com", "D&351975783333ad"); // Şifreyi buraya ekleyin
             smtpServer.EnableSsl = true;
 
             smtpServer.Send(mail);
