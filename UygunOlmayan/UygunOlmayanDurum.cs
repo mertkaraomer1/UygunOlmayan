@@ -176,10 +176,26 @@ namespace UygunOlmayan.Tables
         private void button1_Click(object sender, EventArgs e)
         {
 
+            // 🔴 ZORUNLU ALAN KONTROLÜ
+            if (string.IsNullOrWhiteSpace(textBox1.Text) || string.IsNullOrWhiteSpace(textBox3.Text))
+            {
+                MessageBox.Show("Ürün Kodu ve Sipariş No alanları boş bırakılamaz!",
+                                "Zorunlu Alan",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Warning);
+
+                if (string.IsNullOrWhiteSpace(textBox1.Text))
+                    textBox1.Focus();
+                else
+                    textBox3.Focus();
+
+                return; // Kayıt işlemini durdur
+            }
+
             // 1. Veritabanı bağlamınızı oluşturun
             using (var dbContext = new MyDbContext())
             {
-                // 2. HataliUrun sınıfı ile eşleşen bir nesne oluşturun ve verileri atayın
+                // 2. HataliUrun nesnesini oluştur
                 var yeniHataliUrun = new HataliUrun
                 {
                     UrunKodu = textBox1.Text,
@@ -211,25 +227,32 @@ namespace UygunOlmayan.Tables
                     uruntipi = comboBox1.Text,
                     DuzelticiFaliyetDurum = comboBox5.Text,
                     AksiyonAlındı = "False"
-
                 };
 
-
-
-
-                // 3. Veritabanına ekleme işlemi
+                // 3. Veritabanına ekle
                 dbContext.hataliUruns.Add(yeniHataliUrun);
-                dbContext.SaveChanges(); // Değişiklikleri kaydedin
+                dbContext.SaveChanges();
+
                 MessageBox.Show("Kaydedildi...");
 
+                // 4. Eklenen kaydın ID'sini çek
                 var existingRecord = dbContext.hataliUruns
-                .Where(u => u.UrunKodu == yeniHataliUrun.UrunKodu
-                && u.SiparisNo == yeniHataliUrun.SiparisNo && u.UrunAdi == yeniHataliUrun.UrunAdi
-                && u.RaporuHazirlayan == yeniHataliUrun.RaporuHazirlayan &&u.HataBolumu==yeniHataliUrun.HataBolumu
-                &&u.HatalıMiktar==yeniHataliUrun.HatalıMiktar&&u.HatayıBulanBirim==yeniHataliUrun.HatayıBulanBirim&&u.HataTipi==yeniHataliUrun.HataTipi).Select(x=>x.UrunId).FirstOrDefault();
+                    .Where(u =>
+                        u.UrunKodu == yeniHataliUrun.UrunKodu &&
+                        u.SiparisNo == yeniHataliUrun.SiparisNo &&
+                        u.UrunAdi == yeniHataliUrun.UrunAdi &&
+                        u.RaporuHazirlayan == yeniHataliUrun.RaporuHazirlayan &&
+                        u.HataBolumu == yeniHataliUrun.HataBolumu &&
+                        u.HatalıMiktar == yeniHataliUrun.HatalıMiktar &&
+                        u.HatayıBulanBirim == yeniHataliUrun.HatayıBulanBirim &&
+                        u.HataTipi == yeniHataliUrun.HataTipi
+                    )
+                    .Select(x => x.UrunId)
+                    .FirstOrDefault();
 
                 textBox16.Text = existingRecord.ToString();
 
+                // 5. Textbox'ları temizle
                 textBox1.Clear();
                 textBox2.Clear();
                 textBox3.Clear();
@@ -244,9 +267,8 @@ namespace UygunOlmayan.Tables
                 textBox13.Clear();
                 textBox14.Clear();
                 textBox17.Clear();
-
-
             }
+
         }
 
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
