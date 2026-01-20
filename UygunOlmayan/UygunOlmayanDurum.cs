@@ -6,6 +6,7 @@ using System.Net;
 using OfficeOpenXml;
 using System.Drawing.Imaging;
 using System.Drawing.Printing;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace UygunOlmayan.Tables
@@ -370,7 +371,6 @@ namespace UygunOlmayan.Tables
             }
         }
 
-        private System.Threading.Timer _lookupTimer; // Declare the timer
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
@@ -513,7 +513,7 @@ namespace UygunOlmayan.Tables
         private async void ExceliDoldurVeAc()
         {
             this.Cursor = Cursors.WaitCursor;
-            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            ExcelPackage.LicenseContext = OfficeOpenXml.LicenseContext.NonCommercial;
             try
             {
                 string excelFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Dosyalar", "UygunOlmayanUrunRaporu.xlsx");

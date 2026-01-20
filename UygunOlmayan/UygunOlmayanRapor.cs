@@ -44,7 +44,7 @@ namespace UygunOlmayan
 
         private void ExportToExcelFast()
         {
-            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            ExcelPackage.LicenseContext = OfficeOpenXml.LicenseContext.NonCommercial;
             using (var package = new ExcelPackage())
             {
                 var worksheet = package.Workbook.Worksheets.Add("RAPOR");
@@ -107,7 +107,7 @@ namespace UygunOlmayan
                         urun.HataBolumu, urun.RaporuHazirlayan, urun.HatayıBulanBirim, urun.KokNeden,
                         urun.Aksiyon, urun.Sonuc, urun.Degerlendiren, urun.KokNedenAksiyon,
                         urun.ResimVar, urun.KapanısTarihi.ToString("yyyy.MM.dd"), 
-                        urun.TerminTarihi.ToString("yyyy.MM.dd"), urun.uruntipi,
+                        urun.TerminTarihi?.ToString("yyyy.MM.dd") ?? "", urun.uruntipi,
                         urun.DuzelticiFaliyetDurum, urun.urunimza == Guid.Empty ? "İMZASIZ" : "İMZALI"
                     );
                 }

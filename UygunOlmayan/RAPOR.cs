@@ -121,7 +121,7 @@ namespace UygunOlmayan
 
         private void lİSTEYİEXCELEAKTARToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            ExcelPackage.LicenseContext = OfficeOpenXml.LicenseContext.NonCommercial;
             using (var package = new ExcelPackage())
             {
                 var worksheet = package.Workbook.Worksheets.Add("ANALİZ RAPORU");

@@ -7,19 +7,6 @@
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing && (components != null))
-            {
-                components.Dispose();
-            }
-            base.Dispose(disposing);
-        }
-
         #region Windows Form Designer generated code
 
         /// <summary>
@@ -41,17 +28,18 @@
             lblTitle = new Label();
             toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)advancedDataGridView1).BeginInit();
+            panelHeader.SuspendLayout();
             SuspendLayout();
             // 
             // toolStrip1
             // 
             toolStrip1.BackColor = Color.FromArgb(41, 57, 85);
-            toolStrip1.GripStyle = ToolStripGripStyle.Hidden;
+            toolStrip1.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             toolStrip1.ImageScalingSize = new Size(20, 20);
             toolStrip1.Items.AddRange(new ToolStripItem[] { toolStripLabel1, toolStripButton1, toolStripButton2 });
-            toolStrip1.Location = new Point(0, 0);
+            toolStrip1.Location = new Point(0, 80);
             toolStrip1.Name = "toolStrip1";
-            toolStrip1.Size = new Size(1902, 35);
+            toolStrip1.Size = new Size(1902, 27);
             toolStrip1.TabIndex = 22;
             toolStrip1.Text = "toolStrip1";
             // 
@@ -66,7 +54,7 @@
             toolStripButton1.Image = (Image)resources.GetObject("toolStripButton1.Image");
             toolStripButton1.ImageTransparentColor = Color.Magenta;
             toolStripButton1.Name = "toolStripButton1";
-            toolStripButton1.Size = new Size(80, 32);
+            toolStripButton1.Size = new Size(86, 24);
             toolStripButton1.Text = "YENİLE";
             toolStripButton1.Click += toolStripButton1_Click;
             // 
@@ -76,7 +64,7 @@
             toolStripButton2.Image = (Image)resources.GetObject("toolStripButton2.Image");
             toolStripButton2.ImageTransparentColor = Color.Magenta;
             toolStripButton2.Name = "toolStripButton2";
-            toolStripButton2.Size = new Size(100, 32);
+            toolStripButton2.Size = new Size(152, 24);
             toolStripButton2.Text = "EXCEL'E AKTAR";
             toolStripButton2.Click += toolStripButton2_Click;
             // 
@@ -112,7 +100,7 @@
             advancedDataGridView1.FilterAndSortEnabled = true;
             advancedDataGridView1.FilterStringChangedInvokeBeforeDatasourceUpdate = true;
             advancedDataGridView1.GridColor = Color.FromArgb(224, 224, 224);
-            advancedDataGridView1.Location = new Point(12, 130);
+            advancedDataGridView1.Location = new Point(12, 120);
             advancedDataGridView1.Name = "advancedDataGridView1";
             advancedDataGridView1.ReadOnly = true;
             advancedDataGridView1.RowHeadersVisible = false;
@@ -121,19 +109,19 @@
             advancedDataGridView1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle3;
             advancedDataGridView1.RowTemplate.Height = 40;
             advancedDataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            advancedDataGridView1.Size = new Size(1878, 891);
+            advancedDataGridView1.Size = new Size(1878, 901);
+            advancedDataGridView1.TabIndex = 23;
             advancedDataGridView1.SortStringChangedInvokeBeforeDatasourceUpdate = true;
-            advancedDataGridView1.TabIndex = 21;
             // 
             // panelHeader
             // 
             panelHeader.BackColor = Color.FromArgb(41, 57, 85);
             panelHeader.Controls.Add(lblTitle);
             panelHeader.Dock = DockStyle.Top;
-            panelHeader.Location = new Point(0, 35);
+            panelHeader.Location = new Point(0, 0);
             panelHeader.Name = "panelHeader";
             panelHeader.Size = new Size(1902, 80);
-            panelHeader.TabIndex = 23;
+            panelHeader.TabIndex = 24;
             // 
             // lblTitle
             // 
@@ -142,7 +130,7 @@
             lblTitle.ForeColor = Color.White;
             lblTitle.Location = new Point(20, 18);
             lblTitle.Name = "lblTitle";
-            lblTitle.Size = new Size(331, 46);
+            lblTitle.Size = new Size(543, 46);
             lblTitle.TabIndex = 0;
             lblTitle.Text = "UYGUN OLMAYAN RAPOR LİSTESİ";
             // 
@@ -152,13 +140,13 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(242, 245, 250);
             ClientSize = new Size(1902, 1033);
-            Controls.Add(panelHeader);
-            Controls.Add(toolStrip1);
             Controls.Add(advancedDataGridView1);
+            Controls.Add(toolStrip1);
+            Controls.Add(panelHeader);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "UygunOlmayanRapor";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Uygun Olmayan Rapor";
+            Text = "Uygun Olmayan Rapor Listesi";
             WindowState = FormWindowState.Maximized;
             Load += UygunOlmayanRapor_Load;
             toolStrip1.ResumeLayout(false);
@@ -175,8 +163,8 @@
         private ToolStrip toolStrip1;
         private ToolStripLabel toolStripLabel1;
         private ToolStripButton toolStripButton1;
-        private Zuby.ADGV.AdvancedDataGridView advancedDataGridView1;
         private ToolStripButton toolStripButton2;
+        private Zuby.ADGV.AdvancedDataGridView advancedDataGridView1;
         private Panel panelHeader;
         private Label lblTitle;
     }
