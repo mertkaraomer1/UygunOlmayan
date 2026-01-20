@@ -7,18 +7,6 @@
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing && (components != null))
-            {
-                components.Dispose();
-            }
-            base.Dispose(disposing);
-        }
 
         #region Windows Form Designer generated code
 
@@ -30,6 +18,8 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UygunOlmayanDurum));
             groupBox1 = new GroupBox();
+            panelHeader = new Panel();
+            lblTitle = new Label();
             button2 = new Button();
             groupBox26 = new GroupBox();
             comboBox6 = new ComboBox();
@@ -126,6 +116,7 @@
             // 
             // groupBox1
             // 
+            groupBox1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             groupBox1.Controls.Add(button2);
             groupBox1.Controls.Add(groupBox26);
             groupBox1.Controls.Add(groupBox25);
@@ -133,26 +124,54 @@
             groupBox1.Controls.Add(button5);
             groupBox1.Controls.Add(pictureBox1);
             groupBox1.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            groupBox1.Location = new Point(12, 40);
+            groupBox1.ForeColor = Color.FromArgb(64, 64, 64);
+            groupBox1.Location = new Point(12, 115);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(1628, 920);
+            groupBox1.Size = new Size(1628, 850);
             groupBox1.TabIndex = 49;
             groupBox1.TabStop = false;
             // 
+            // panelHeader
+            // 
+            panelHeader.BackColor = Color.FromArgb(41, 57, 85);
+            panelHeader.Controls.Add(lblTitle);
+            panelHeader.Dock = DockStyle.Top;
+            panelHeader.Location = new Point(0, 28);
+            panelHeader.Name = "panelHeader";
+            panelHeader.Size = new Size(1647, 80);
+            panelHeader.TabIndex = 53;
+            // 
+            // lblTitle
+            // 
+            lblTitle.AutoSize = true;
+            lblTitle.Font = new Font("Segoe UI", 20F, FontStyle.Bold);
+            lblTitle.ForeColor = Color.White;
+            lblTitle.Location = new Point(20, 18);
+            lblTitle.Name = "lblTitle";
+            lblTitle.Size = new Size(680, 46);
+            lblTitle.TabIndex = 0;
+            lblTitle.Text = "UYGUN OLMAYAN ÜRÜN KONTROL FORMU";
+            // 
             // button2
             // 
-            button2.Location = new Point(342, 826);
+            button2.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            button2.BackColor = Color.FromArgb(255, 87, 34);
+            button2.FlatAppearance.BorderSize = 0;
+            button2.FlatStyle = FlatStyle.Flat;
+            button2.ForeColor = Color.White;
+            button2.Location = new Point(342, 780);
             button2.Name = "button2";
             button2.Size = new Size(88, 61);
             button2.TabIndex = 54;
             button2.Text = "Aksiyon Maili";
-            button2.UseVisualStyleBackColor = true;
+            button2.UseVisualStyleBackColor = false;
             button2.Click += button2_Click;
             // 
             // groupBox26
             // 
+            groupBox26.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             groupBox26.Controls.Add(comboBox6);
-            groupBox26.Location = new Point(436, 826);
+            groupBox26.Location = new Point(436, 780);
             groupBox26.Name = "groupBox26";
             groupBox26.Size = new Size(280, 62);
             groupBox26.TabIndex = 53;
@@ -171,6 +190,7 @@
             // 
             // groupBox25
             // 
+            groupBox25.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
             groupBox25.Controls.Add(groupBox12);
             groupBox25.Controls.Add(groupBox11);
             groupBox25.Controls.Add(groupBox2);
@@ -187,7 +207,7 @@
             groupBox25.Controls.Add(groupBox9);
             groupBox25.Location = new Point(6, 26);
             groupBox25.Name = "groupBox25";
-            groupBox25.Size = new Size(736, 770);
+            groupBox25.Size = new Size(736, 740);
             groupBox25.TabIndex = 52;
             groupBox25.TabStop = false;
             groupBox25.Text = "UYGUN OLMAYAN FORMU 1.BÖLÜM";
@@ -380,12 +400,17 @@
             // 
             // button1
             // 
-            button1.Location = new Point(47, 693);
+            button1.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            button1.BackColor = Color.FromArgb(0, 150, 136);
+            button1.FlatAppearance.BorderSize = 0;
+            button1.FlatStyle = FlatStyle.Flat;
+            button1.ForeColor = Color.White;
+            button1.Location = new Point(47, 665);
             button1.Name = "button1";
             button1.Size = new Size(235, 61);
             button1.TabIndex = 48;
-            button1.Text = "Kaydet";
-            button1.UseVisualStyleBackColor = true;
+            button1.Text = "KAYDET";
+            button1.UseVisualStyleBackColor = false;
             button1.Click += button1_Click;
             // 
             // groupBox5
@@ -507,12 +532,16 @@
             // 
             // button4
             // 
+            button4.BackColor = Color.FromArgb(3, 169, 244);
+            button4.FlatAppearance.BorderSize = 0;
+            button4.FlatStyle = FlatStyle.Flat;
+            button4.ForeColor = Color.White;
             button4.Location = new Point(103, 535);
             button4.Name = "button4";
             button4.Size = new Size(235, 50);
             button4.TabIndex = 50;
-            button4.Text = "Güncelle";
-            button4.UseVisualStyleBackColor = true;
+            button4.Text = "GÜNCELLE";
+            button4.UseVisualStyleBackColor = false;
             button4.Visible = false;
             button4.Click += button4_Click;
             // 
@@ -647,22 +676,27 @@
             // 
             // button5
             // 
-            button5.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            button5.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            button5.BackColor = Color.FromArgb(0, 126, 249);
+            button5.FlatStyle = FlatStyle.Flat;
             button5.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            button5.ForeColor = Color.White;
             button5.Location = new Point(773, 635);
             button5.Name = "button5";
             button5.Size = new Size(39, 29);
             button5.TabIndex = 20;
             button5.Text = "...";
-            button5.UseVisualStyleBackColor = true;
+            button5.UseVisualStyleBackColor = false;
             button5.Click += button5_Click;
             // 
             // pictureBox1
             // 
-            pictureBox1.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            pictureBox1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
+            pictureBox1.BackColor = Color.White;
+            pictureBox1.BorderStyle = BorderStyle.FixedSingle;
             pictureBox1.Location = new Point(818, 635);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(804, 278);
+            pictureBox1.Size = new Size(804, 185);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox1.TabIndex = 51;
             pictureBox1.TabStop = false;
@@ -670,7 +704,9 @@
             // 
             // menuStrip1
             // 
+            menuStrip1.BackColor = Color.FromArgb(41, 57, 85);
             menuStrip1.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            menuStrip1.ForeColor = Color.White;
             menuStrip1.ImageScalingSize = new Size(20, 20);
             menuStrip1.Items.AddRange(new ToolStripItem[] { fORMToolStripMenuItem, vERİGÖRÜNTÜLÜMEToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
@@ -682,6 +718,7 @@
             // fORMToolStripMenuItem
             // 
             fORMToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { eXCELÇEKToolStripMenuItem, yAZDIRToolStripMenuItem, ePOSTAGÖNDERToolStripMenuItem, bİLDİRToolStripMenuItem, pROGRAMIKAPATToolStripMenuItem });
+            fORMToolStripMenuItem.ForeColor = Color.White;
             fORMToolStripMenuItem.Image = (Image)resources.GetObject("fORMToolStripMenuItem.Image");
             fORMToolStripMenuItem.Name = "fORMToolStripMenuItem";
             fORMToolStripMenuItem.Size = new Size(92, 24);
@@ -730,6 +767,7 @@
             // vERİGÖRÜNTÜLÜMEToolStripMenuItem
             // 
             vERİGÖRÜNTÜLÜMEToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { lİSTEToolStripMenuItem1, rAPORToolStripMenuItem, rAPORToolStripMenuItem1 });
+            vERİGÖRÜNTÜLÜMEToolStripMenuItem.ForeColor = Color.White;
             vERİGÖRÜNTÜLÜMEToolStripMenuItem.Image = (Image)resources.GetObject("vERİGÖRÜNTÜLÜMEToolStripMenuItem.Image");
             vERİGÖRÜNTÜLÜMEToolStripMenuItem.Name = "vERİGÖRÜNTÜLÜMEToolStripMenuItem";
             vERİGÖRÜNTÜLÜMEToolStripMenuItem.Size = new Size(196, 24);
@@ -763,15 +801,16 @@
             // 
             AutoScaleDimensions = new SizeF(120F, 120F);
             AutoScaleMode = AutoScaleMode.Dpi;
-            BackColor = Color.Gray;
+            BackColor = Color.FromArgb(242, 245, 250);
             ClientSize = new Size(1647, 974);
             Controls.Add(groupBox1);
+            Controls.Add(panelHeader);
             Controls.Add(menuStrip1);
             Icon = (Icon)resources.GetObject("$this.Icon");
             MainMenuStrip = menuStrip1;
             Name = "UygunOlmayanDurum";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "UygunOlmayanDurum";
+            Text = "Uygun Olmayan Ürün Durum Formu";
             groupBox1.ResumeLayout(false);
             groupBox26.ResumeLayout(false);
             groupBox25.ResumeLayout(false);
@@ -823,6 +862,8 @@
 
         #endregion
         private GroupBox groupBox1;
+        private Panel panelHeader;
+        private Label lblTitle;
         private Button button1;
         private GroupBox groupBox12;
         private TextBox textBox1;

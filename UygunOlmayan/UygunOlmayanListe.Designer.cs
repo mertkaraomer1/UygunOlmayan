@@ -7,18 +7,6 @@
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing && (components != null))
-            {
-                components.Dispose();
-            }
-            base.Dispose(disposing);
-        }
 
         #region Windows Form Designer generated code
 
@@ -29,8 +17,12 @@
         private void InitializeComponent()
         {
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UygunOlmayanListe));
             advancedDataGridView1 = new Zuby.ADGV.AdvancedDataGridView();
+            panelHeader = new Panel();
+            lblTitle = new Label();
             menuStrip1 = new MenuStrip();
             fORMToolStripMenuItem = new ToolStripMenuItem();
             eXCELÇEKToolStripMenuItem = new ToolStripMenuItem();
@@ -47,37 +39,76 @@
             advancedDataGridView1.AllowUserToAddRows = false;
             advancedDataGridView1.AllowUserToDeleteRows = false;
             advancedDataGridView1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            advancedDataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCellsExceptHeader;
-            advancedDataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            advancedDataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
+            advancedDataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
             advancedDataGridView1.BackgroundColor = Color.White;
-            advancedDataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            advancedDataGridView1.BorderStyle = BorderStyle.None;
+            advancedDataGridView1.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            advancedDataGridView1.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
             dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = SystemColors.Window;
-            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle1.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle1.BackColor = Color.FromArgb(41, 57, 85);
+            dataGridViewCellStyle1.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
+            dataGridViewCellStyle1.ForeColor = Color.White;
+            dataGridViewCellStyle1.SelectionBackColor = Color.FromArgb(41, 57, 85);
             dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
             dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-            advancedDataGridView1.DefaultCellStyle = dataGridViewCellStyle1;
+            advancedDataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            advancedDataGridView1.ColumnHeadersHeight = 45;
+            advancedDataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = Color.White;
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle2.ForeColor = Color.FromArgb(64, 64, 64);
+            dataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(226, 230, 236);
+            dataGridViewCellStyle2.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
+            advancedDataGridView1.DefaultCellStyle = dataGridViewCellStyle2;
+            advancedDataGridView1.EnableHeadersVisualStyles = false;
             advancedDataGridView1.FilterAndSortEnabled = true;
             advancedDataGridView1.FilterStringChangedInvokeBeforeDatasourceUpdate = true;
-            advancedDataGridView1.Location = new Point(24, 71);
+            advancedDataGridView1.GridColor = Color.FromArgb(224, 224, 224);
+            advancedDataGridView1.Location = new Point(12, 120);
             advancedDataGridView1.Name = "advancedDataGridView1";
             advancedDataGridView1.ReadOnly = true;
-            advancedDataGridView1.RightToLeft = RightToLeft.No;
+            advancedDataGridView1.RowHeadersVisible = false;
             advancedDataGridView1.RowHeadersWidth = 51;
-            advancedDataGridView1.RowTemplate.Height = 29;
-            advancedDataGridView1.Size = new Size(1843, 925);
-            advancedDataGridView1.SortStringChangedInvokeBeforeDatasourceUpdate = true;
+            dataGridViewCellStyle3.BackColor = Color.FromArgb(250, 251, 252);
+            advancedDataGridView1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle3;
+            advancedDataGridView1.RowTemplate.Height = 40;
+            advancedDataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            advancedDataGridView1.Size = new Size(1878, 901);
             advancedDataGridView1.TabIndex = 3;
             advancedDataGridView1.FilterStringChanged += advancedDataGridView1_FilterStringChanged;
             advancedDataGridView1.CellContentClick += advancedDataGridView1_CellContentClick;
             advancedDataGridView1.CellDoubleClick += advancedDataGridView1_CellDoubleClick;
             advancedDataGridView1.DataBindingComplete += advancedDataGridView1_DataBindingComplete;
             // 
+            // panelHeader
+            // 
+            panelHeader.BackColor = Color.FromArgb(41, 57, 85);
+            panelHeader.Controls.Add(lblTitle);
+            panelHeader.Dock = DockStyle.Top;
+            panelHeader.Location = new Point(0, 28);
+            panelHeader.Name = "panelHeader";
+            panelHeader.Size = new Size(1902, 80);
+            panelHeader.TabIndex = 54;
+            // 
+            // lblTitle
+            // 
+            lblTitle.AutoSize = true;
+            lblTitle.Font = new Font("Segoe UI", 20F, FontStyle.Bold);
+            lblTitle.ForeColor = Color.White;
+            lblTitle.Location = new Point(20, 18);
+            lblTitle.Name = "lblTitle";
+            lblTitle.Size = new Size(580, 46);
+            lblTitle.TabIndex = 0;
+            lblTitle.Text = "UYGUN OLMAYAN ÜRÜN LİSTESİ";
+            // 
             // menuStrip1
             // 
+            menuStrip1.BackColor = Color.FromArgb(41, 57, 85);
             menuStrip1.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            menuStrip1.ForeColor = Color.White;
             menuStrip1.ImageScalingSize = new Size(20, 20);
             menuStrip1.Items.AddRange(new ToolStripItem[] { fORMToolStripMenuItem, lİSTEToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
@@ -88,6 +119,7 @@
             // 
             // fORMToolStripMenuItem
             // 
+            fORMToolStripMenuItem.ForeColor = Color.White;
             fORMToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { eXCELÇEKToolStripMenuItem, ePOSTAGÖNDERToolStripMenuItem, lİSTEYİEXCELEAKTARToolStripMenuItem, gERİDÖNToolStripMenuItem });
             fORMToolStripMenuItem.Image = (Image)resources.GetObject("fORMToolStripMenuItem.Image");
             fORMToolStripMenuItem.Name = "fORMToolStripMenuItem";
@@ -135,14 +167,15 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.Gray;
+            BackColor = Color.FromArgb(242, 245, 250);
             ClientSize = new Size(1902, 1033);
+            Controls.Add(panelHeader);
             Controls.Add(menuStrip1);
             Controls.Add(advancedDataGridView1);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "UygunOlmayanListe";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "UygunOlmayanListe";
+            Text = "Uygun Olmayan Ürün Listesi";
             WindowState = FormWindowState.Maximized;
             Load += UygunOlmayanListe_Load;
             ((System.ComponentModel.ISupportInitialize)advancedDataGridView1).EndInit();
@@ -154,6 +187,8 @@
 
         #endregion
         private Zuby.ADGV.AdvancedDataGridView advancedDataGridView1;
+        private Panel panelHeader;
+        private Label lblTitle;
         private MenuStrip menuStrip1;
         private ToolStripMenuItem fORMToolStripMenuItem;
         private ToolStripMenuItem eXCELÇEKToolStripMenuItem;

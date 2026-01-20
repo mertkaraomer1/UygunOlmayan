@@ -15,14 +15,28 @@ namespace UygunOlmayan.Tables
         private static readonly HttpClient client = new HttpClient();
         private MyDbContext dbContext;
         private MySDbContext SdbContext;
-        private PrintDocument printDocument;
+        private System.Drawing.Printing.PrintDocument printDocument;
+        private System.Threading.Timer _lookupTimer; // Stok arama için timer
         public UygunOlmayanDurum()
         {
             dbContext = new MyDbContext();
             SdbContext = new MySDbContext();
             InitializeComponent();
             printDocument = new PrintDocument();
-            printDocument.PrintPage += new PrintPageEventHandler(PrintDocument_PrintPage);
+            printDocument.PrintPage += PrintDocument_PrintPage;
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                components?.Dispose();
+                dbContext?.Dispose();
+                SdbContext?.Dispose();
+                printDocument?.Dispose();
+                _lookupTimer?.Dispose();
+            }
+            base.Dispose(disposing);
         }
         public byte[] secilenResimBytes; // Resmi saklamak için genel değişken
         public string UrunID1
@@ -173,102 +187,83 @@ namespace UygunOlmayan.Tables
             get { return button1.Visible; }
             set { button1.Visible = value; }
         }
-        private void button1_Click(object sender, EventArgs e)
+        private async void button1_Click(object sender, EventArgs e)
         {
-
-            // 🔴 ZORUNLU ALAN KONTROLÜ
             if (string.IsNullOrWhiteSpace(textBox1.Text) || string.IsNullOrWhiteSpace(textBox3.Text))
             {
-                MessageBox.Show("Ürün Kodu ve Sipariş No alanları boş bırakılamaz!",
-                                "Zorunlu Alan",
-                                MessageBoxButtons.OK,
-                                MessageBoxIcon.Warning);
-
-                if (string.IsNullOrWhiteSpace(textBox1.Text))
-                    textBox1.Focus();
-                else
-                    textBox3.Focus();
-
-                return; // Kayıt işlemini durdur
+                MessageBox.Show("Ürün Kodu ve Sipariş No alanları boş bırakılamaz!", "Zorunlu Alan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                if (string.IsNullOrWhiteSpace(textBox1.Text)) textBox1.Focus(); else textBox3.Focus();
+                return;
             }
 
-            // 1. Veritabanı bağlamınızı oluşturun
-            using (var dbContext = new MyDbContext())
+            this.Cursor = Cursors.WaitCursor;
+            try
             {
-                // 2. HataliUrun nesnesini oluştur
-                var yeniHataliUrun = new HataliUrun
+                using (var db = new MyDbContext())
                 {
-                    UrunKodu = textBox1.Text,
-                    UrunAdi = textBox2.Text,
-                    SiparisNo = textBox3.Text,
-                    HatalıMiktar = int.TryParse(textBox4.Text, out int hataliMiktar) ? hataliMiktar : 0,
-                    Adet = "Adet",
-                    toplamMiktar = int.TryParse(textBox17.Text, out int toplamMiktar) ? toplamMiktar : 0,
-                    Tarih = DateTime.Now,
-                    KayıpZaman = int.TryParse(textBox7.Text, out int kayipZaman) ? kayipZaman : 0,
-                    ZamanCinsi = "DK",
-                    HataTipi = comboBox2.Text,
-                    Aciklama = textBox9.Text,
-                    Ozet = textBox8.Text,
-                    HataBolumu = comboBox3.Text,
-                    RaporuHazirlayan = textBox11.Text,
-                    HatayıBulanBirim = comboBox4.Text,
-                    KokNeden = textBox5.Text,
-                    Aksiyon = textBox10.Text,
-                    Sonuc = textBox12.Text,
-                    Durum = "True",
-                    Tedarikci = textBox13.Text,
-                    Degerlendiren = textBox6.Text,
-                    KokNedenAksiyon = textBox14.Text,
-                    Resim = secilenResimBytes,
-                    KapanısTarihi = new DateTime(1980, 5, 1),
-                    TerminTarihi = dateTimePicker1.Value.Date,
-                    urunimza = new Guid(),
-                    uruntipi = comboBox1.Text,
-                    DuzelticiFaliyetDurum = comboBox5.Text,
-                    AksiyonAlındı = "False"
-                };
+                    var yeniHataliUrun = new HataliUrun
+                    {
+                        UrunKodu = textBox1.Text.Trim(),
+                        UrunAdi = textBox2.Text.Trim(),
+                        SiparisNo = textBox3.Text.Trim(),
+                        HatalıMiktar = int.TryParse(textBox4.Text, out int hataliMiktar) ? hataliMiktar : 0,
+                        Adet = "Adet",
+                        toplamMiktar = int.TryParse(textBox17.Text, out int toplamMiktar) ? toplamMiktar : 0,
+                        Tarih = DateTime.Now,
+                        KayıpZaman = int.TryParse(textBox7.Text, out int kayipZaman) ? kayipZaman : 0,
+                        ZamanCinsi = "DK",
+                        HataTipi = comboBox2.Text,
+                        Aciklama = textBox9.Text,
+                        Ozet = textBox8.Text,
+                        HataBolumu = comboBox3.Text,
+                        RaporuHazirlayan = textBox11.Text,
+                        HatayıBulanBirim = comboBox4.Text,
+                        KokNeden = textBox5.Text,
+                        Aksiyon = textBox10.Text,
+                        Sonuc = textBox12.Text,
+                        Durum = "True",
+                        Tedarikci = textBox13.Text,
+                        Degerlendiren = textBox6.Text,
+                        KokNedenAksiyon = textBox14.Text,
+                        Resim = secilenResimBytes,
+                        KapanısTarihi = new DateTime(1980, 5, 1),
+                        TerminTarihi = dateTimePicker1.Value.Date,
+                        urunimza = Guid.NewGuid(),
+                        uruntipi = comboBox1.Text,
+                        DuzelticiFaliyetDurum = comboBox5.Text,
+                        AksiyonAlındı = "False"
+                    };
 
-                // 3. Veritabanına ekle
-                dbContext.hataliUruns.Add(yeniHataliUrun);
-                dbContext.SaveChanges();
+                    db.hataliUruns.Add(yeniHataliUrun);
+                    await db.SaveChangesAsync();
 
-                MessageBox.Show("Kaydedildi...");
-
-                // 4. Eklenen kaydın ID'sini çek
-                var existingRecord = dbContext.hataliUruns
-                    .Where(u =>
-                        u.UrunKodu == yeniHataliUrun.UrunKodu &&
-                        u.SiparisNo == yeniHataliUrun.SiparisNo &&
-                        u.UrunAdi == yeniHataliUrun.UrunAdi &&
-                        u.RaporuHazirlayan == yeniHataliUrun.RaporuHazirlayan &&
-                        u.HataBolumu == yeniHataliUrun.HataBolumu &&
-                        u.HatalıMiktar == yeniHataliUrun.HatalıMiktar &&
-                        u.HatayıBulanBirim == yeniHataliUrun.HatayıBulanBirim &&
-                        u.HataTipi == yeniHataliUrun.HataTipi
-                    )
-                    .Select(x => x.UrunId)
-                    .FirstOrDefault();
-
-                textBox16.Text = existingRecord.ToString();
-
-                // 5. Textbox'ları temizle
-                textBox1.Clear();
-                textBox2.Clear();
-                textBox3.Clear();
-                textBox4.Clear();
-                textBox5.Clear();
-                textBox7.Clear();
-                textBox8.Clear();
-                textBox9.Clear();
-                textBox10.Clear();
-                textBox11.Clear();
-                textBox12.Clear();
-                textBox13.Clear();
-                textBox14.Clear();
-                textBox17.Clear();
+                    textBox16.Text = yeniHataliUrun.UrunId.ToString();
+                    MessageBox.Show("Başarıyla kaydedildi.", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    TemizleGirisAlanlari();
+                }
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Kayıt sırasında hata oluştu: {ex.Message}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                this.Cursor = Cursors.Default;
+            }
+        }
 
+        private void TemizleGirisAlanlari()
+        {
+            Action<Control.ControlCollection> func = null;
+            func = (controls) =>
+            {
+                foreach (Control control in controls)
+                    if (control is TextBoxBase)
+                        control.Text = string.Empty;
+                    else
+                        func(control.Controls);
+            };
+            func(this.Controls);
         }
 
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
@@ -305,49 +300,56 @@ namespace UygunOlmayan.Tables
         }
 
 
-        private void button4_Click(object sender, EventArgs e)
+        private async void button4_Click(object sender, EventArgs e)
         {
-            // UrunKodu ve UrunAdi'ye göre eşleşen HataliUrun nesnesini bulun
-            var eskiHataliUrun = dbContext.hataliUruns
-                .FirstOrDefault(u => u.UrunKodu == textBox1.Text && u.SiparisNo == textBox3.Text);
-
-            if (eskiHataliUrun != null)
+            this.Cursor = Cursors.WaitCursor;
+            try
             {
-                eskiHataliUrun.UrunKodu = textBox1.Text;
-                eskiHataliUrun.UrunAdi = textBox2.Text;
-                eskiHataliUrun.SiparisNo = textBox3.Text;
-                eskiHataliUrun.HatalıMiktar = Convert.ToInt32(textBox4.Text);
-                eskiHataliUrun.Adet = "Adet";
-                eskiHataliUrun.toplamMiktar = Convert.ToInt32(textBox17.Text);
-                eskiHataliUrun.KayıpZaman = Convert.ToInt32(textBox7.Text);
-                eskiHataliUrun.ZamanCinsi = "DK";
-                eskiHataliUrun.HataTipi = comboBox2.Text;
-                eskiHataliUrun.Aciklama = textBox9.Text;
-                eskiHataliUrun.Ozet = textBox8.Text;
-                eskiHataliUrun.HataBolumu = comboBox3.Text;
-                eskiHataliUrun.RaporuHazirlayan = textBox11.Text;
-                eskiHataliUrun.HatayıBulanBirim = comboBox4.Text;
-                eskiHataliUrun.KokNeden = textBox5.Text;
-                eskiHataliUrun.Aksiyon = textBox10.Text;
-                eskiHataliUrun.Sonuc = textBox12.Text;
-                eskiHataliUrun.Durum = "False";
-                eskiHataliUrun.Tedarikci = textBox13.Text;
-                eskiHataliUrun.Degerlendiren = textBox6.Text;
-                eskiHataliUrun.KokNedenAksiyon = textBox14.Text;
-                eskiHataliUrun.TerminTarihi = dateTimePicker1.Value.Date;
-                eskiHataliUrun.urunimza = new Guid();
-                eskiHataliUrun.uruntipi = comboBox1.Text;
-                eskiHataliUrun.DuzelticiFaliyetDurum = comboBox5.Text;
+                var idStr = textBox16.Text;
+                if (!int.TryParse(idStr, out int id)) return;
 
-                // Eğer pictureBox1'de resim varsa, onu byte[] formatına çevir ve ata
-                if (pictureBox1.Image != null)
+                using (var db = new MyDbContext())
                 {
-                    eskiHataliUrun.Resim = PictureBoxToByteArray(pictureBox1);
-                }
+                    var eskiHataliUrun = await db.hataliUruns.FindAsync(id);
+                    if (eskiHataliUrun != null)
+                    {
+                        eskiHataliUrun.UrunKodu = textBox1.Text;
+                        eskiHataliUrun.UrunAdi = textBox2.Text;
+                        eskiHataliUrun.SiparisNo = textBox3.Text;
+                        eskiHataliUrun.HatalıMiktar = int.TryParse(textBox4.Text, out int hm) ? hm : 0;
+                        eskiHataliUrun.toplamMiktar = int.TryParse(textBox17.Text, out int tm) ? tm : 0;
+                        eskiHataliUrun.KayıpZaman = int.TryParse(textBox7.Text, out int kz) ? kz : 0;
+                        eskiHataliUrun.HataTipi = comboBox2.Text;
+                        eskiHataliUrun.Aciklama = textBox9.Text;
+                        eskiHataliUrun.Ozet = textBox8.Text;
+                        eskiHataliUrun.HataBolumu = comboBox3.Text;
+                        eskiHataliUrun.RaporuHazirlayan = textBox11.Text;
+                        eskiHataliUrun.HatayıBulanBirim = comboBox4.Text;
+                        eskiHataliUrun.KokNeden = textBox5.Text;
+                        eskiHataliUrun.Aksiyon = textBox10.Text;
+                        eskiHataliUrun.Sonuc = textBox12.Text;
+                        eskiHataliUrun.Tedarikci = textBox13.Text;
+                        eskiHataliUrun.Degerlendiren = textBox6.Text;
+                        eskiHataliUrun.KokNedenAksiyon = textBox14.Text;
+                        eskiHataliUrun.TerminTarihi = dateTimePicker1.Value.Date;
+                        eskiHataliUrun.uruntipi = comboBox1.Text;
+                        eskiHataliUrun.DuzelticiFaliyetDurum = comboBox5.Text;
 
-                // Veritabanına değişiklikleri kaydet
-                dbContext.SaveChanges();
-                MessageBox.Show("Güncellendi.");
+                        if (pictureBox1.Image != null)
+                            eskiHataliUrun.Resim = PictureBoxToByteArray(pictureBox1);
+
+                        await db.SaveChangesAsync();
+                        MessageBox.Show("Başarıyla güncellendi.", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Güncelleme hatası: {ex.Message}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                this.Cursor = Cursors.Default;
             }
         }
 
@@ -368,23 +370,42 @@ namespace UygunOlmayan.Tables
             }
         }
 
+        private System.Threading.Timer _lookupTimer; // Declare the timer
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-            string kod = textBox1.Text;
+            // Debouncing: Her tuş basımında değil, yazma durunca ara
+            _lookupTimer?.Dispose();
+            _lookupTimer = new System.Threading.Timer(async _ => await RunStokLookup(), null, 500, Timeout.Infinite);
+        }
 
-            // Veritabanından kod ile eşleşen ürünü buluyoruz
-            var product = SdbContext.STOKLAR
-                .FirstOrDefault(p => p.sto_kod == kod);
+        private async Task RunStokLookup()
+        {
+            if (!this.IsHandleCreated) return;
 
-            if (product != null)
+            string kod = "";
+            this.Invoke(new Action(() => kod = textBox1.Text.Trim()));
+
+            if (string.IsNullOrEmpty(kod)) return;
+
+            try
             {
-                textBox2.Text = product.sto_isim;
+                using (var db = new MySDbContext()) // Assuming MySDbContext is your context for STOKLAR
+                {
+                    var product = await db.STOKLAR
+                        .AsNoTracking()
+                        .FirstOrDefaultAsync(p => p.sto_kod == kod);
+
+                    if (this.IsHandleCreated)
+                    {
+                        this.Invoke(new Action(() =>
+                        {
+                            textBox2.Text = product?.sto_isim ?? "Kod bulunamadı";
+                        }));
+                    }
+                }
             }
-            else
-            {
-                textBox2.Text = "Kod bulunamadı";
-            }
+            catch { /* Silently fail for lookup */ }
         }
 
 
@@ -422,173 +443,136 @@ namespace UygunOlmayan.Tables
             }
         }
 
-        private void ePOSTAGÖNDERToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void ePOSTAGÖNDERToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(textBox16.Text))
+            if (string.IsNullOrEmpty(textBox16.Text))
+            {
+                MessageBox.Show("Lütfen kayıt yaptıktan sonra tekrar deneyiniz.", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            var emailAddresses = GetEmailAddresses();
+            if (emailAddresses.TryGetValue(comboBox3.Text, out List<string> emailList))
             {
                 string subject = "UYGUN OLMAYAN ÜRÜN KONTROL FORMU";
-                string urunId = textBox16.Text;
-                string body;
+                string body = $"{textBox16.Text} NO'LU ÜRÜNÜN UYGUN OLMAYAN FORMUNU KONTROL EDİNİZ.";
+                string emailTo = string.Join(",", emailList);
 
-                // Bölümlere göre birden fazla e-posta adresi içeren sözlük tanımlandı.
-                var emailAddresses = new Dictionary<string, List<string>>
+                try
                 {
-                    { "Montaj", new List<string> { "dturkan@icmmakina.com", "oocak@icmmakina.com" } },
-                    { "Tasarım", new List<string> { "mbayram@icmmakina.com", "uulusoy@icmmakina.com" } },
-                    { "İmalat", new List<string> { "pyesilyurt@icmmakina.com", "skoca@icmmakina.com", "hetanta@icmmakina.com" } },
-                    { "Otomasyon", new List<string> { "otomasyon.proje@icmmakina.com", "tozpinar@icmmakina.com", "egozluk@icmmakina.com", "bguden@icmmakina.com" , "byanik@icmmakina.com" } },
-                    { "Satınalma", new List<string> { "satinalma@icmmakina.com" } },
-                    { "Planlama", new List<string> { "shaci@icmmakina.com", "sbuyukay@icmmakina.com" } },
-                    { "Kalite Kontrol", new List<string> { "oarslan@icmmakina.com", "bgebedek@icmmakina.com" } },
-                    { "Satış Sonrası", new List<string> { "hsokmen@icmmakina.com", "dtacyildiz@icmmakina.com" } },
-                    { "Muhasebe", new List<string> { "bozcan@icmmakina.com", "mcelik@icmmakina.com" } },
-                    { "Fabrika Müdürü", new List<string> { "ddeniz@icmmakina.com" } }
-                };
-
-                // Seçilen bölüme göre e-posta adresleri belirleniyor.
-                if (emailAddresses.TryGetValue(comboBox3.Text, out List<string> emailList))
-                {
-                    body = $"{urunId} NO'LU ÜRÜNÜN UYGUN OLMAYAN FORMUNU KONTROL EDİNİZ.";
-
-                    try
-                    {
-                        // E-posta adreslerini virgülle ayırarak tek bir string olarak oluşturuyoruz.
-                        string emailTo = string.Join(",", emailList);
-
-                        SendEmail(emailTo, subject, body);
-                        MessageBox.Show("E-posta başarıyla gönderildi!", "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show($"E-posta gönderilemedi: {ex.Message}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
+                    await SendEmailAsync(emailTo, subject, body);
+                    MessageBox.Show("E-posta başarıyla gönderildi.", "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
-                else
+                catch (Exception ex)
                 {
-                    MessageBox.Show("Lütfen geçerli bir hata bölümü seçin!", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show($"E-posta gönderilemedi: {ex.Message}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             else
             {
-                MessageBox.Show("Lütfen Kayıt Edip Tekrar Deneyiniz...", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
+                MessageBox.Show("Lütfen geçerli bir hata bölümü seçiniz.", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
-
         }
-        private void SendEmail(string to, string subject, string body)
+
+        private async Task SendEmailAsync(string to, string subject, string body)
         {
-            MailMessage mail = new MailMessage();
-            SmtpClient smtpServer = new SmtpClient("smtp.office365.com");
+            using (var mail = new MailMessage())
+            using (var smtp = new SmtpClient("smtp.office365.com"))
+            {
+                mail.From = new MailAddress("oarslan@icmmakina.com", "ICM Makina Kalite");
+                foreach (var address in to.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                    mail.To.Add(address.Trim());
 
-            mail.From = new MailAddress("oarslan@icmmakina.com"); // Gönderen e-posta adresi
-            mail.To.Add(to);
-            mail.Subject = subject;
-            mail.Body = body;
+                mail.Subject = subject;
+                mail.Body = body;
 
+                smtp.Port = 587;
+                smtp.Credentials = new NetworkCredential("oarslan@icmmakina.com", "D&351975783333ad");
+                smtp.EnableSsl = true;
 
-            smtpServer.Port = 587; // Genellikle 587 veya 465
-            smtpServer.Credentials = new NetworkCredential("oarslan@icmmakina.com", "D&351975783333ad"); // Şifreyi buraya ekleyin
-            smtpServer.EnableSsl = true;
-
-            smtpServer.Send(mail);
+                await smtp.SendMailAsync(mail);
+            }
         }
-        private void ExceliDoldurVeAc()
+
+        private Dictionary<string, List<string>> GetEmailAddresses()
         {
+            return new Dictionary<string, List<string>>
+            {
+                { "Montaj", new List<string> { "dturkan@icmmakina.com", "oocak@icmmakina.com" } },
+                { "Tasarım", new List<string> { "mbayram@icmmakina.com", "uulusoy@icmmakina.com" } },
+                { "İmalat", new List<string> { "pyesilyurt@icmmakina.com", "skoca@icmmakina.com", "hetanta@icmmakina.com" } },
+                { "Otomasyon", new List<string> { "otomasyon.proje@icmmakina.com", "tozpinar@icmmakina.com", "egozluk@icmmakina.com", "bguden@icmmakina.com" , "byanik@icmmakina.com" } },
+                { "Satınalma", new List<string> { "satinalma@icmmakina.com" } },
+                { "Planlama", new List<string> { "shaci@icmmakina.com", "sbuyukay@icmmakina.com" } },
+                { "Kalite Kontrol", new List<string> { "oarslan@icmmakina.com", "bgebedek@icmmakina.com" } },
+                { "Satış Sonrası", new List<string> { "hsokmen@icmmakina.com", "dtacyildiz@icmmakina.com" } },
+                { "Muhasebe", new List<string> { "bozcan@icmmakina.com", "mcelik@icmmakina.com" } },
+                { "Fabrika Müdürü", new List<string> { "ddeniz@icmmakina.com" } }
+            };
+        }
+        private async void ExceliDoldurVeAc()
+        {
+            this.Cursor = Cursors.WaitCursor;
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             try
             {
-                // Excel dosyasının tam yolunu belirle
                 string excelFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Dosyalar", "UygunOlmayanUrunRaporu.xlsx");
 
-                // Dosyanın var olup olmadığını kontrol et
                 if (!File.Exists(excelFilePath))
                 {
-                    MessageBox.Show("Excel dosyası bulunamadı!", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Excel şablon dosyası bulunamadı!", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
-                // Excel dosyasını aç
-                using (var package = new ExcelPackage(new FileInfo(excelFilePath)))
+                // Geçici bir kopya üzerinde çalış (Dosya kullanımda hatası almamak için)
+                string tempPath = Path.Combine(Path.GetTempPath(), $"Rapor_{Guid.NewGuid().ToString().Substring(0,8)}.xlsx");
+                File.Copy(excelFilePath, tempPath, true);
+
+                using (var package = new ExcelPackage(new FileInfo(tempPath)))
                 {
-                    // Çalışma sayfasını al
                     var worksheet = package.Workbook.Worksheets["FR.87.01 (R1)"];
                     if (worksheet == null)
                     {
-                        MessageBox.Show("Çalışma sayfası bulunamadı!", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("'FR.87.01 (R1)' isimli çalışma sayfası şablonda bulunamadı!", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
                     }
 
-                    // TextBox'lardan gelen verileri metin formatına dönüştür
-                    string urunKodu = textBox1.Text;
-                    string urunAdi = textBox2.Text;
-                    string projekodu = textBox3.Text;
-                    string hatalıMiktar = textBox4.Text;
-                    string toplammiktar = textBox17.Text;
-                    string islemKayipZamani = textBox7.Text + " DK";
-                    string tespitEdenBolum = comboBox4.Text;
-                    string raporuhazırlayan = textBox11.Text;
-                    string hatanıntanımıAçıklama = textBox9.Text;
-                    string kökneden = textBox5.Text;
-                    string Aksiyon = textBox10.Text;
-                    string sonuc = textBox8.Text;
-                    string hatanınoluştuğubölüm = comboBox3.Text;
+                    // Hücreleri doldur
                     string ürüntipi = comboBox1.Text;
-                    string düzelticifaliyet = comboBox5.Text;
+                    worksheet.Cells["A9,D9,H9,K9"].Value = ""; // Reset checkboxes
+                    
+                    if (ürüntipi == "Ham Malzeme") worksheet.Cells["A9"].Value = "X";
+                    else if (ürüntipi == "Standart Malzeme") worksheet.Cells["D9"].Value = "X";
+                    else if (ürüntipi == "Yarı Mamul") worksheet.Cells["H9"].Value = "X";
+                    else if (ürüntipi == "Bitmiş Ürün") worksheet.Cells["K9"].Value = "X";
 
-                    if (ürüntipi == "Ham Malzeme")
-                    {
-                        worksheet.Cells["A9"].Value = "X"; // A9 hücresine değeri yaz
+                    worksheet.Cells["A4"].Value = $"Ürün Kodu: {textBox1.Text}";
+                    worksheet.Cells["E4"].Value = $"Ürün Adı: {textBox2.Text}";
+                    worksheet.Cells["J4"].Value = $"Sipariş No/Proje Kodu: {textBox3.Text}";
+                    worksheet.Cells["A5"].Value = $"Hatalı Miktar: {textBox4.Text}";
+                    worksheet.Cells["E5"].Value = $"Toplam Miktar: {textBox17.Text}";
+                    worksheet.Cells["K5"].Value = $"İşlem Kayıp Zamanı: {textBox7.Text} DK";
+                    worksheet.Cells["A6"].Value = $"Tespit Eden Bölüm: {comboBox4.Text}";
+                    worksheet.Cells["A7"].Value = $"Dış Tedarikçi veya Uygun Olmayan Ürünün Oluştuğu Bölüm : {comboBox3.Text}";
+                    worksheet.Cells["A25"].Value = $"Raporu Hazırlayan: {textBox11.Text}";
+                    worksheet.Cells["A16"].Value = $"Hatanın Tanımı: {textBox9.Text}";
+                    worksheet.Cells["A21"].Value = $"Hatanın Kök Nedeni: {textBox5.Text}";
+                    worksheet.Cells["A29"].Value = $"DEĞERLENDİRME - YAPILACAK FAALİYETLER: {textBox10.Text}";
+                    worksheet.Cells["A41"].Value = $"DEĞERLENDİRME NOTLARI / SONUÇ: {textBox8.Text}";
+                    worksheet.Cells["A46"].Value = $"Düzeltici Faaliyet Gerekiyor: {comboBox5.Text}";
 
-                    }
-                    else if (ürüntipi == "Standart Malzeme")
-                    {
-                        worksheet.Cells["D9"].Value = "X"; // A9 hücresine değeri yaz
-                    }
-                    else if (ürüntipi == "Yarı Mamul")
-                    {
-                        worksheet.Cells["H9"].Value = "X"; // A9 hücresine değeri yaz
-                    }
-                    else if (ürüntipi == "Bitmiş Ürün")
-                    {
-                        worksheet.Cells["K9"].Value = "X"; // A9 hücresine değeri yaz
-                    }
-                    else if (ürüntipi == "Ürün Tipi Seçiniz...")
-                    {
-                        worksheet.Cells["A9"].Value = ""; // A9 hücresine değeri yaz
-                        worksheet.Cells["D9"].Value = ""; // A9 hücresine değeri yaz
-                        worksheet.Cells["H9"].Value = ""; // A9 hücresine değeri yaz
-                        worksheet.Cells["K9"].Value = ""; // A9 hücresine değeri yaz
-                    }
-
-                    // Excel dosyasına yaz
-                    worksheet.Cells["A4"].Value = $"Ürün Kodu: {urunKodu}";
-                    worksheet.Cells["E4"].Value = $"Ürün Adı: {urunAdi}";
-                    worksheet.Cells["J4"].Value = $"Sipariş No/Proje Kodu: {projekodu}";
-                    worksheet.Cells["A5"].Value = $"Hatalı Miktar: {hatalıMiktar}";
-                    worksheet.Cells["E5"].Value = $"Toplam Miktar: {toplammiktar}";
-                    worksheet.Cells["K5"].Value = $"İşlem Kayıp Zamanı: {islemKayipZamani}";
-                    worksheet.Cells["A6"].Value = $"Tespit Eden Bölüm: {tespitEdenBolum}";
-                    worksheet.Cells["A7"].Value = $"Dış Tedarikçi veya Uygun Olmayan Ürünün Oluştuğu Bölüm :  {hatanınoluştuğubölüm}";
-                    worksheet.Cells["A25"].Value = $"Raporu Hazırlayan: {raporuhazırlayan}";
-                    // Aksiyon metnini hücreye ata
-                    worksheet.Cells["A16"].Value = $"Hatanın Tanımı: {hatanıntanımıAçıklama}";
-                    // Aksiyon metnini hücreye ata
-                    worksheet.Cells["A21"].Value = $"Hatanın Kök Nedeni: {kökneden}";
-                    // Aksiyon metnini hücreye ata
-                    worksheet.Cells["A29"].Value = $"DEĞERLENDİRME - YAPILACAK FAALİYETLER: {Aksiyon}";
-                    // Aksiyon metnini hücreye ata
-                    worksheet.Cells["A41"].Value = $"DEĞERLENDİRME NOTLARI / SONUÇ: {sonuc}";
-                    worksheet.Cells["A46"].Value = $"Düzeltici Faaliyet Gerekiyor: {düzelticifaliyet}";
-                    // Dosyayı kaydet
-                    package.Save();
+                    await package.SaveAsync();
                 }
 
-                // Dosyayı aç
-                Process.Start(new ProcessStartInfo(excelFilePath) { UseShellExecute = true });
+                Process.Start(new ProcessStartInfo(tempPath) { UseShellExecute = true });
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Bir hata oluştu: {ex.Message}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Excel raporu oluşturulurken bir hata oluştu: {ex.Message}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                this.Cursor = Cursors.Default;
             }
         }
 
@@ -674,60 +658,54 @@ namespace UygunOlmayan.Tables
             SB.Show();
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private async void button2_Click(object sender, EventArgs e)
         {
-            string subject = "UYGUN OLMAYAN ÜRÜN KONTROL FORMU";
-            string urunId = textBox16.Text;
-            string body;
-
-            // Bölümlere göre birden fazla e-posta adresi içeren sözlük tanımlandı.
-            var emailAddresses = new Dictionary<string, List<string>>
-                {
-                    { "Montaj", new List<string> { "dturkan@icmmakina.com", "oocak@icmmakina.com" } },
-                    { "Tasarım", new List<string> { "mbayram@icmmakina.com", "uulusoy@icmmakina.com" } },
-                    { "İmalat", new List<string> { "pyesilyurt@icmmakina.com", "skoca@icmmakina.com", "hetanta@icmmakina.com" } },
-                    { "Otomasyon", new List<string> { "otomasyon.proje@icmmakina.com", "tozpinar@icmmakina.com", "egozluk@icmmakina.com", "bguden@icmmakina.com" , "byanik@icmmakina.com" } },
-                    { "Satınalma", new List<string> { "satinalma@icmmakina.com" } },
-                    { "Planlama", new List<string> { "shaci@icmmakina.com", "sbuyukay@icmmakina.com" } },
-                    { "Kalite Kontrol", new List<string> { "oarslan@icmmakina.com" } },
-                    { "Satış Sonrası", new List<string> { "hsokmen@icmmakina.com", "dtacyildiz@icmmakina.com" } },
-                    { "Muhasebe", new List<string> { "bozcan@icmmakina.com", "mcelik@icmmakina.com" } },
-                    { "Fabrika Müdürü", new List<string> { "ddeniz@icmmakina.com" } }
-                };
-
-            // Seçilen bölüme göre e-posta adresleri belirleniyor.
-            if (emailAddresses.TryGetValue(comboBox6.Text, out List<string> emailList))
+            if (string.IsNullOrEmpty(textBox16.Text))
             {
-                body = $"{urunId} NO'LU ÜRÜNÜN UYGUN OLMAYAN FORMUNU KONTROL EDİNİZ.";
+                MessageBox.Show("Önce kayıt yapmalısınız.", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
-                try
+            this.Cursor = Cursors.WaitCursor;
+            try
+            {
+                var emailAddresses = GetEmailAddresses();
+                if (emailAddresses.TryGetValue(comboBox6.Text, out List<string> emailList))
                 {
-                    // E-posta adreslerini virgülle ayırarak tek bir string olarak oluşturuyoruz.
+                    string subject = "UYGUN OLMAYAN ÜRÜN KONTROL FORMU - AKSİYON TALEBİ";
+                    string body = $"{textBox16.Text} NO'LU ÜRÜNÜN UYGUN OLMAYAN FORMUNU KONTROL EDİNİZ.";
                     string emailTo = string.Join(",", emailList);
 
-                    SendEmail(emailTo, subject, body);
-                    MessageBox.Show("E-posta başarıyla gönderildi!", "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    await SendEmailAsync(emailTo, subject, body);
+
+                    using (var db = new MyDbContext())
+                    {
+                        var bölüm = new AksiyonAlacakBölüm
+                        {
+                            UygunOlmayanId = int.Parse(textBox16.Text),
+                            AksiyonBölümü = comboBox6.Text,
+                            Tarihi = DateTime.Now
+                        };
+
+                        db.aksiyonAlacakBölüms.Add(bölüm);
+                        await db.SaveChangesAsync();
+                    }
+
+                    MessageBox.Show("Aksiyon maili gönderildi ve kaydedildi.", "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
-                catch (Exception ex)
+                else
                 {
-                    MessageBox.Show($"E-posta gönderilemedi: {ex.Message}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Lütfen geçerli bir aksiyon bölümü seçiniz.", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("Lütfen geçerli bir hata bölümü seçin!", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show($"İşlem sırasında hata oluştu: {ex.Message}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
-            string AksiyonBölümü = comboBox6.Text;
-            var bölüm = new AksiyonAlacakBölüm
+            finally
             {
-                UygunOlmayanId = Convert.ToInt32(urunId),
-                AksiyonBölümü = AksiyonBölümü,
-                Tarihi = DateTime.Now
-            };
-
-            dbContext.aksiyonAlacakBölüms.Add(bölüm);
-            dbContext.SaveChanges();
+                this.Cursor = Cursors.Default;
+            }
         }
         private void pROGRAMIKAPATToolStripMenuItem_Click(object sender, EventArgs e)
         {
