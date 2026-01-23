@@ -7,6 +7,8 @@ using OfficeOpenXml;
 using System.Drawing.Imaging;
 using System.Drawing.Printing;
 using Microsoft.EntityFrameworkCore;
+using System.Threading;
+
 
 
 namespace UygunOlmayan.Tables
@@ -229,7 +231,7 @@ namespace UygunOlmayan.Tables
                         Resim = secilenResimBytes,
                         KapanısTarihi = new DateTime(1980, 5, 1),
                         TerminTarihi = dateTimePicker1.Value.Date,
-                        urunimza = Guid.NewGuid(),
+                        urunimza = Guid.Empty,
                         uruntipi = comboBox1.Text,
                         DuzelticiFaliyetDurum = comboBox5.Text,
                         AksiyonAlındı = "False"
@@ -259,10 +261,20 @@ namespace UygunOlmayan.Tables
             func = (controls) =>
             {
                 foreach (Control control in controls)
+                {
                     if (control is TextBoxBase)
-                        control.Text = string.Empty;
+                    {
+                        // Ürün ID textbox'ı (textBox16) temizlenmesin ki mail atılabilsin
+                        if (control != textBox16)
+                        {
+                            control.Text = string.Empty;
+                        }
+                    }
                     else
+                    {
                         func(control.Controls);
+                    }
+                }
             };
             func(this.Controls);
         }
@@ -372,40 +384,40 @@ namespace UygunOlmayan.Tables
         }
 
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
+        private async void textBox1_TextChanged(object sender, EventArgs e)
         {
-            // Debouncing: Her tuş basımında değil, yazma durunca ara
-            _lookupTimer?.Dispose();
-            _lookupTimer = new System.Threading.Timer(async _ => await RunStokLookup(), null, 500, Timeout.Infinite);
+            // Bekleme (Debouncing) kaldırıldı, doğrudan ara
+            await RunStokLookup();
         }
 
         private async Task RunStokLookup()
         {
             if (!this.IsHandleCreated) return;
 
-            string kod = "";
-            this.Invoke(new Action(() => kod = textBox1.Text.Trim()));
+            string kod = textBox1.Text.Trim();
 
-            if (string.IsNullOrEmpty(kod)) return;
+            if (string.IsNullOrEmpty(kod))
+            {
+                textBox2.Text = "";
+                return;
+            }
 
             try
             {
-                using (var db = new MySDbContext()) // Assuming MySDbContext is your context for STOKLAR
-                {
-                    var product = await db.STOKLAR
-                        .AsNoTracking()
-                        .FirstOrDefaultAsync(p => p.sto_kod == kod);
+                // Mevcut SdbContext'i kullanarak daha hızlı sonuç alıyoruz
+                var product = await SdbContext.STOKLAR
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(p => p.sto_kod == kod);
 
-                    if (this.IsHandleCreated)
-                    {
-                        this.Invoke(new Action(() =>
-                        {
-                            textBox2.Text = product?.sto_isim ?? "Kod bulunamadı";
-                        }));
-                    }
+                if (this.IsHandleCreated)
+                {
+                    textBox2.Text = product?.sto_isim ?? "Kod bulunamadı";
                 }
             }
-            catch { /* Silently fail for lookup */ }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Lookup Error: {ex.Message}");
+            }
         }
 
 
